@@ -1,0 +1,55 @@
+@startuml
+title Modelo de datos documental - MongoDB
+top to bottom direction
+scale max 1800 width
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam classAttributeIconSize 0
+
+class appointments <<collection>> {
+  _id: ObjectId
+  customerName: String
+  service: String enum
+  price: Number
+  duration: Number
+  date: String YYYY-MM-DD
+  time: String HH:MM
+  startsAt: Date
+  endsAt: Date
+  status: pending|confirmed|completed|cancelled
+  source: chat|admin
+  notes: String
+  conversationId: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+class admins <<collection>> {
+  _id: ObjectId
+  username: String unique
+  passwordHash: String
+  role: admin
+  createdAt: Date
+  updatedAt: Date
+}
+
+class servicios <<collection>> {
+  _id: ObjectId
+  id: Number 1..7
+  nombre: String
+  descripcion: String
+  precio: Number
+  duracion_minutos: Number
+  key: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+appointments ..> servicios : servicio elegido\npor nombre/precio/duración
+admins ..> appointments : gestiona desde panel
+
+note bottom of servicios
+Se sincroniza desde SERVICE_CATALOG
+al arrancar el backend.
+end note
+@enduml

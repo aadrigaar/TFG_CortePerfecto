@@ -1,0 +1,36 @@
+@startuml
+title Secuencia - Confirmación de cita por chat
+skinparam shadowing false
+skinparam roundcorner 12
+autonumber
+
+actor Cliente
+participant "ChatWidget\nReact" as Widget
+participant "chatController\nExpress" as Chat
+participant "bookingFlowService" as Flow
+participant "appointmentService" as Appointments
+database "MongoDB" as Mongo
+participant "LM Studio" as LM
+
+Cliente -> Widget : mensaje
+Widget -> Chat : POST /api/chat\nmensaje + historial
+Chat -> Flow : handleBookingFlow()
+Flow -> Flow : obtener contexto\nnombre/servicio/fecha/hora
+
+alt datos completos
+  Flow -> Appointments : createAppointment()
+  Appointments -> Appointments : validar nombre, servicio,\nhorario, fecha futura y solape
+  Appointments -> Mongo : insertar cita
+  Mongo --> Appointments : cita creada
+  Appointments --> Flow : appointment
+  Flow --> Chat : respuesta confirmada
+else falta dato
+  Flow --> Chat : pregunta específica
+else conversación informativa
+  Chat -> LM : /chat/completions
+  LM --> Chat : respuesta natural
+end
+
+Chat --> Widget : reply + appointment
+Widget --> Cliente : mensaje y tarjeta
+@enduml

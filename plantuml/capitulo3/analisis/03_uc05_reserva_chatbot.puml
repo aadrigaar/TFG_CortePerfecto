@@ -1,0 +1,40 @@
+@startuml
+title Análisis UC-05 - Reserva de cita por chatbot
+scale max 1800 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor Cliente
+boundary "ChatWidget\n(vista)" as Chat
+control "ReservarCitaChatController\n(control)" as Ctrl
+control "FlujoReserva\n(control de flujo)" as Flow
+entity "Conversacion\n(modelo)" as Conv
+entity "CatalogoServicios\n(modelo)" as Cat
+entity "Agenda\n(modelo)" as Agenda
+entity "Cita\n(modelo)" as Cita
+control "LM Studio\n(servicio externo)" as LM
+
+Cliente -> Chat : mensaje(nombre/servicio/día/hora)
+Chat -> Ctrl : mensaje + historial + conversationId
+Ctrl -> Flow : analizar intención de reserva
+Flow -> Conv : recuperar datos recientes
+Flow -> Cat : resolver servicio u opción 1..7
+Flow -> Agenda : validar nombre, fecha, hora y solape
+alt datos completos y válidos
+  Agenda -> Cita : crear reserva confirmada
+  Cita --> Agenda : cita persistida
+  Flow --> Ctrl : mensaje + cita
+else falta dato
+  Flow --> Ctrl : pregunta específica
+else conversación informativa
+  Ctrl -> LM : prompt estructurado + historial
+  alt LM Studio disponible
+    LM --> Ctrl : respuesta natural
+  else servidor IA caído o timeout
+    LM --> Ctrl : error controlado
+    Ctrl --> Chat : mensaje de contingencia sin guardar cita
+    Chat --> Cliente : pedir reintento / continuar con reglas deterministas
+  end
+end
+Ctrl --> Chat : respuesta JSON
+Chat --> Cliente : mensaje + tarjeta si hay cita
+@enduml

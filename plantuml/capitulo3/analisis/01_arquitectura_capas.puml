@@ -1,0 +1,62 @@
+@startuml
+title Arquitectura del sistema - Corte Perfecto
+top to bottom direction
+skinparam shadowing false
+skinparam roundcorner 14
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam BackgroundColor white
+skinparam ArrowColor #16324F
+skinparam package {
+  BorderColor #2B4663
+  FontStyle bold
+}
+
+package "Capa de presentación" #D9E8FF {
+  rectangle "Web pública\nHomePage, secciones, CTA" as Web
+  rectangle "Widget de chat\nChatWidget" as Chat
+  rectangle "Panel privado\nLogin, Dashboard, Citas" as AdminUI
+  rectangle "Cliente API\napi.js / Axios" as Axios
+}
+
+package "Capa de aplicación" #DCF7E8 {
+  rectangle "Rutas REST\nchat, auth, appointments, services" as Routes
+  rectangle "Controladores\ncoordinan casos de uso" as Controllers
+  rectangle "Middleware\nJWT, CORS, rate-limit, errores" as Middleware
+}
+
+package "Capa de dominio" #FFF1C9 {
+  rectangle "Agenda y Cita\nhorario, estados, solapes" as Agenda
+  rectangle "Catálogo de servicios\nopciones 1..7, precios, duración" as Catalogo
+  rectangle "Conversación\nhistorial, cita activa, datos extraídos" as Conversacion
+  rectangle "Reglas de reserva\nnombre, fecha futura, fin de semana" as Reglas
+}
+
+package "Capa de infraestructura" #FFE0EE {
+  database "MongoDB local\nadmins, appointments, servicios" as Mongo
+  rectangle "Mongoose\nesquemas e índices" as Mongoose
+  cloud "LM Studio local\nMeta Llama 3.1 8B" as LM
+  rectangle "bcrypt + JWT\nseguridad de acceso" as Security
+}
+
+Web --> Axios
+Chat --> Axios
+AdminUI --> Axios
+Axios --> Routes : HTTP/JSON
+Routes --> Middleware
+Middleware --> Controllers
+Controllers --> Agenda
+Controllers --> Conversacion
+Agenda --> Catalogo
+Agenda --> Reglas
+Conversacion --> Reglas
+Agenda --> Mongoose
+Mongoose --> Mongo
+Conversacion --> LM : API OpenAI-compatible
+Middleware --> Security
+
+note right of Agenda
+La IA conversa, pero la agenda
+decide si una cita es válida.
+end note
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+title Dashboard RUP - Corte Perfecto
+left to right direction
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam packageStyle rectangle
+skinparam UsecaseBorderColor #16324F
+skinparam ActorBorderColor #16324F
+
+actor Cliente
+actor "Administrador\n(Peluquero)" as Admin
+
+rectangle "Corte Perfecto" {
+  usecase "UC-01\nConsultar web publica" as UC01 #D6F5D6
+  usecase "UC-02\nConsultar servicios" as UC02 #D6F5D6
+  usecase "UC-03\nDetalle opcion" as UC03 #D6F5D6
+  usecase "UC-04\nChat" as UC04 #D6F5D6
+  usecase "UC-05\nReservar cita" as UC05 #BEE7FF
+  usecase "UC-06\nServicio por numero" as UC06 #BEE7FF
+  usecase "UC-07\nDatos de reserva" as UC07 #BEE7FF
+  usecase "UC-08\nConfirmacion" as UC08 #D6F5D6
+  usecase "UC-09\nModificar reserva" as UC09 #BEE7FF
+  usecase "UC-10\nLogin admin" as UC10 #D6F5D6
+  usecase "UC-11\nDashboard" as UC11 #D6F5D6
+  usecase "UC-12\nListar citas" as UC12 #BEE7FF
+  usecase "UC-13\nCrear cita" as UC13 #BEE7FF
+  usecase "UC-14\nEditar cita" as UC14 #BEE7FF
+  usecase "UC-15\nCompletar cita" as UC15 #BEE7FF
+  usecase "UC-16\nEliminar cita" as UC16 #BEE7FF
+  usecase "UC-17\nCerrar sesion" as UC17 #D6F5D6
+}
+
+Cliente --> UC01
+Cliente --> UC02
+Cliente --> UC03
+Cliente --> UC04
+Cliente --> UC05
+Cliente --> UC06
+Cliente --> UC07
+Cliente --> UC08
+Cliente --> UC09
+
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+Admin --> UC14
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+
+legend right
+  |= Color |= Estado |
+  |<#D6F5D6>| Implementado y verificado por build |
+  |<#BEE7FF>| Implementado y cubierto por pruebas |
+endlegend
+@enduml

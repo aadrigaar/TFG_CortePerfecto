@@ -1,0 +1,25 @@
+@startuml
+title Diseño de despliegue local
+top to bottom direction
+scale max 1700 width
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam nodeStyle rectangle
+
+node "Equipo local del proyecto / peluquería" as PC {
+  node "Proceso frontend" as Front {
+    artifact "Vite dev server\nReact SPA\nlocalhost:5173" as Vite
+  }
+  node "Proceso backend" as Back {
+    artifact "Node.js + Express API\nlocalhost:5000" as Express
+  }
+  database "MongoDB Community\n127.0.0.1:27017\nBD: corte_perfecto" as Mongo
+  node "LM Studio Local Server" as LMNode {
+    artifact "Meta Llama 3.1 8B Instruct\n127.0.0.1:1234/v1" as Model
+  }
+}
+
+Vite --> Express : HTTP/JSON
+Express --> Mongo : Mongoose/TCP
+Express --> Model : HTTP OpenAI-compatible
+@enduml

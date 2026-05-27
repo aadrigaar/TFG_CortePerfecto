@@ -1,0 +1,130 @@
+@startuml
+title Diseño de clases y módulos backend
+left to right direction
+scale max 1550 width
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "Entrada HTTP" #FFF8E3 {
+  class chatController <<controller>> {
+    +chat(req, res)
+  }
+
+  class appointmentController <<controller>> {
+    +index(req, res)
+    +show(req, res)
+    +store(req, res)
+    +update(req, res)
+    +destroy(req, res)
+    +stats(req, res)
+  }
+
+  class authController <<controller>> {
+    +login(req, res)
+    +me(req, res)
+  }
+
+  class serviceController <<controller>> {
+    +index(req, res)
+  }
+
+  class requireAuth <<middleware>> {
+    +requireAuth(req, res, next)
+  }
+}
+
+package "Servicios de negocio" #E2F5E8 {
+  class bookingFlowService <<service>> {
+    +handleBookingFlow(args)
+  }
+
+  class chatRuleService <<service>> {
+    +getPreflightChatReply(args)
+    +enrichNumericServiceSelection(message, history)
+  }
+
+  class appointmentService <<service>> {
+    +listAppointments(filters)
+    +getAppointmentById(id)
+    +createAppointment(payload, source)
+    +updateAppointment(id, payload)
+    +deleteAppointment(id)
+    +getAppointmentStats()
+  }
+
+  class calendarService <<service>> {
+    +madridNow()
+    +parse/format date
+    +isWeekendDate(date)
+  }
+
+  class promptService <<service>> {
+    +buildSystemPrompt()
+    +buildChatMessages(args)
+  }
+}
+
+package "Adaptadores y soporte" #F6F6F6 {
+  class lmStudioService <<adapter>> {
+    +askLmStudio(messages)
+  }
+
+  class responseParserService <<service>> {
+    +parseAssistantResponse(rawContent)
+  }
+
+  class AppError <<utility>> {
+    statusCode: Number
+    code: String
+  }
+}
+
+package "Persistencia y configuración" #EEF3F8 {
+  class Appointment <<model>> {
+    customerName: String
+    service: String
+    date: String
+    time: String
+    status: String
+  }
+
+  class Admin <<model>> {
+    username: String
+    passwordHash: String
+    role: String
+  }
+
+  class SERVICE_CATALOG <<config>> {
+    services: Service[]
+    +resolveService(value)
+    +getServiceByOption(option)
+    +formatNumberedServices()
+  }
+}
+
+chatController --> bookingFlowService
+chatController --> chatRuleService
+chatController --> promptService
+chatController --> lmStudioService
+chatController --> responseParserService
+chatController --> appointmentService
+appointmentController --> appointmentService
+authController --> Admin
+serviceController --> SERVICE_CATALOG
+requireAuth --> Admin
+requireAuth --> authController
+requireAuth --> appointmentController
+bookingFlowService --> appointmentService
+bookingFlowService --> calendarService
+bookingFlowService --> SERVICE_CATALOG
+chatRuleService --> calendarService
+chatRuleService --> SERVICE_CATALOG
+appointmentService --> Appointment
+appointmentService --> calendarService
+appointmentService --> SERVICE_CATALOG
+promptService --> calendarService
+promptService --> SERVICE_CATALOG
+lmStudioService --> AppError
+@enduml

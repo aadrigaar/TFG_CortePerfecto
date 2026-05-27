@@ -1,0 +1,107 @@
+@startuml
+title Diagrama de clases del dominio - Corte Perfecto
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam ArrowColor #16324F
+skinparam ClassBorderColor #16324F
+skinparam ClassBackgroundColor #F8FBFF
+skinparam PackageBorderColor #B7C4D3
+skinparam PackageBackgroundColor #FFFFFF
+
+class Cliente {
+  nombreConversacional
+  mensajeActual
+}
+
+class Conversacion {
+  conversationId
+  historialReciente
+  citaActivaId
+  obtenerContexto()
+}
+
+class Mensaje {
+  emisor
+  contenido
+  fechaHora
+}
+
+class AsistenteVirtual {
+  detectarIntencion()
+  pedirDatoFaltante()
+  responderConNaturalidad()
+}
+
+class Agenda {
+  listarCitas()
+  validarHueco()
+  registrarCita()
+  modificarCita()
+}
+
+class Cita {
+  nombreCliente
+  servicio
+  fecha
+  hora
+  startsAt
+  endsAt
+  estado
+  origen
+  notas
+}
+
+enum EstadoCita {
+  pending
+  confirmed
+  completed
+  cancelled
+}
+
+class Servicio {
+  numero
+  nombre
+  precio
+  duracionMinutos
+}
+
+class CatalogoServicios {
+  opciones = 1..7
+  resolverPorNumero()
+  resolverPorTexto()
+}
+
+class HorarioLaboral {
+  dias = lunes..viernes
+  apertura = 10:00
+  cierre = 20:00
+  estaAbierto()
+}
+
+class PeluqueroAdministrador {
+  nombre
+  rol
+  gestionarAgenda()
+}
+
+class CuentaAdmin {
+  username
+  passwordHash
+  tokenJWT
+}
+
+Cliente "1" --> "0..*" Conversacion : inicia
+Conversacion "1" o-- "1..*" Mensaje : contiene
+AsistenteVirtual --> Conversacion : atiende
+AsistenteVirtual --> CatalogoServicios : muestra opciones
+Conversacion "0..1" --> "0..1" Cita : genera o actualiza
+Agenda "1" o-- "0..*" Cita : contiene
+Agenda --> HorarioLaboral : aplica
+Agenda --> CatalogoServicios : valida servicio
+Cita --> EstadoCita
+Cita --> Servicio : servicio elegido
+CatalogoServicios "1" o-- "7" Servicio : publica
+PeluqueroAdministrador --> Agenda : gestiona
+PeluqueroAdministrador "1" -- "1" CuentaAdmin : se autentica con
+@enduml

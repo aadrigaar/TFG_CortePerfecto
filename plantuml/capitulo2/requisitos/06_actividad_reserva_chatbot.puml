@@ -1,0 +1,49 @@
+@startuml
+title Actividad - Reserva de cita mediante chatbot
+skinparam shadowing false
+skinparam roundcorner 12
+
+start
+:Cliente escribe en el widget;
+:Backend recibe mensaje e historial;
+:Construir contexto de conversación;
+
+if (¿Nombre real disponible?) then (sí)
+else (no)
+  :Pedir nombre;
+  stop
+endif
+
+if (¿Servicio elegido?) then (sí)
+else (no)
+  :Mostrar catálogo 1..7;
+  stop
+endif
+
+if (¿Fecha indicada?) then (sí)
+else (no)
+  :Pedir día de la cita;
+  stop
+endif
+
+if (¿Sábado o domingo?) then (sí)
+  :Informar cierre y proponer viernes/lunes;
+  stop
+endif
+
+if (¿Hora indicada?) then (sí)
+else (no)
+  :Pedir hora entre 10:00 y 20:00;
+  stop
+endif
+
+:Validar hora futura, horario y solapes;
+if (¿Hueco disponible?) then (sí)
+  :Crear o actualizar cita;
+  :Guardar en MongoDB;
+  :Mostrar confirmación y tarjeta;
+else (no)
+  :Pedir otra hora;
+endif
+stop
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+title Análisis UC-12/13/14/15/16 - Gestión administrativa de citas
+scale max 1800 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor "Administrador\n(Peluquero)" as Admin
+boundary "VistaGestionCitas\n(vista)" as View
+control "GestionarCitasController\n(control)" as Ctrl
+entity "CuentaAdmin\n(modelo seguridad)" as Account
+entity "Agenda\n(modelo)" as Agenda
+entity "CatalogoServicios\n(modelo)" as Catalog
+entity "Cita\n(modelo)" as Cita
+
+Admin -> View : filtra, crea, edita, completa o elimina
+View -> Ctrl : operación administrativa
+Ctrl -> Account : comprobar autorización
+alt listar / filtrar / ordenar
+  Ctrl -> Agenda : consultar citas por criterios
+  Agenda -> Cita : buscar agenda
+  Cita --> Agenda : listado
+  Agenda --> Ctrl : citas ordenadas
+else crear o editar
+  Ctrl -> Catalog : resolver servicio oficial
+  Ctrl -> Agenda : validar horario, fecha y solape
+  Agenda -> Cita : crear o actualizar
+  Cita --> Agenda : documento guardado
+else completar
+  Ctrl -> Agenda : cambiar estado a completed
+  Agenda -> Cita : actualizar estado
+else eliminar
+  Ctrl -> Agenda : borrar cita
+  Agenda -> Cita : eliminar documento
+end
+Ctrl --> View : resultado JSON
+View --> Admin : tabla actualizada
+@enduml

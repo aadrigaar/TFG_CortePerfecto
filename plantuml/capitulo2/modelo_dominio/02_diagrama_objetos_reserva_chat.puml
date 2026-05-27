@@ -1,0 +1,55 @@
+@startuml
+title Diagrama de objetos - Reserva desde conversación
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam ObjectBorderColor #16324F
+skinparam ObjectBackgroundColor #F8FBFF
+
+object clienteAdrian as "clienteAdrian: Cliente" {
+  nombreConversacional = "Adrian"
+  mensajeActual = "a las 5 de la tarde"
+}
+
+object conversacion as "convWeb-001: Conversacion" {
+  conversationId = "web-001"
+  historialReciente = 9 mensajes
+  citaActivaId = "683..."
+}
+
+object asistente as "asistenteCortePerfecto: AsistenteVirtual" {
+  modelo = "Llama 3.1 8B local"
+  modo = "chat + reglas backend"
+}
+
+object cita as "citaAdrian: Cita" {
+  nombreCliente = "Adrian"
+  servicio = "Corte y Tinte"
+  fecha = "2026-05-19"
+  hora = "17:00"
+  estado = "confirmed"
+  origen = "chat"
+}
+
+object servicio as "opcion6: Servicio" {
+  numero = 6
+  nombre = "Corte y Tinte"
+  precio = 60
+  duracionMinutos = 90
+}
+
+object catalogo as "catalogoOficial: CatalogoServicios" {
+  opciones = "1..7"
+}
+
+object agenda as "agendaCortePerfecto: Agenda" {
+  horario = "L-V 10:00-20:00"
+}
+
+clienteAdrian --> conversacion : inicia
+asistente --> conversacion : atiende
+conversacion --> cita : genera
+cita --> servicio : usa
+catalogo --> servicio : contiene
+agenda --> cita : registra
+agenda --> catalogo : valida contra
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Diagrama de contexto - Corte Perfecto
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam roundcorner 12
+skinparam ArrowColor #16324F
+
+actor "Cliente" as Cliente
+actor "Administrador\n(Peluquero)" as Admin
+database "MongoDB local\ncorte_perfecto" as Mongo
+component "LM Studio local\nMeta Llama 3.1 8B" as LM
+
+rectangle "Sistema Corte Perfecto" as Sistema {
+  component "Frontend React/Vite\nweb publica + panel admin" as Front
+  component "API Node.js/Express\nMVC: rutas, controladores y servicios" as API
+  component "Motor de reservas\nvalidaciones de negocio" as Reservas
+  component "Servicio de chatbot\nflujo determinista + LLM" as Chatbot
+}
+
+Cliente --> Front : consulta web\nchatea y reserva
+Admin --> Front : inicia sesión\ngestiona citas
+Front --> API : JSON/HTTP
+API --> Reservas : crear, editar,\nlistar y validar citas
+API --> Chatbot : procesar conversación
+Chatbot --> LM : completions\nOpenAI-compatible
+Reservas --> Mongo : citas y servicios
+API --> Mongo : admins y agenda
+@enduml

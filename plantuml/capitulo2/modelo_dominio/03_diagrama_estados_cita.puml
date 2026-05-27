@@ -1,0 +1,26 @@
+@startuml
+title Diagrama de estados - Ciclo de vida de una cita
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam StateBorderColor #16324F
+skinparam StateBackgroundColor #F8FBFF
+
+[*] --> IntencionDetectada : cliente pide cita
+IntencionDetectada --> DatosIncompletos : faltan nombre/servicio/dia/hora
+DatosIncompletos --> DatosIncompletos : pedir dato faltante
+DatosIncompletos --> Validando : datos mínimos completos
+
+Validando --> Rechazada : nombre inválido\nservicio inexistente\nfin de semana\nhora pasada\nfuera de horario
+Rechazada --> DatosIncompletos : cliente corrige
+
+Validando --> SinHueco : existe solape
+SinHueco --> DatosIncompletos : cliente propone otra hora
+
+Validando --> Confirmada : guardar en MongoDB
+Confirmada --> Confirmada : cambiar servicio/día/hora
+Confirmada --> Completada : admin marca realizada
+Confirmada --> Cancelada : admin elimina/cancela
+
+Completada --> [*]
+Cancelada --> [*]
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+title Clases de análisis por estereotipo MVC
+scale max 1900 width
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "Vista" #FFF8E3 {
+  class VistaWebPublica
+  class VistaChat
+  class VistaLoginAdmin
+  class VistaDashboard
+  class VistaGestionCitas
+  class VistaFormularioCita
+}
+
+package "Controlador" #F6F6F6 {
+  class ConsultarServiciosController
+  class ReservarCitaChatController
+  class ModificarReservaChatController
+  class LoginAdminController
+  class GestionarCitasController
+}
+
+package "Modelo" #EEF3F8 {
+  class Cliente
+  class Conversacion
+  class Mensaje
+  class Cita
+  class EstadoCita
+  class Servicio
+  class CatalogoServicios
+  class Agenda
+  class CuentaAdmin
+}
+
+VistaWebPublica --> ConsultarServiciosController
+VistaChat --> ConsultarServiciosController
+VistaChat --> ReservarCitaChatController
+VistaChat --> ModificarReservaChatController
+VistaLoginAdmin --> LoginAdminController
+VistaDashboard --> GestionarCitasController
+VistaGestionCitas --> GestionarCitasController
+VistaFormularioCita --> GestionarCitasController
+
+ConsultarServiciosController --> CatalogoServicios
+ReservarCitaChatController --> Conversacion
+ReservarCitaChatController --> Agenda
+ReservarCitaChatController --> CatalogoServicios
+ModificarReservaChatController --> Conversacion
+ModificarReservaChatController --> Agenda
+LoginAdminController --> CuentaAdmin
+GestionarCitasController --> CuentaAdmin : autoriza
+GestionarCitasController --> Agenda
+
+Cliente --> Conversacion : inicia
+Cliente --> Cita : solicita
+Conversacion "1" o-- "*" Mensaje
+Agenda "1" o-- "*" Cita
+Cita --> EstadoCita
+Cita --> Servicio : servicio elegido
+CatalogoServicios "1" o-- "7" Servicio
+@enduml

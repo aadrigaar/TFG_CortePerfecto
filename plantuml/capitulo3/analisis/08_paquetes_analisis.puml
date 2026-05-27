@@ -1,0 +1,50 @@
+@startuml
+title Paquetes de análisis y dependencias
+top to bottom direction
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam packageStyle rectangle
+
+package "presentacion.web" #D9E8FF {
+  rectangle "VistaWebPublica"
+  rectangle "ServiceCard / ComboCard"
+}
+
+package "presentacion.chat" #D9E8FF {
+  rectangle "VistaChat"
+  rectangle "AppointmentSummary"
+}
+
+package "presentacion.admin" #D9E8FF {
+  rectangle "VistaLoginAdmin"
+  rectangle "VistaDashboard"
+  rectangle "VistaGestionCitas"
+  rectangle "VistaFormularioCita"
+}
+
+package "aplicacion" #DCF7E8 {
+  rectangle "Controladores de casos de uso"
+  rectangle "Coordinación de flujo"
+}
+
+package "dominio" #FFF1C9 {
+  rectangle "Agenda"
+  rectangle "Cita"
+  rectangle "Servicio"
+  rectangle "CatalogoServicios"
+  rectangle "Conversacion"
+}
+
+package "infraestructura" #FFE0EE {
+  rectangle "MongoDB / Mongoose"
+  rectangle "LM Studio"
+  rectangle "JWT / bcrypt"
+}
+
+presentacion.web --> aplicacion : consulta servicios
+presentacion.chat --> aplicacion : reserva y conversación
+presentacion.admin --> aplicacion : gestión privada
+aplicacion --> dominio : coordina casos de uso
+aplicacion --> infraestructura : usa adaptadores técnicos
+infraestructura --> dominio : persiste y materializa datos
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+title Casos de uso del cliente - Corte Perfecto
+left to right direction
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam UsecaseBorderColor #16324F
+skinparam UsecaseBackgroundColor #F8FBFF
+skinparam ActorBorderColor #16324F
+
+actor Cliente
+
+rectangle "Sistema Corte Perfecto" {
+  package "Información pública" {
+    usecase "UC-01\nConsultar web pública" as UC01
+    usecase "UC-02\nConsultar servicios\ny precios" as UC02
+    usecase "UC-03\nPedir detalle de\nuna opción" as UC03
+  }
+
+  package "Chat y reserva" {
+    usecase "UC-04\nAbrir chat y\nenviar mensaje" as UC04
+    usecase "UC-05\nReservar cita\npor chatbot" as UC05
+    usecase "UC-09\nModificar reserva\nactiva por chat" as UC09
+  }
+
+  package "Datos de la reserva" {
+    usecase "UC-06\nElegir servicio\npor número" as UC06
+    usecase "UC-07\nAportar nombre,\ndía y hora" as UC07
+    usecase "UC-08\nRecibir confirmación\ny tarjeta" as UC08
+  }
+}
+
+Cliente --> UC01
+Cliente --> UC02
+Cliente --> UC03
+Cliente --> UC04
+Cliente --> UC05
+Cliente --> UC06
+Cliente --> UC07
+Cliente --> UC08
+Cliente --> UC09
+@enduml

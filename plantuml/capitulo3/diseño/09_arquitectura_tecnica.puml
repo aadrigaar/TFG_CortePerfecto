@@ -1,0 +1,54 @@
+@startuml
+title Diseño de arquitectura técnica - Corte Perfecto
+top to bottom direction
+scale max 1150 width
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam nodesep 30
+skinparam ranksep 32
+
+actor Cliente
+actor "Administrador\n(Peluquero)" as Admin
+
+rectangle "Dispositivo cliente / navegador" as Device #D9E8FF {
+  component "Web pública\nHomePage + secciones" as Web
+  component "Widget de chat\nChatWidget" as Chat
+  component "Panel privado\nAdminDashboard" as Panel
+  component "Cliente API\napi.js / Axios" as Axios
+
+  Web -right-> Axios
+  Chat -down-> Axios
+  Panel -left-> Axios
+}
+
+rectangle "Backend local Node.js + Express : localhost:5000" as Backend #DDF5E4 {
+  component "Rutas REST\n/api/chat /api/auth\n/api/appointments /api/services" as Rest
+  component "Middleware\nCORS, rate-limit, JWT,\nvalidación y errores" as Mid
+  component "Controladores MVC\nchat, auth,\nappointments, services" as Ctrl
+  component "Servicios de negocio\nappointment, bookingFlow,\nprompt, parser, LM Studio" as Serv
+  component "Modelos Mongoose\nAppointment, Admin" as Models
+  component "Catálogo oficial\nSERVICE_CATALOG" as Catalog
+
+  Rest -right-> Mid
+  Mid -right-> Ctrl
+  Ctrl -down-> Serv
+  Serv -left-> Models
+  Serv -right-> Catalog
+}
+
+rectangle "Infraestructura local" as Infra #FCE0ED {
+  database "MongoDB Community\ncorte_perfecto\nadmins, appointments, servicios" as Mongo
+  cloud "LM Studio Local Server\nMeta Llama 3.1 8B\n127.0.0.1:1234/v1" as LM
+  component "Seguridad\nbcrypt + JWT + helmet" as Security
+}
+
+Cliente --> Web : consulta web
+Cliente --> Chat : reserva por IA
+Admin --> Panel : gestión privada
+Axios --> Rest : HTTP/JSON
+Models --> Mongo : Mongoose TCP
+Serv --> LM : HTTP /v1/chat/completions
+Mid --> Security : autentica y protege
+@enduml

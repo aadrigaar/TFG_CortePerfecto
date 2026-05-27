@@ -1,0 +1,28 @@
+@startuml
+title Análisis UC-02/03 - Consultar servicios, precios y opción
+scale max 1700 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor Cliente
+boundary "VistaChat / VistaWeb\n(vista)" as View
+control "ConsultarServiciosController\n(control)" as Ctrl
+entity "CatalogoServicios\n(modelo)" as Catalog
+entity "Servicio\n(modelo)" as Servicio
+
+Cliente -> View : pregunta precios, servicios u opción
+View -> Ctrl : solicitar catálogo / detalle
+Ctrl -> Catalog : obtener opciones numeradas 1..7
+Catalog -> Servicio : construir lista oficial
+Servicio --> Catalog : precio y duración
+alt lista completa
+  Catalog --> Ctrl : servicios numerados
+  Ctrl --> View : respuesta informativa
+else opción concreta
+  Catalog --> Ctrl : servicio elegido por número
+  Ctrl --> View : explicación del servicio
+else número inválido
+  Catalog --> Ctrl : opción no encontrada
+  Ctrl --> View : pedir número entre 1 y 7
+end
+View --> Cliente : información clara sin confirmar cita
+@enduml

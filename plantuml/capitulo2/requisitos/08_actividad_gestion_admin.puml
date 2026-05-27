@@ -1,0 +1,44 @@
+@startuml
+title Actividad - Gestión administrativa de citas
+skinparam shadowing false
+skinparam roundcorner 12
+
+start
+:Administrador abre /admin/login;
+:Introduce usuario y contraseña;
+if (¿Credenciales válidas?) then (sí)
+  :Recibe token JWT;
+  :Accede al dashboard;
+else (no)
+  :Mostrar error;
+  stop
+endif
+
+:Consulta estadísticas y citas;
+if (¿Filtrar u ordenar?) then (sí)
+  :Aplicar estado, fechas y orden;
+endif
+
+if (¿Crear cita manual?) then (sí)
+  :Rellenar formulario;
+  :Validar reglas de agenda;
+  :Guardar cita con origen admin;
+endif
+
+if (¿Editar cita?) then (sí)
+  :Modificar datos;
+  :Recalcular precio, duración y disponibilidad;
+endif
+
+if (¿Marcar completada?) then (sí)
+  :Actualizar estado a completed;
+endif
+
+if (¿Eliminar cita?) then (sí)
+  :Confirmar eliminación;
+  :Borrar registro;
+endif
+
+:Cerrar sesión cuando termine;
+stop
+@enduml

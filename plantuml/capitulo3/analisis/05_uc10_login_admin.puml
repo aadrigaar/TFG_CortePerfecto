@@ -1,0 +1,26 @@
+@startuml
+title Análisis UC-10 - Inicio de sesión del administrador
+scale max 1500 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor "Administrador\n(Peluquero)" as Admin
+boundary "VistaLoginAdmin\n(vista)" as View
+control "LoginAdminController\n(control)" as Ctrl
+entity "CuentaAdmin\n(modelo de seguridad)" as Account
+control "ServicioAutenticacion\n(control)" as Auth
+
+Admin -> View : usuario y contraseña
+View -> Ctrl : credenciales
+Ctrl -> Account : buscar cuenta por username
+Account --> Ctrl : hash y rol
+Ctrl -> Auth : comparar contraseña con bcrypt
+alt credenciales válidas
+  Auth --> Ctrl : token JWT
+  Ctrl --> View : sesión iniciada
+  View --> Admin : acceso al dashboard
+else credenciales inválidas
+  Auth --> Ctrl : error de autenticación
+  Ctrl --> View : mensaje sin crear sesión
+  View --> Admin : permanece en login
+end
+@enduml

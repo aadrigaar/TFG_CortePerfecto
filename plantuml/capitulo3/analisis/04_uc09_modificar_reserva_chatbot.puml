@@ -1,0 +1,29 @@
+@startuml
+title Análisis UC-09 - Modificar reserva activa por chat
+scale max 1700 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor Cliente
+boundary "ChatWidget\n(vista)" as Chat
+control "ModificarReservaChatController\n(control)" as Ctrl
+entity "Conversacion\n(modelo)" as Conv
+entity "CatalogoServicios\n(modelo)" as Catalog
+entity "Agenda\n(modelo)" as Agenda
+entity "Cita\n(modelo)" as Cita
+
+Cliente -> Chat : cambia día, hora o servicio
+Chat -> Ctrl : mensaje + activeAppointmentId
+Ctrl -> Conv : recuperar cita activa y datos previos
+Ctrl -> Catalog : recalcular servicio, precio y duración
+Ctrl -> Agenda : validar nueva fecha/hora y solapes
+alt cambio válido
+  Agenda -> Cita : actualizar reserva
+  Cita --> Agenda : cita actualizada
+  Agenda --> Ctrl : confirmación de actualización
+else hueco inválido
+  Agenda --> Ctrl : motivo de rechazo
+  Ctrl -> Conv : mantener reserva anterior
+end
+Ctrl --> Chat : respuesta de actualización o corrección
+Chat --> Cliente : resumen actualizado
+@enduml
