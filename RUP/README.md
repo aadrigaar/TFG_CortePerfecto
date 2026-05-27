@@ -10,7 +10,7 @@ El objetivo no es duplicar los capítulos entregables, sino dejar evidencia traz
 | --- | --- |
 | [`99-seguimiento/trazabilidad-casos-uso.md`](99-seguimiento/trazabilidad-casos-uso.md) | Relaciona casos de uso con módulos reales, rutas, modelos y pruebas. |
 | [`99-seguimiento/auditoria-diseno-implementacion.md`](99-seguimiento/auditoria-diseno-implementacion.md) | Comprueba que el diseño del Capítulo 3 se refleja en el código. |
-| [`99-seguimiento/estado-casos-uso.puml`](99-seguimiento/estado-casos-uso.puml) | Dashboard visual de estado al estilo de seguimiento RUP. |
+| [`99-seguimiento/estado-casos-uso.puml`](99-seguimiento/estado-casos-uso.png) | Dashboard visual de estado al estilo de seguimiento RUP. |
 
 ## Criterio de uso
 
