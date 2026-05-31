@@ -72,6 +72,17 @@ test("appointmentService rechaza fin de semana, hora fuera de horario y nombres 
   await assert.rejects(
     () =>
       createAppointment({
+        customerName: "Adrian",
+        service: "Corte y Tinte y Peinado",
+        date: "2099-06-22",
+        time: "18:15"
+      }),
+    { code: "OUTSIDE_BUSINESS_HOURS" }
+  );
+
+  await assert.rejects(
+    () =>
+      createAppointment({
         customerName: "ok",
         service: "Corte",
         date: "2099-06-22",

@@ -68,7 +68,10 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
         activeAppointmentId: activeAppointment?._id || null
       });
 
-      const { reply, appointment } = response.data;
+      const { reply, appointment, resetActiveAppointment } = response.data;
+      if (resetActiveAppointment) {
+        setActiveAppointment(null);
+      }
       if (appointment) {
         setActiveAppointment(appointment);
       }

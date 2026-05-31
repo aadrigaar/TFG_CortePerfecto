@@ -23,7 +23,8 @@ export const chat = asyncHandler(async (req, res) => {
       success: true,
       reply: bookingFlow.reply,
       saved: bookingFlow.saved,
-      appointment: bookingFlow.appointment
+      appointment: bookingFlow.appointment,
+      resetActiveAppointment: Boolean(bookingFlow.resetActiveAppointment)
     });
     return;
   }
@@ -34,7 +35,8 @@ export const chat = asyncHandler(async (req, res) => {
       success: true,
       reply: preflightReply,
       saved: false,
-      appointment: null
+      appointment: null,
+      resetActiveAppointment: false
     });
     return;
   }
@@ -71,7 +73,8 @@ export const chat = asyncHandler(async (req, res) => {
     success: true,
     reply,
     saved,
-    appointment
+    appointment,
+    resetActiveAppointment: false
   });
 });
 
