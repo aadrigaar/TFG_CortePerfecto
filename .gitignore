@@ -16,6 +16,7 @@ Thumbs.db
 .idea/
 coverage/
 logs/
+scripts/
 *.log
 *.tmp
 *.bak
