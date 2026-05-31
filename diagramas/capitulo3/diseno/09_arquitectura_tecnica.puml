@@ -24,11 +24,11 @@ rectangle "Dispositivo cliente / navegador" as Device #D9E8FF {
 }
 
 rectangle "Backend local Node.js + Express : localhost:5000" as Backend #DDF5E4 {
-  component "Rutas REST\n/api/chat /api/auth\n/api/appointments /api/services" as Rest
+  component "Rutas REST\n/api/chat /api/auth\n/api/appointments\n/api/services /api/health" as Rest
   component "Middleware\nCORS, rate-limit, JWT,\nvalidación y errores" as Mid
   component "Controladores MVC\nchat, auth,\nappointments, services" as Ctrl
-  component "Servicios de negocio\nappointment, bookingFlow,\nprompt, parser, LM Studio" as Serv
-  component "Modelos Mongoose\nAppointment, Admin" as Models
+  component "Servicios de negocio\nadmin, appointment,\nbookingFlow, calendar,\nchatRule, prompt,\nparser, serviceCatalog,\nLM Studio" as Serv
+  component "Modelos Mongoose\nAppointment, Admin,\nService" as Models
   component "Catálogo oficial\nSERVICE_CATALOG" as Catalog
 
   Rest -right-> Mid

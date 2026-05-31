@@ -1,11 +1,20 @@
 import { CalendarPlus, ClipboardList, LayoutDashboard, LogOut, RefreshCw } from "lucide-react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Brand from "../../components/Brand.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
+
+const routeHeader = {
+  "/admin": { title: "Dashboard", Icon: LayoutDashboard },
+  "/admin/citas": { title: "Gestión de Citas", Icon: ClipboardList },
+  "/admin/crear": { title: "Crear Cita", Icon: CalendarPlus }
+};
 
 export default function AdminLayout() {
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const header = routeHeader[location.pathname] || routeHeader["/admin"];
+  const HeaderIcon = header.Icon;
 
   function handleLogout() {
     logout();
@@ -43,8 +52,8 @@ export default function AdminLayout() {
       <section className="admin-content">
         <header className="admin-topbar">
           <h1>
-            <LayoutDashboard size={25} />
-            Dashboard
+            <HeaderIcon size={25} />
+            {header.title}
           </h1>
           <button className="btn btn-ghost small" type="button" onClick={() => window.location.reload()}>
             <RefreshCw size={17} />
@@ -56,4 +65,3 @@ export default function AdminLayout() {
     </div>
   );
 }
-

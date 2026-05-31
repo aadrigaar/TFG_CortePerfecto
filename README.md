@@ -86,11 +86,22 @@ frontend/
     pages/
     services/
     styles/
+entregas/
+  Capitulo1.docx
+  Capitulo2.docx
+  Capitulo3.docx
+  Capitulos4y5.docx
+diagramas/
+  capitulo2/
+  capitulo3/
+  capitulo4/
 RUP/
   99-seguimiento/
     trazabilidad-casos-uso.md
     auditoria-diseno-implementacion.md
     estado-casos-uso.puml
+scripts/
+  build-capitulos-4-5.py
 ```
 
-La carpeta `RUP/` funciona como evidencia viva de trazabilidad, inspirada en la organizacion del repositorio `pySigHor`.
+La carpeta `entregas/` queda reservada para documentos finales. `diagramas/` conserva fuentes PlantUML, imagenes de diagramas y capturas auxiliares para reconstruir la memoria. `RUP/` funciona como evidencia viva de trazabilidad, inspirada en la organizacion del repositorio `pySigHor`.

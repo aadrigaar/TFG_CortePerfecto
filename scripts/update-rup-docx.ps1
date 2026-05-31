@@ -196,7 +196,7 @@ $cap3Fragments = @(
     @("Arquitectura", "Cliente-servidor con API REST y ejecución local.", "frontend React/Vite, backend Express, MongoDB local y LM Studio local.", "Correcto"),
     @("MVC backend", "Rutas, controladores, servicios y modelos separados.", "routes, controllers, services, models.", "Correcto"),
     @("Reglas de agenda", "Validación determinista fuera de la IA.", "appointmentService, bookingFlowService y calendarService.", "Correcto"),
-    @("Seguridad admin", "JWT y rutas privadas para el panel.", "authController, requireAuth y appointmentRoutes.", "Correcto"),
+    @("Seguridad admin", "JWT y rutas privadas para el panel.", "authController, adminService, requireAuth y appointmentRoutes.", "Correcto"),
     @("Contingencia IA", "Si LM Studio cae no se confirma ninguna cita inventada.", "lmStudioService devuelve AppError controlado.", "Correcto"),
     @("Evidencia de pruebas", "Reglas críticas verificables.", "backend/tests con node:test.", "Reforzado")
   )),

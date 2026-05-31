@@ -1,0 +1,58 @@
+@startuml
+title Diseño de integración cliente-chatbot-LM Studio
+scale max 1250 width
+skinparam shadowing false
+skinparam roundcorner 12
+actor Cliente
+boundary "Frontend React\nChatWidget + chatApi" as Front
+control "chatController\nExpress" as Ctrl
+control "bookingFlowService\nreglas, contexto y decisión" as Flow
+control "chatRuleService\nreglas previas" as Rules
+control "promptService\nsystem prompt + historial" as Prompt
+control "lmStudioService\nllamada local" as IA
+control "responseParserService\nrespuesta + candidato" as Parser
+control "appointmentService\nagenda y solapes" as AppointmentService
+database "MongoDB\nappointments" as Mongo
+control "LM Studio\nMeta Llama 3.1 8B" as LM
+
+Cliente -> Front : escribe mensaje
+Front -> Front : añadir mensaje y bajar al final
+Front -> Ctrl : POST /api/chat\nmessage, history, conversationId
+Ctrl -> Flow : intentar flujo determinista
+alt flujo determinista resuelto
+  Flow -> AppointmentService : crear/actualizar cita
+  AppointmentService -> Mongo : persistir Appointment
+  Mongo --> AppointmentService : documento guardado
+  AppointmentService --> Flow : cita válida
+  Flow --> Ctrl : respuesta + appointment
+else no resuelto por flujo determinista
+  Ctrl -> Rules : getPreflightChatReply()
+  alt regla previa aplicable
+    Rules --> Ctrl : respuesta sin guardar cita
+  else conversación natural con IA
+    Ctrl -> Prompt : buildChatMessages()\nfecha, hora, historial, catálogo
+    Prompt --> Ctrl : messages
+    Ctrl -> IA : askLmStudio(messages)
+  IA -> LM : HTTP /v1/chat/completions
+    alt LM Studio disponible
+    LM --> IA : texto generado
+      IA --> Ctrl : respuesta cruda
+      Ctrl -> Parser : parseAssistantResponse()
+      Parser --> Ctrl : reply + candidato
+      alt candidato completo y hora explícita
+        Ctrl -> AppointmentService : crear/actualizar cita
+        AppointmentService -> Mongo : persistir Appointment
+        Mongo --> AppointmentService : documento guardado
+        AppointmentService --> Ctrl : cita válida
+      else candidato incompleto o inválido
+        Ctrl -> Ctrl : pedir dato faltante o\nmostrar error de negocio
+      end
+    else timeout o servidor caído
+      IA --> Ctrl : AppError LMSTUDIO_UNAVAILABLE
+      Ctrl -> Ctrl : mensaje de reintento\nsin guardar cita
+    end
+  end
+end
+Ctrl --> Front : JSON {reply, saved, appointment}
+Front --> Cliente : mensaje y tarjeta si procede
+@enduml

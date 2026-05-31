@@ -10,12 +10,12 @@ Este documento aplica una práctica tomada de `pySigHor`: contrastar explícitam
 | --- | --- | --- | --- |
 | Arquitectura cliente-servidor | Frontend React/Vite + backend Node/Express | `frontend/`, `backend/` | Correcto |
 | MVC backend | Rutas, controladores, servicios, modelos | `routes/`, `controllers/`, `services/`, `models/` | Correcto |
-| Persistencia documental | MongoDB + Mongoose | `Appointment.js`, `Admin.js` | Correcto |
-| Chatbot local | LM Studio OpenAI-compatible | `lmStudioService.js`, `promptService.js` | Correcto |
-| Reglas deterministas | Fecha, hora, servicio, nombre, solapes | `bookingFlowService.js`, `appointmentService.js`, `calendarService.js` | Correcto |
+| Persistencia documental | MongoDB + Mongoose | `Appointment.js`, `Admin.js`, `Service.js` | Correcto |
+| Chatbot local | LM Studio OpenAI-compatible | `promptService.js`, `lmStudioService.js`, `responseParserService.js` | Correcto |
+| Reglas deterministas | Fecha, hora, servicio, nombre, solapes | `chatRuleService.js`, `bookingFlowService.js`, `appointmentService.js`, `calendarService.js`, `serviceCatalog.js` | Correcto |
 | Panel administrador | Login, dashboard, CRUD de citas | `AdminLogin.jsx`, `AdminDashboard.jsx`, `AdminAppointments.jsx` | Correcto |
 | Seguridad básica | JWT + rutas privadas | `authMiddleware.js`, `authRoutes.js`, `appointmentRoutes.js` | Correcto |
-| Contingencia IA local | Error controlado si LM Studio cae | `lmStudioService.js`, `chatController.js` | Correcto |
+| Contingencia IA local | Error controlado si LM Studio cae | `lmStudioService.js`, `chatController.js`, `AppError.js`, `errorMiddleware.js` | Correcto |
 | Pruebas | Reglas críticas verificables | `backend/tests/` | Reforzado |
 
 ## Hallazgos y ajustes aplicados
@@ -42,4 +42,3 @@ npm run check --prefix backend
 npm run test --prefix backend
 npm run build --prefix frontend
 ```
-

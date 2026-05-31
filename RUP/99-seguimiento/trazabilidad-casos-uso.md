@@ -17,7 +17,7 @@ Este artefacto enlaza los casos de uso definidos en el Capítulo 2 con las pieza
 | UC-07 | Aportar nombre, día y hora | Chat | `chatController.js` | `bookingFlowService.js`, `calendarService.js` | `appointments` | `appointmentService.test.js` |
 | UC-08 | Recibir confirmación y tarjeta | Chat | `ChatWidget.jsx` | `format.js` | Documento `Appointment` devuelto por API | Build frontend |
 | UC-09 | Modificar reserva activa por chat | `POST /api/chat` | `chatController.js` | `bookingFlowService.js`, `appointmentService.js` | `appointments` | `appointmentService.test.js` |
-| UC-10 | Iniciar sesión administrador | `POST /api/auth/login` | `authController.js`, `AdminLogin.jsx` | `bcryptjs`, `jsonwebtoken` | `admins` | Verificación manual / build |
+| UC-10 | Iniciar sesión administrador | `POST /api/auth/login` | `authController.js`, `adminService.js`, `AdminLogin.jsx` | `bcryptjs`, `jsonwebtoken` | `admins` | Verificación manual / build |
 | UC-11 | Ver dashboard | `/admin` | `AdminDashboard.jsx` | `appointmentApi.stats()` | `appointments` | Build frontend |
 | UC-12 | Listar, filtrar y ordenar citas | `GET /api/appointments` | `appointmentController.js`, `AdminAppointments.jsx` | `appointmentService.listAppointments()` | `appointments` | `appointmentService.test.js` |
 | UC-13 | Crear cita manual | `POST /api/appointments` | `appointmentController.js`, `AppointmentForm.jsx` | `appointmentService.createAppointment()` | `appointments` | `appointmentService.test.js` |
@@ -50,4 +50,3 @@ O todo junto:
 ```bash
 npm run verify
 ```
-

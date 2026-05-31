@@ -15,6 +15,6 @@ El objetivo no es duplicar los capítulos entregables, sino dejar evidencia traz
 ## Criterio de uso
 
 - Los capítulos (`entregas/Capitulo1.docx`, `Capitulo2.docx`, `Capitulo3.docx`) son la memoria formal.
-- `plantuml/` conserva los diagramas fuente versionables.
+- `diagramas/` conserva los diagramas fuente versionables y sus imágenes generadas.
 - `RUP/` deja la trazabilidad operativa del proyecto, igual que `pySigHor` separa artefactos vivos de entregables.
 

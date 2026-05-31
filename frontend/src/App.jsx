@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
-import AdminLogin from "./pages/AdminLogin.jsx";
+import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import AdminAppointments from "./pages/admin/AdminAppointments.jsx";
@@ -42,4 +42,3 @@ export default function App() {
     </Routes>
   );
 }
-

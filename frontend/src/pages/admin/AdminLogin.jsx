@@ -1,8 +1,8 @@
 import { Eye, EyeOff, Lock, LogIn, User } from "lucide-react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import Brand from "../components/Brand.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
+import Brand from "../../components/Brand.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function AdminLogin() {
   const { admin, login } = useAuth();
@@ -93,4 +93,3 @@ export default function AdminLogin() {
     </main>
   );
 }
-

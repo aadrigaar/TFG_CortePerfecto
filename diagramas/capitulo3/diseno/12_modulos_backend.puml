@@ -1,0 +1,99 @@
+@startuml
+!pragma layout smetana
+title Diseno simplificado del flujo de reserva
+left to right direction
+skinparam shadowing false
+skinparam roundcorner 0
+skinparam classAttributeIconSize 0
+hide circle
+skinparam defaultFontName Calibri
+skinparam class {
+  BackgroundColor #EEEAFB
+  BorderColor #A99BE8
+  ArrowColor #555555
+}
+
+class ServiceCatalog <<config>> {
+  +SERVICE_CATALOG: Service[]
+  +resolveService(value)
+  +getServiceByOption(option)
+  +formatNumberedServices()
+}
+
+class PromptService <<service>> {
+  +buildSystemPrompt()
+  +buildChatMessages(args)
+}
+
+class LmStudioService <<service>> {
+  +askLmStudio(messages)
+}
+
+class ResponseParserService <<service>> {
+  +parseAssistantResponse(rawContent)
+}
+
+class BookingFlowService <<service>> {
+  +handleBookingFlow(args)
+  -findCustomerName(messages)
+  -findLatestService(messages)
+  -findLatestDate(messages)
+  -findLatestTime(messages)
+}
+
+class AppointmentService <<service>> {
+  +listAppointments(filters)
+  +getAppointmentById(id)
+  +createAppointment(payload, source)
+  +updateAppointment(id, payload)
+  +deleteAppointment(id)
+  +getAppointmentStats()
+}
+
+class CalendarService <<service>> {
+  +madridNow()
+  +isWeekendDate(date)
+  +formatSpanishDate(date)
+}
+
+class AppointmentModel <<model>> {
+  +customerName: String
+  +service: String
+  +price: Number
+  +duration: Number
+  +startsAt: Date
+  +endsAt: Date
+  +status: enum
+}
+
+class ServiceCatalogService <<service>> {
+  +syncServiceCatalog()
+  +listPublicServices()
+}
+
+class ServiceModel <<model>> {
+  +id: Number
+  +key: String
+  +nombre: String
+  +descripcion: String
+  +precio: Number
+  +duracion_minutos: Number
+}
+
+CalendarService -[hidden]right- ServiceCatalogService
+ServiceCatalogService -[hidden]right- ServiceModel
+
+PromptService -left..> ServiceCatalog : catalogo
+PromptService -right..> LmStudioService : mensajes
+LmStudioService -down..> ResponseParserService : respuesta cruda
+ResponseParserService -down..> AppointmentService : candidato
+
+BookingFlowService -left..> ServiceCatalog : servicio 1..7
+BookingFlowService -right..> AppointmentService : confirma reserva
+BookingFlowService -down..> CalendarService : fecha y hora
+AppointmentService -down..> CalendarService : valida horario
+AppointmentService -right-> AppointmentModel : persiste
+
+ServiceCatalogService -left..> ServiceCatalog : catalogo base
+ServiceCatalogService -right-> ServiceModel : sincroniza
+@enduml
