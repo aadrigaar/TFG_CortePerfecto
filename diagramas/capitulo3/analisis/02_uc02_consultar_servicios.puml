@@ -1,5 +1,4 @@
 @startuml
-title Análisis UC-02/03 - Consultar servicios, precios y opción
 scale max 1700 width
 skinparam shadowing false
 skinparam roundcorner 12

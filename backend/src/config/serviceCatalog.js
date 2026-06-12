@@ -59,7 +59,7 @@ export function normalizeText(value = "") {
 }
 
 export function resolveService(rawService) {
-  const normalized = normalizeText(rawService);
+  const normalized = getPositiveServiceIntent(normalizeText(rawService));
   if (!normalized) {
     return null;
   }
@@ -83,6 +83,35 @@ export function resolveService(rawService) {
 
   const key = SERVICE_ORDER.filter((serviceKey) => detectedKeys.has(serviceKey)).join("-");
   return SERVICE_CATALOG.find((service) => service.key === key) || null;
+}
+
+function getPositiveServiceIntent(normalized) {
+  if (!normalized) {
+    return "";
+  }
+
+  const preferenceMatches = [...normalized.matchAll(/\b(?:quiero|querria|necesito|prefiero|ponme|reservame)\b/g)];
+  const contrastMatches = [...normalized.matchAll(/\b(?:pero|sino|mejor|en vez de)\b/g)];
+  const lastPreference = preferenceMatches.at(-1);
+  const lastContrast = contrastMatches.at(-1);
+
+  if (preferenceMatches.length === 1 && /\bno\s+(?:quiero|querria|necesito|prefiero)\b/.test(normalized)) {
+    return "";
+  }
+
+  let startIndex = 0;
+  if (preferenceMatches.length > 1 && lastPreference) {
+    startIndex = lastPreference.index + lastPreference[0].length;
+  }
+  if (lastContrast && lastContrast.index + lastContrast[0].length > startIndex) {
+    startIndex = lastContrast.index + lastContrast[0].length;
+  }
+
+  return normalized
+    .slice(startIndex)
+    .replace(/\b(?:no|sin)\s+(?:quiero\s+|querria\s+|necesito\s+|prefiero\s+)?(?:un\s+|una\s+|el\s+|la\s+)?(?:corte|tinte|coloracion|mechas|peinado|recogido)\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function getServiceByLabel(label) {

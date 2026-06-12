@@ -1,0 +1,54 @@
+@startuml
+top to bottom direction
+scale max 1700 width
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam linetype polyline
+skinparam state {
+  BackgroundColor #F7F9FC
+  BorderColor #315A7D
+  FontColor #162A3A
+  ArrowColor #4B6478
+  StartColor #162A3A
+  EndColor #162A3A
+}
+
+state "WEB PÚBLICA\nMENÚ PRINCIPAL\nUC-01" as WEB_PUBLICA
+state "SERVICIOS Y PRECIOS\nUC-02/03" as SERVICIOS
+state "CHATBOT DE RESERVA\nUC-04/05/06/07/08/09" as CHATBOT
+state "LOGIN ADMINISTRADOR\nUC-10" as LOGIN_ADMIN
+state "PANEL PRINCIPAL\nUC-11" as PANEL_ADMIN
+state "GESTIÓN DE CITAS\nUC-12" as GESTION_CITAS
+state "CREAR CITA\nUC-13" as CREAR_CITA
+state "EDITAR / COMPLETAR\nUC-14/15" as EDITAR_CITA
+state "ELIMINAR CITA\nUC-16" as ELIMINAR_CITA
+
+[*] -down-> WEB_PUBLICA : Abrir aplicación
+
+WEB_PUBLICA -down-> SERVICIOS : Ir a servicios
+WEB_PUBLICA <-up- SERVICIOS : Volver al menú principal
+WEB_PUBLICA -down-> CHATBOT : Abrir chatbot
+WEB_PUBLICA <-up- CHATBOT : Cerrar chatbot
+WEB_PUBLICA -down-> LOGIN_ADMIN : Acceder a administración
+WEB_PUBLICA <-up- LOGIN_ADMIN : Volver a la web pública
+SERVICIOS -[hidden]right-> CHATBOT
+CHATBOT -[hidden]right-> LOGIN_ADMIN
+LOGIN_ADMIN -down-> PANEL_ADMIN : Credenciales válidas
+
+PANEL_ADMIN -down-> GESTION_CITAS : Ir a gestión de citas
+PANEL_ADMIN <-up- GESTION_CITAS : Volver al panel principal
+PANEL_ADMIN -down-> CREAR_CITA : Ir a nueva cita
+PANEL_ADMIN <-up- CREAR_CITA : Cancelar
+GESTION_CITAS -[hidden]right-> CREAR_CITA
+CREAR_CITA -left-> GESTION_CITAS : Guardar cita
+
+GESTION_CITAS -down-> EDITAR_CITA : Editar o completar
+GESTION_CITAS <-up- EDITAR_CITA : Guardar o cancelar
+GESTION_CITAS -down-> ELIMINAR_CITA : Solicitar eliminación
+GESTION_CITAS <-up- ELIMINAR_CITA : Confirmar o cancelar
+EDITAR_CITA -[hidden]right-> ELIMINAR_CITA
+
+PANEL_ADMIN -right-> [*] : Cerrar sesión (UC-17)
+@enduml

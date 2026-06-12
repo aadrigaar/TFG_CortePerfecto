@@ -6,6 +6,7 @@ import {
   getWeekdayName,
   isWeekendDate,
   madridNow,
+  parseSpanishTimeReference,
   toDateInput
 } from "./calendarService.js";
 import { formatNumberedServices, getServiceByOption, normalizeText, resolveService } from "../config/serviceCatalog.js";
@@ -21,6 +22,9 @@ const INVALID_NAMES = new Set([
   "test",
   "prueba",
   "nada",
+  "no",
+  "cancelar",
+  "anular",
   "sin nombre",
   "anonimo",
   "anónimo"
@@ -54,7 +58,11 @@ const MONTH_INDEX = {
 
 export async function handleBookingFlow({ userMessage, history = [], conversationId, activeAppointmentId }) {
   if (isCancellationRequest(userMessage)) {
-    return handleCancellationRequest(activeAppointmentId);
+    return handleCancellationRequest(activeAppointmentId, conversationId);
+  }
+
+  if (isCancellationQuestion(userMessage) || isNegatedCancellation(userMessage)) {
+    return null;
   }
 
   if (isPoliteStopRequest(userMessage)) {
@@ -93,6 +101,11 @@ export async function handleBookingFlow({ userMessage, history = [], conversatio
       appointment: null,
       resetActiveAppointment: shouldIgnoreActiveAppointment
     };
+  }
+
+  const invalidCurrentInputReply = buildInvalidCurrentInputReply(userMessage, messages, shouldIgnoreActiveAppointment);
+  if (invalidCurrentInputReply) {
+    return invalidCurrentInputReply;
   }
 
   if (isSummaryRequest(userMessage)) {
@@ -170,7 +183,11 @@ export async function handleBookingFlow({ userMessage, history = [], conversatio
 
   try {
     const appointment = activeAppointmentId && !shouldIgnoreActiveAppointment
-      ? await updateAppointment(activeAppointmentId, { ...payload, source: "chat" })
+      ? await updateAppointment(
+          activeAppointmentId,
+          { ...payload, source: "chat" },
+          { expectedConversationId: conversationId }
+        )
       : await createAppointment(payload, "chat");
 
     return {
@@ -268,10 +285,38 @@ function isInformationInterrupt(message) {
 
 function isCancellationRequest(message) {
   const text = normalizeText(message);
-  return /\b(cancelar|cancela|cancelame|anular|anula|borra|elimina)\b/.test(text);
+  if (
+    !text ||
+    /\b(?:no|nunca)\s+(?:quiero\s+)?(?:cancelar|anular|borrar|eliminar)\b/.test(text) ||
+    /^(?:como|cuando|donde|puedo|se puede|que pasa si)\b/.test(text)
+  ) {
+    return false;
+  }
+
+  return (
+    /^(?:cancelar|cancela|cancelame|anular|anula|borrar|borra|eliminar|elimina)(?:\s+(?:mi|la|esta))?(?:\s+(?:cita|reserva))?$/.test(
+      text
+    ) ||
+    /\b(?:quiero|necesito|puedes|podrias)\s+(?:cancelar|anular|borrar|eliminar)\s+(?:mi|la|esta)?\s*(?:cita|reserva)\b/.test(
+      text
+    )
+  );
 }
 
-async function handleCancellationRequest(activeAppointmentId) {
+function isCancellationQuestion(message) {
+  const text = normalizeText(message);
+  return (
+    /\b(?:como|donde|cuando)\s+(?:puedo\s+)?(?:cancelar|anular|borrar|eliminar)\b/.test(text) ||
+    /\b(?:puedo|se puede)\s+(?:cancelar|anular|borrar|eliminar)\b/.test(text)
+  );
+}
+
+function isNegatedCancellation(message) {
+  const text = normalizeText(message);
+  return /\b(?:no|nunca)\s+(?:quiero\s+)?(?:cancelar|anular|borrar|eliminar)\b/.test(text);
+}
+
+async function handleCancellationRequest(activeAppointmentId, conversationId) {
   if (!activeAppointmentId) {
     return {
       handled: true,
@@ -283,7 +328,11 @@ async function handleCancellationRequest(activeAppointmentId) {
   }
 
   try {
-    await updateAppointment(activeAppointmentId, { status: "cancelled", source: "chat" });
+    await updateAppointment(
+      activeAppointmentId,
+      { status: "cancelled", source: "chat" },
+      { expectedConversationId: conversationId }
+    );
     return {
       handled: true,
       reply: "He cancelado tu cita. Si necesitas reservar otra, dime el servicio y te ayudo.",
@@ -300,6 +349,67 @@ async function handleCancellationRequest(activeAppointmentId) {
       resetActiveAppointment: true
     };
   }
+}
+
+function buildInvalidCurrentInputReply(userMessage, messages, resetActiveAppointment = false) {
+  const previousAssistant = findPreviousAssistant(messages, messages.length - 1);
+  const text = normalizeText(userMessage);
+
+  if (isDateContext(previousAssistant) && !isTimeContext(previousAssistant) && looksLikeCalendarAnswer(text)) {
+    const date = parseDateReference(userMessage, {
+      allowPureDay: true,
+      referenceMonthDate: findRecentMonthDate(messages, messages.length - 1)
+    });
+
+    if (!date) {
+      return buildPendingChangeReply(
+        "No reconozco esa fecha o no existe en el calendario. Escríbela, por ejemplo, como 22/06/2026.",
+        resetActiveAppointment
+      );
+    }
+  }
+
+  if (isTimeContext(previousAssistant) && looksLikeTimeAnswer(text)) {
+    const time = parseTimeReference(userMessage, { allowPureTime: true });
+
+    if (!time) {
+      return buildPendingChangeReply(
+        "No reconozco esa hora. Escríbela, por ejemplo, como 10:30 o 18:00.",
+        resetActiveAppointment
+      );
+    }
+  }
+
+  if (isNameContext(previousAssistant) && !parseExplicitName(userMessage) && !isValidName(cleanName(userMessage))) {
+    return buildPendingChangeReply(
+      "Necesito un nombre real, sin números ni datos adicionales, para registrar la cita.",
+      resetActiveAppointment
+    );
+  }
+
+  return null;
+}
+
+function looksLikeCalendarAnswer(text) {
+  return (
+    /\d/.test(text) ||
+    /^\d{1,4}(?:[/-]\d{1,2}){1,2}$/.test(text) ||
+    /^\d{1,2}$/.test(text) ||
+    /\b(?:hoy|manana|lunes|martes|miercoles|jueves|viernes|sabado|domingo)\b/.test(text) ||
+    new RegExp(`\\b(?:${Object.keys(MONTH_INDEX).join("|")})\\b`).test(text)
+  );
+}
+
+function looksLikeTimeAnswer(text) {
+  return (
+    /^\d{1,2}(?::|\.|h)\d{0,2}$/.test(text) ||
+    /^\d{1,2}$/.test(text) ||
+    /\b(?:hora|a las|manana|tarde|noche|mediodia|medianoche|cuarto|media)\b/.test(text)
+  );
+}
+
+function isNameContext(message) {
+  return normalizeText(message?.content || "").includes("nombre");
 }
 
 function isPoliteStopRequest(message) {
@@ -562,12 +672,21 @@ function findCustomerName(messages) {
 }
 
 function parseExplicitName(message) {
-  const match = String(message || "").trim().match(/\b(?:me llamo|soy|a nombre de|nombre es)\s+([a-zA-ZÀ-ÿñÑ\s'-]{2,80})/i);
-  return match ? cleanName(match[1]) : null;
+  const match = String(message || "")
+    .trim()
+    .match(
+      /\b(?:me llamo|soy|a nombre de|nombre es)\s+([a-zA-ZÀ-ÿñÑ\s'-]{2,80}?)(?=\s+(?:(?:y\s+)?(?:quiero|querria|necesito|prefiero|reservar|reservame|ponme|para)\b|(?:el|la)\s+(?:servicio|opcion)\b)|[,.;!?¿¡]|$)/i
+    );
+  const candidate = match ? cleanName(match[1]) : null;
+  return isValidName(candidate) ? candidate : null;
 }
 
 function cleanName(rawName) {
   return String(rawName || "")
+    .replace(
+      /\s+(?:(?:y\s+)?(?:quiero|querria|necesito|prefiero|reservar|reservame|ponme|para)\b|(?:el|la)\s+(?:servicio|opcion)\b)[\s\S]*$/i,
+      ""
+    )
     .replace(/[.!,?¿¡]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -575,7 +694,16 @@ function cleanName(rawName) {
 
 function isValidName(name) {
   const normalized = normalizeText(name);
-  return Boolean(name && name.length >= 2 && /^[a-zA-ZÀ-ÿñÑ\s'-]+$/.test(name) && !INVALID_NAMES.has(normalized));
+  const words = normalized.split(" ").filter(Boolean);
+  return Boolean(
+    name &&
+      name.length >= 2 &&
+      name.length <= 80 &&
+      words.length <= 6 &&
+      /^[a-zA-ZÀ-ÿñÑ\s'-]+$/.test(name) &&
+      !INVALID_NAMES.has(normalized) &&
+      !/\b(?:quiero|querria|necesito|reservar|cita|servicio|corte|tinte|peinado|telefono)\b/.test(normalized)
+  );
 }
 
 function findLatestService(messages) {
@@ -735,7 +863,8 @@ function findRecentMonthDate(messages, beforeIndex) {
     }
 
     const text = normalizeText(message.content || "");
-    if (!monthRegex.test(text) && !numericDateRegex.test(text)) {
+    const structuredText = normalizeStructuredText(message.content || "");
+    if (!monthRegex.test(text) && !numericDateRegex.test(structuredText)) {
       continue;
     }
 
@@ -770,6 +899,7 @@ function findLatestTime(messages) {
 function parseDateReference(message, options = {}) {
   const now = madridNow();
   const text = normalizeText(message);
+  const structuredText = normalizeStructuredText(message);
 
   if (!text || isServiceNumberQuestion(text) || (options.serviceContext && isServiceSelectionText(text))) {
     return null;
@@ -787,12 +917,12 @@ function parseDateReference(message, options = {}) {
     return { date: now, source: "relative" };
   }
 
-  const isoMatch = text.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+  const isoMatch = structuredText.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
   if (isoMatch) {
     return buildDate(Number(isoMatch[3]), Number(isoMatch[2]) - 1, Number(isoMatch[1]), "iso");
   }
 
-  const slashMatch = text.match(/\b([0-3]?\d)[/-]([01]?\d)(?:[/-](\d{2,4}))?\b/);
+  const slashMatch = structuredText.match(/\b([0-3]?\d)[/-]([01]?\d)(?:[/-](\d{2,4}))?\b/);
   if (slashMatch) {
     const year = slashMatch[3] ? normalizeYear(Number(slashMatch[3])) : now.getFullYear();
     return buildDate(Number(slashMatch[1]), Number(slashMatch[2]) - 1, year, "numeric");
@@ -851,61 +981,16 @@ function parseDateReference(message, options = {}) {
 }
 
 function parseTimeReference(message, options = {}) {
-  const rawText = String(message || "")
+  return parseSpanishTimeReference(message, options);
+}
+
+function normalizeStructuredText(value) {
+  return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
+    .replace(/\s+/g, " ")
     .trim();
-  const text = normalizeText(message);
-  const prefixedMatch = rawText.match(/\b(?:a\s+las|las|hora|sobre\s+las|a\s+eso\s+de\s+las)\s+([0-2]?\d)(?:[:.h]\s*([0-5]\d))?\b/);
-  const clockMatch = rawText.match(/\b([0-2]?\d)(?:[:.h]\s*([0-5]\d))\b/);
-  const spokenMinuteMatch = rawText.match(/\b(?:a\s+las|las|hora|sobre\s+las|a\s+eso\s+de\s+las)\s+([0-2]?\d)\s+y\s+(?:(\d{1,2})|cuarto|media)\b/);
-  const pureMatch = options.allowPureTime ? text.match(/^([0-2]?\d)$/) : null;
-  const match = spokenMinuteMatch || prefixedMatch || clockMatch || pureMatch;
-
-  if (!match) {
-    return null;
-  }
-
-  let hours = Number(match[1]);
-  const minutes = parseMinuteValue(match[2], match[0]);
-
-  if (minutes === null) {
-    return null;
-  }
-
-  if ((text.includes("tarde") || text.includes("noche")) && hours < 12) {
-    hours += 12;
-  } else if (!text.includes("manana") && hours >= 1 && hours <= 7) {
-    hours += 12;
-  }
-
-  if (hours > 23) {
-    return null;
-  }
-
-  return {
-    value: `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`,
-    hours,
-    minutes
-  };
-}
-
-function parseMinuteValue(rawMinutes, matchedText) {
-  if (rawMinutes) {
-    const minutes = Number(rawMinutes);
-    return minutes >= 0 && minutes <= 59 ? minutes : null;
-  }
-
-  if (matchedText.includes("cuarto")) {
-    return 15;
-  }
-
-  if (matchedText.includes("media")) {
-    return 30;
-  }
-
-  return 0;
 }
 
 function isDateContext(message) {
@@ -916,6 +1001,8 @@ function isDateContext(message) {
     text.includes("dia te viene bien") ||
     text.includes("dia te gustaria") ||
     text.includes("dia te interesa") ||
+    text.includes("nuevo dia") ||
+    text.includes("nueva fecha") ||
     text.includes("fecha futura") ||
     text.includes("viernes") ||
     text.includes("lunes")
@@ -1152,12 +1239,12 @@ function buildValidationReply(error) {
   }
 
   if (error.code === "OUTSIDE_BUSINESS_HOURS") {
-    return "Ese horario queda fuera de nuestra jornada. Abrimos de lunes a viernes de 10:00 a 20:00.";
+    return "Ese horario no permite terminar el servicio antes del cierre. Abrimos de lunes a viernes de 10:00 a 20:00.";
   }
 
   if (error.code === "PAST_DATETIME") {
     return error.message;
   }
 
-  return "Casi lo tengo, pero necesito que me confirmes nombre, servicio, día y hora para dejar la cita bien registrada.";
+  return "Tengo los datos, pero ahora mismo no he podido guardar la cita. No la doy por confirmada; inténtalo de nuevo en unos instantes.";
 }

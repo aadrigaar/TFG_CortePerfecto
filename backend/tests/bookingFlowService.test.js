@@ -261,7 +261,12 @@ test("bookingFlowService avisa si el numero de servicio no existe", async () => 
   assert.match(result.reply, /1\. Corte/i);
 });
 
-test("bookingFlowService entiende dia y hora cortos cuando acaba de pedirlos", async () => {
+test("bookingFlowService entiende dia y hora cortos cuando acaba de pedirlos", async (context) => {
+  context.mock.timers.enable({
+    apis: ["Date"],
+    now: new Date("2026-05-30T10:00:00+02:00")
+  });
+
   const result = await handleBookingFlow({
     userMessage: "resumen",
     history: [
@@ -309,7 +314,12 @@ test("bookingFlowService entiende minutos hablados en la hora", async () => {
   assert.doesNotMatch(result.reply, /18:00/i);
 });
 
-test("bookingFlowService interpreta dia con weekday sin desplazarlo si ya paso", async () => {
+test("bookingFlowService interpreta dia con weekday sin desplazarlo si ya paso", async (context) => {
+  context.mock.timers.enable({
+    apis: ["Date"],
+    now: new Date("2026-05-30T10:00:00+02:00")
+  });
+
   const history = [
     { role: "user", content: "quiero reservar una cita" },
     { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
@@ -504,4 +514,177 @@ test("bookingFlowService deja pasar peticiones informativas aunque haya contexto
   assert.match(preflightReply, /6\. Corte y Tinte/i);
   assert.equal(moreInfoResult, null);
   assert.match(moreInfoReply, /Estas son las opciones de servicio/i);
+});
+
+test("bookingFlowService separa nombre y servicio escritos en la misma frase", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "me llamo Pepe y quiero un corte",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" }
+    ],
+    conversationId: "test-name-and-service"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /Pepe/);
+  assert.match(result.reply, /Corte/);
+  assert.doesNotMatch(result.reply, /Pepe y quiero/i);
+});
+
+test("bookingFlowService respeta negaciones y conserva el ultimo servicio elegido", async () => {
+  const firstResult = await handleBookingFlow({
+    userMessage: "no quiero corte, quiero tinte",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" }
+    ],
+    conversationId: "test-negated-service"
+  });
+
+  const secondResult = await handleBookingFlow({
+    userMessage: "Laura",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
+      { role: "user", content: "no quiero corte, quiero tinte" },
+      { role: "assistant", content: firstResult.reply }
+    ],
+    conversationId: "test-negated-service"
+  });
+
+  assert.match(firstResult.reply, /nombre/i);
+  assert.match(secondResult.reply, /Tinte/);
+  assert.doesNotMatch(secondResult.reply, /Corte y Tinte/);
+});
+
+test("bookingFlowService no cancela ante una negacion o una pregunta informativa", async () => {
+  const history = [
+    { role: "user", content: "quiero reservar una cita" },
+    { role: "assistant", content: "¿A nombre de quién pongo la reserva?" }
+  ];
+
+  const negatedResult = await handleBookingFlow({
+    userMessage: "no quiero cancelar",
+    history,
+    conversationId: "test-no-cancel"
+  });
+  const questionResult = await handleBookingFlow({
+    userMessage: "como puedo cancelar una cita",
+    history,
+    conversationId: "test-cancel-help"
+  });
+
+  assert.equal(negatedResult, null);
+  assert.equal(questionResult, null);
+  assert.match(getPreflightChatReply({ userMessage: "no quiero cancelar", history }), /no cancelo nada/i);
+  assert.match(getPreflightChatReply({ userMessage: "como puedo cancelar una cita", history }), /escribe/i);
+});
+
+test("bookingFlowService rechaza nombres con datos adicionales", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "Pepe y mi telefono es 666123123",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" }
+    ],
+    conversationId: "test-invalid-name-extra-data"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /nombre real/i);
+});
+
+test("bookingFlowService no reutiliza una fecha anterior si la nueva es imposible", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "31/02/2027",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
+      { role: "user", content: "Laura" },
+      { role: "assistant", content: "¿Qué servicio quieres?" },
+      { role: "user", content: "2" },
+      { role: "assistant", content: "¿Qué día te viene bien?" },
+      { role: "user", content: "22/06/2027" },
+      { role: "assistant", content: "Claro. ¿Qué nuevo día te viene bien?" }
+    ],
+    conversationId: "test-invalid-replacement-date"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /no existe|no reconozco/i);
+  assert.doesNotMatch(result.reply, /hora te viene bien/i);
+});
+
+test("bookingFlowService no reutiliza una hora anterior si la nueva es invalida", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "25:90",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
+      { role: "user", content: "Laura" },
+      { role: "assistant", content: "¿Qué servicio quieres?" },
+      { role: "user", content: "2" },
+      { role: "assistant", content: "¿Qué día te viene bien?" },
+      { role: "user", content: "22/06/2027" },
+      { role: "assistant", content: "¿A qué hora te viene bien?" },
+      { role: "user", content: "10:00" },
+      { role: "assistant", content: "Claro. ¿A qué nueva hora te viene bien?" }
+    ],
+    conversationId: "test-invalid-replacement-time"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /no reconozco esa hora/i);
+  assert.doesNotMatch(result.reply, /te apunto/i);
+});
+
+test("bookingFlowService interpreta fechas numericas con barras", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "22/06/2099",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
+      { role: "user", content: "Laura" },
+      { role: "assistant", content: "¿Qué servicio quieres?" },
+      { role: "user", content: "1" },
+      { role: "assistant", content: "¿Qué día te viene bien?" }
+    ],
+    conversationId: "test-numeric-date"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /lunes 22/i);
+  assert.match(result.reply, /hora/i);
+});
+
+test("bookingFlowService no confunde una hora con fecha cuando el aviso menciona lunes y viernes", async () => {
+  const result = await handleBookingFlow({
+    userMessage: "a las 09:00",
+    history: [
+      { role: "user", content: "quiero reservar una cita" },
+      { role: "assistant", content: "¿A nombre de quién pongo la reserva?" },
+      { role: "user", content: "Laura" },
+      { role: "assistant", content: "¿Qué servicio quieres?" },
+      { role: "user", content: "1" },
+      { role: "assistant", content: "¿Qué día te viene bien?" },
+      { role: "user", content: "01/07/2099" },
+      {
+        role: "assistant",
+        content:
+          "Perfecto, para el miercoles 1. ¿A qué hora te viene bien? Abrimos de lunes a viernes de 10:00 a 20:00."
+      }
+    ],
+    conversationId: "test-time-after-weekday-message"
+  });
+
+  assert.equal(result.handled, true);
+  assert.equal(result.saved, false);
+  assert.match(result.reply, /terminar el servicio|10:00 a 20:00/i);
+  assert.doesNotMatch(result.reply, /no reconozco esa fecha/i);
 });

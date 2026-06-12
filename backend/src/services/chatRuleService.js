@@ -1,12 +1,22 @@
 import {
   addDays,
   formatMadridTime,
+  formatSpanishDate,
   formatShortSpanishDate,
   isWeekendDate,
   madridNow,
+  parseSpanishTimeReference,
   toDateInput
 } from "./calendarService.js";
-import { formatNumberedServices, getServiceByOption, normalizeText } from "../config/serviceCatalog.js";
+import {
+  formatNumberedServices,
+  getServiceByOption,
+  normalizeText,
+  resolveService
+} from "../config/serviceCatalog.js";
+
+const BUSINESS_ADDRESS = "Calle Mayor 42, Santander";
+const BUSINESS_PHONE = "+34 942 000 000";
 
 const WEEKDAY_INDEX = {
   domingo: 0,
@@ -39,6 +49,18 @@ export function getPreflightChatReply({ userMessage, history = [] }) {
   const dateReference = parseDateReference(userMessage, now, { allowPureDay: isBookingDateContext(history) });
   const timeReference = parseTimeReference(userMessage, { allowPureTime: isBookingTimeContext(history) });
 
+  if (isPromptInjectionRequest(userMessage)) {
+    return "Solo puedo ayudarte con Corte Perfecto: servicios, precios, horarios, ubicación y gestión de citas.";
+  }
+
+  if (isCancellationHelpRequest(userMessage)) {
+    return 'Para cancelar la cita activa, escribe "cancelar mi cita". Te pediré una nueva fecha si después quieres reservar otra.';
+  }
+
+  if (isNegatedCancellation(userMessage)) {
+    return "Entendido, no cancelo nada. Tu cita activa se mantiene sin cambios.";
+  }
+
   if (dateReference?.date && isPastDate(dateReference.date, now)) {
     return buildPastDateReply(dateReference.date, now);
   }
@@ -64,11 +86,54 @@ export function getPreflightChatReply({ userMessage, history = [] }) {
     return `Esa opcion no existe. Elige un numero del 1 al 7:\n${formatNumberedServices()}`;
   }
 
-  if (isServiceInfoRequest(userMessage) || isScheduleInfoRequest(userMessage)) {
+  const serviceInformation = buildSpecificServiceReply(userMessage);
+  if (serviceInformation) {
+    return serviceInformation;
+  }
+
+  if (isLocationRequest(userMessage)) {
+    return `Estamos en ${BUSINESS_ADDRESS}.`;
+  }
+
+  if (isContactRequest(userMessage)) {
+    return `Puedes llamarnos al ${BUSINESS_PHONE}. Nuestro horario es de lunes a viernes de 10:00 a 20:00.`;
+  }
+
+  if (isTodayRequest(userMessage)) {
+    return `Hoy es ${formatSpanishDate(now)} y ahora son las ${formatMadridTime(now)} en Santander.`;
+  }
+
+  if (isScheduleInfoRequest(userMessage)) {
+    return "Nuestro horario es de lunes a viernes de 10:00 a 20:00. Sabados y domingos cerramos por descanso.";
+  }
+
+  if (isServiceInfoRequest(userMessage)) {
     return buildInformationReply();
   }
 
+  if (isGreeting(userMessage)) {
+    return "¡Hola! Puedo ayudarte con servicios, precios y horarios, o reservar, modificar y cancelar una cita.";
+  }
+
+  if (isHelpRequest(userMessage)) {
+    return buildCapabilitiesReply();
+  }
+
   return null;
+}
+
+export function buildSafeFallbackReply({ userMessage = "" } = {}) {
+  const text = normalizeText(userMessage);
+
+  if (text) {
+    return [
+      "No he podido interpretar esa pregunta con suficiente seguridad.",
+      "Puedo ayudarte con servicios, precios, horarios, ubicación o una cita.",
+      'Por ejemplo: "quiero reservar", "qué servicios tenéis" o "cuál es vuestro horario".'
+    ].join("\n");
+  }
+
+  return buildCapabilitiesReply();
 }
 
 export function enrichNumericServiceSelection(userMessage, history = []) {
@@ -118,6 +183,9 @@ function isServiceInfoRequest(message) {
     "precios",
     "precio",
     "cuanto vale",
+    "cuanto cuesta",
+    "cuanto dura",
+    "duracion",
     "catalogo",
     "que teneis",
     "que haceis",
@@ -135,10 +203,75 @@ function isScheduleInfoRequest(message) {
     "horario",
     "hora abris",
     "cuando abris",
+    "abris manana",
+    "abris hoy",
+    "abre manana",
+    "abre hoy",
+    "dias abris",
     "apertura",
     "esta abierto",
     "abierto"
   ].some((keyword) => text.includes(keyword));
+}
+
+function buildSpecificServiceReply(message) {
+  const text = normalizeText(message);
+  const service = resolveService(message);
+
+  if (
+    !service ||
+    !/\b(?:precio|cuesta|vale|coste|dura|duracion|tarda|incluye|consiste|informacion|detalle)\b/.test(text)
+  ) {
+    return null;
+  }
+
+  return `${service.label}: ${service.price} euros y ${service.duration} minutos aproximadamente.`;
+}
+
+function isLocationRequest(message) {
+  const text = normalizeText(message);
+  return /\b(?:donde estais|donde queda|ubicacion|direccion|como llego|en que calle)\b/.test(text);
+}
+
+function isContactRequest(message) {
+  const text = normalizeText(message);
+  return /\b(?:telefono|llamar|contacto|numero de telefono)\b/.test(text);
+}
+
+function isTodayRequest(message) {
+  const text = normalizeText(message);
+  return /\b(?:que dia es hoy|fecha de hoy|a cuanto estamos|que hora es)\b/.test(text);
+}
+
+function isGreeting(message) {
+  const text = normalizeText(message);
+  return /^(?:hola|ola|buenas|buenos dias|buenas tardes|buenas noches|hey)(?:\s+que tal)?[!.?]*$/.test(text);
+}
+
+function isHelpRequest(message) {
+  const text = normalizeText(message);
+  return /\b(?:que puedes hacer|en que me ayudas|ayuda|como funciona|opciones del chat)\b/.test(text);
+}
+
+function isCancellationHelpRequest(message) {
+  const text = normalizeText(message);
+  return (
+    /\b(?:como|donde|cuando)\s+(?:puedo\s+)?(?:cancelar|anular|borrar|eliminar)\b/.test(text) ||
+    /\b(?:puedo|se puede)\s+(?:cancelar|anular|borrar|eliminar)\b/.test(text)
+  );
+}
+
+function isNegatedCancellation(message) {
+  const text = normalizeText(message);
+  return /\b(?:no|nunca)\s+(?:quiero\s+)?(?:cancelar|anular|borrar|eliminar)\b/.test(text);
+}
+
+function isPromptInjectionRequest(message) {
+  const text = normalizeText(message);
+  return (
+    /\b(?:ignora|olvida|saltate)\b.*\b(?:instrucciones|reglas|prompt)\b/.test(text) ||
+    /\b(?:system prompt|prompt del sistema|instrucciones internas|revela tu prompt)\b/.test(text)
+  );
 }
 
 function isBookingDateContext(history) {
@@ -224,8 +357,16 @@ function buildInformationReply() {
   ].join("\n");
 }
 
+function buildCapabilitiesReply() {
+  return [
+    "Puedo mostrarte los servicios, precios, duración y horario de Corte Perfecto.",
+    "También puedo registrar una cita, cambiar sus datos o cancelar la cita activa."
+  ].join("\n");
+}
+
 function parseDateReference(message, now, options = {}) {
   const text = normalizeText(message);
+  const structuredText = normalizeStructuredText(message);
 
   if (!text || isServiceNumberQuestion(text)) {
     return null;
@@ -243,12 +384,12 @@ function parseDateReference(message, now, options = {}) {
     return { date: now, source: "relative" };
   }
 
-  const isoMatch = text.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+  const isoMatch = structuredText.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
   if (isoMatch) {
     return buildDate(Number(isoMatch[3]), Number(isoMatch[2]) - 1, Number(isoMatch[1]), "iso");
   }
 
-  const slashMatch = text.match(/\b([0-3]?\d)[/-]([01]?\d)(?:[/-](\d{2,4}))?\b/);
+  const slashMatch = structuredText.match(/\b([0-3]?\d)[/-]([01]?\d)(?:[/-](\d{2,4}))?\b/);
   if (slashMatch) {
     const year = slashMatch[3] ? normalizeYear(Number(slashMatch[3])) : now.getFullYear();
     return buildDate(Number(slashMatch[1]), Number(slashMatch[2]) - 1, year, "numeric");
@@ -308,57 +449,16 @@ function isServiceNumberQuestion(text) {
 }
 
 function parseTimeReference(message, options = {}) {
-  const rawText = String(message || "")
+  return parseSpanishTimeReference(message, options);
+}
+
+function normalizeStructuredText(value) {
+  return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
+    .replace(/\s+/g, " ")
     .trim();
-  const text = normalizeText(message);
-  const prefixedMatch = rawText.match(/\b(?:a\s+las|las|hora|sobre\s+las|a\s+eso\s+de\s+las)\s+([0-2]?\d)(?:[:.h]\s*([0-5]\d))?\b/);
-  const clockMatch = rawText.match(/\b([0-2]?\d)(?:[:.h]\s*([0-5]\d))\b/);
-  const spokenMinuteMatch = rawText.match(/\b(?:a\s+las|las|hora|sobre\s+las|a\s+eso\s+de\s+las)\s+([0-2]?\d)\s+y\s+(?:(\d{1,2})|cuarto|media)\b/);
-  const pureMatch = options.allowPureTime ? text.match(/^([0-2]?\d)$/) : null;
-  const match = spokenMinuteMatch || prefixedMatch || clockMatch || pureMatch;
-
-  if (!match) {
-    return null;
-  }
-
-  let hours = Number(match[1]);
-  const minutes = parseMinuteValue(match[2], match[0]);
-
-  if (minutes === null) {
-    return null;
-  }
-
-  if ((text.includes("tarde") || text.includes("noche")) && hours < 12) {
-    hours += 12;
-  } else if (!text.includes("manana") && hours >= 1 && hours <= 7) {
-    hours += 12;
-  }
-
-  if (hours > 23) {
-    return null;
-  }
-
-  return { hours, minutes };
-}
-
-function parseMinuteValue(rawMinutes, matchedText) {
-  if (rawMinutes) {
-    const minutes = Number(rawMinutes);
-    return minutes >= 0 && minutes <= 59 ? minutes : null;
-  }
-
-  if (matchedText.includes("cuarto")) {
-    return 15;
-  }
-
-  if (matchedText.includes("media")) {
-    return 30;
-  }
-
-  return 0;
 }
 
 function buildCurrentOrNextMonthDate(day, now) {

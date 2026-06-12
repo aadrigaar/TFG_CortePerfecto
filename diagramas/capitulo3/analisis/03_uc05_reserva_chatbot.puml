@@ -1,5 +1,4 @@
 @startuml
-title Análisis UC-05 - Reserva de cita por chatbot
 scale max 1800 width
 skinparam shadowing false
 skinparam roundcorner 12

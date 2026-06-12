@@ -1,5 +1,4 @@
 @startuml
-title Análisis UC-10 - Inicio de sesión del administrador
 scale max 1500 width
 skinparam shadowing false
 skinparam roundcorner 12

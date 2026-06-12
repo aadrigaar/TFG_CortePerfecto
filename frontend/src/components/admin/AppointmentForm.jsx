@@ -1,8 +1,9 @@
 import { Save, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { serviceApi } from "../../services/api.js";
 import { todayInputValue } from "../../utils/format.js";
 
-const serviceOptions = [
+const fallbackServiceOptions = [
   "Corte",
   "Tinte",
   "Peinado",
@@ -24,12 +25,33 @@ const defaultValues = {
 };
 
 export default function AppointmentForm({ initialValues = null, onSubmit, onCancel }) {
+  const [serviceOptions, setServiceOptions] = useState(fallbackServiceOptions);
   const [values, setValues] = useState({
     ...defaultValues,
     ...initialValues
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    serviceApi
+      .list()
+      .then((response) => {
+        const options = response.data.services.map((service) => service.label);
+        if (mounted && options.length > 0) {
+          setServiceOptions(options);
+        }
+      })
+      .catch(() => {
+        // Keep the form available with the known catalog if the API cannot be reached.
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   function updateField(field, value) {
     setValues((current) => ({ ...current, [field]: value }));
@@ -122,4 +144,3 @@ export default function AppointmentForm({ initialValues = null, onSubmit, onCanc
     </form>
   );
 }
-

@@ -4,6 +4,7 @@ import {
   formatShortSpanishDate,
   getWeekdayName,
   isWeekendDateString,
+  parseSpanishTimeReference,
   toDateInput
 } from "../src/services/calendarService.js";
 
@@ -19,4 +20,12 @@ test("calendarService formatea fechas de forma estable para el chat", () => {
   assert.equal(toDateInput(monday), "2099-06-22");
   assert.equal(getWeekdayName("2099-06-22"), "lunes");
   assert.equal(formatShortSpanishDate(monday), "lunes 22");
+});
+
+test("calendarService interpreta horas naturales en español", () => {
+  assert.equal(parseSpanishTimeReference("a las seis y media de la tarde").value, "18:30");
+  assert.equal(parseSpanishTimeReference("a las diez menos cuarto").value, "09:45");
+  assert.equal(parseSpanishTimeReference("mediodía").value, "12:00");
+  assert.equal(parseSpanishTimeReference("ocho", { allowPureTime: true }).value, "08:00");
+  assert.equal(parseSpanishTimeReference("a las 25:90"), null);
 });

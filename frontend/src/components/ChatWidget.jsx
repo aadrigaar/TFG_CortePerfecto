@@ -8,6 +8,7 @@ const initialMessage = {
   content:
     "¡Hola! Soy el asistente virtual de Corte Perfecto. Puedo ayudarte a reservar una cita o resolver tus dudas.\n\n¿En que puedo ayudarte hoy?"
 };
+const MAX_MESSAGE_LENGTH = 1200;
 
 function createConversationId() {
   return `chat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -21,6 +22,7 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
   const [activeAppointment, setActiveAppointment] = useState(null);
   const conversationId = useRef(createConversationId());
   const messagesEndRef = useRef(null);
+  const sendingRef = useRef(false);
 
   const isOpen = forcedOpen || open;
 
@@ -51,10 +53,11 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
   async function sendMessage(customMessage) {
     const text = String(customMessage || input).trim();
 
-    if (!text || loading) {
+    if (!text || loading || sendingRef.current) {
       return;
     }
 
+    sendingRef.current = true;
     const userMessage = { role: "user", content: text };
     setMessages((current) => [...current, userMessage]);
     setInput("");
@@ -80,7 +83,7 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
         ...current,
         {
           role: "assistant",
-          content: reply,
+          content: String(reply || "No he podido generar una respuesta segura. Prueba a reformular la pregunta."),
           appointment: appointment || null
         }
       ]);
@@ -90,6 +93,7 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
         "Ahora mismo no puedo contactar con el asistente local. Revisa LM Studio y vuelve a intentarlo.";
       setMessages((current) => [...current, { role: "assistant", content: message, isError: true }]);
     } finally {
+      sendingRef.current = false;
       setLoading(false);
     }
   }
@@ -122,8 +126,8 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
             {messages.map((message, index) => (
               <div key={`${message.role}-${index}`} className={`chat-row ${message.role}`}>
                 <div className="chat-bubble">
-                  {message.content.split("\n").map((line) => (
-                    <p key={line}>{line}</p>
+                  {message.content.split("\n").map((line, lineIndex) => (
+                    <p key={`${index}-${lineIndex}`}>{line || "\u00a0"}</p>
                   ))}
                   {message.appointment ? <AppointmentSummary appointment={message.appointment} /> : null}
                 </div>
@@ -152,9 +156,15 @@ export default function ChatWidget({ forcedOpen = false, onCloseRequest }) {
               type="text"
               placeholder="Escribe tu mensaje..."
               value={input}
+              maxLength={MAX_MESSAGE_LENGTH}
               onChange={(event) => setInput(event.target.value)}
             />
-            <button className="send-button" type="submit" aria-label="Enviar mensaje" disabled={loading}>
+            <button
+              className="send-button"
+              type="submit"
+              aria-label="Enviar mensaje"
+              disabled={loading || !input.trim()}
+            >
               <Send size={20} />
             </button>
           </form>

@@ -90,6 +90,28 @@ test("appointmentService rechaza fin de semana, hora fuera de horario y nombres 
       }),
     { code: "INVALID_CUSTOMER_NAME" }
   );
+
+  await assert.rejects(
+    () =>
+      createAppointment({
+        customerName: "no",
+        service: "Corte",
+        date: "2099-06-22",
+        time: "10:00"
+      }),
+    { code: "INVALID_CUSTOMER_NAME" }
+  );
+
+  await assert.rejects(
+    () =>
+      createAppointment({
+        customerName: "Pepe quiero corte",
+        service: "Corte",
+        date: "2099-06-22",
+        time: "10:00"
+      }),
+    { code: "INVALID_CUSTOMER_NAME" }
+  );
 });
 
 test("appointmentService evita solapes entre citas activas", async () => {
@@ -144,4 +166,55 @@ test("serviceCatalogService sincroniza el catalogo oficial en la coleccion servi
   assert.equal(services[5].label, "Corte y Tinte");
   assert.equal(services[5].price, 60);
   assert.equal(services[5].duration, 90);
+});
+
+test("appointmentService vincula las modificaciones del chat a su conversacion", async () => {
+  const appointment = await createAppointment(
+    {
+      customerName: "Adrian",
+      service: "Corte",
+      date: "2099-06-22",
+      time: "14:00",
+      conversationId: "chat-owner"
+    },
+    "chat"
+  );
+
+  await assert.rejects(
+    () =>
+      updateAppointment(
+        appointment.id,
+        { time: "15:00", source: "chat" },
+        { expectedConversationId: "chat-other" }
+      ),
+    { code: "APPOINTMENT_NOT_FOUND" }
+  );
+
+  const updated = await updateAppointment(
+    appointment.id,
+    { time: "15:00", source: "chat" },
+    { expectedConversationId: "chat-owner" }
+  );
+  assert.equal(updated.time, "15:00");
+});
+
+test("appointmentService serializa reservas simultaneas para impedir solapes", async () => {
+  const attempts = await Promise.allSettled([
+    createAppointment({
+      customerName: "Adrian",
+      service: "Corte",
+      date: "2099-06-23",
+      time: "10:00"
+    }),
+    createAppointment({
+      customerName: "Laura",
+      service: "Peinado",
+      date: "2099-06-23",
+      time: "10:10"
+    })
+  ]);
+
+  assert.equal(attempts.filter((attempt) => attempt.status === "fulfilled").length, 1);
+  assert.equal(attempts.filter((attempt) => attempt.status === "rejected").length, 1);
+  assert.equal(attempts.find((attempt) => attempt.status === "rejected").reason.code, "SLOT_UNAVAILABLE");
 });

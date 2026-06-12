@@ -1,5 +1,4 @@
 @startuml
-title Análisis UC-09 - Modificar reserva activa por chat
 scale max 1700 width
 skinparam shadowing false
 skinparam roundcorner 12

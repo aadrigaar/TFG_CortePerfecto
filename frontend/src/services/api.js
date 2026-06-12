@@ -55,6 +55,10 @@ export const chatApi = {
   send: (payload) => api.post("/chat", payload)
 };
 
+export const serviceApi = {
+  list: () => api.get("/services")
+};
+
 export const appointmentApi = {
   list: (params = {}) => api.get("/appointments", { params }),
   stats: () => api.get("/appointments/stats"),

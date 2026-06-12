@@ -1,5 +1,4 @@
 @startuml
-title Análisis UC-12/13/14/15/16 - Gestión administrativa de citas
 scale max 1800 width
 skinparam shadowing false
 skinparam roundcorner 12

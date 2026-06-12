@@ -15,6 +15,9 @@ const INVALID_NAMES = new Set([
   "test",
   "prueba",
   "nada",
+  "no",
+  "cancelar",
+  "anular",
   "sin nombre",
   "anonimo",
   "anónimo"
@@ -22,6 +25,7 @@ const INVALID_NAMES = new Set([
 const ACTIVE_STATUSES = ["pending", "confirmed"];
 const OPEN_MINUTES = 10 * 60;
 const CLOSE_MINUTES = 20 * 60;
+let appointmentWriteQueue = Promise.resolve();
 
 export async function listAppointments(filters = {}) {
   const query = {};
@@ -61,46 +65,57 @@ export async function getAppointmentById(id) {
   return appointment;
 }
 
-export async function createAppointment(payload, source = "admin") {
-  const data = buildAppointmentData(payload, source);
-  await assertSlotAvailable(data.startsAt, data.endsAt);
-  return Appointment.create(data);
+export function createAppointment(payload, source = "admin") {
+  return withAppointmentWriteLock(async () => {
+    const data = buildAppointmentData(payload, source);
+    await assertSlotAvailable(data.startsAt, data.endsAt);
+    return Appointment.create(data);
+  });
 }
 
-export async function updateAppointment(id, payload) {
-  assertObjectId(id);
-  const existing = await Appointment.findById(id);
+export function updateAppointment(id, payload, options = {}) {
+  return withAppointmentWriteLock(async () => {
+    assertObjectId(id);
+    const existing = await Appointment.findById(id);
 
-  if (!existing) {
-    throw new AppError("Cita no encontrada", 404, "APPOINTMENT_NOT_FOUND");
-  }
+    if (!existing) {
+      throw new AppError("Cita no encontrada", 404, "APPOINTMENT_NOT_FOUND");
+    }
 
-  const merged = {
-    customerName: payload.customerName ?? existing.customerName,
-    service: payload.service ?? existing.service,
-    date: payload.date ?? existing.date,
-    time: payload.time ?? existing.time,
-    status: payload.status ?? existing.status,
-    notes: payload.notes ?? existing.notes,
-    conversationId: payload.conversationId ?? existing.conversationId,
-    source: payload.source ?? existing.source
-  };
+    if (
+      Object.hasOwn(options, "expectedConversationId") &&
+      (!options.expectedConversationId || existing.conversationId !== options.expectedConversationId)
+    ) {
+      throw new AppError("Cita activa no encontrada para esta conversación", 404, "APPOINTMENT_NOT_FOUND");
+    }
 
-  const data = buildAppointmentData(merged, merged.source);
+    const merged = {
+      customerName: payload.customerName ?? existing.customerName,
+      service: payload.service ?? existing.service,
+      date: payload.date ?? existing.date,
+      time: payload.time ?? existing.time,
+      status: payload.status ?? existing.status,
+      notes: payload.notes ?? existing.notes,
+      conversationId: payload.conversationId ?? existing.conversationId,
+      source: payload.source ?? existing.source
+    };
 
-  if (merged.status) {
-    data.status = merged.status;
-  }
+    const data = buildAppointmentData(merged, merged.source);
 
-  if (typeof merged.notes === "string") {
-    data.notes = merged.notes;
-  }
+    if (merged.status) {
+      data.status = merged.status;
+    }
 
-  await assertSlotAvailable(data.startsAt, data.endsAt, id);
+    if (typeof merged.notes === "string") {
+      data.notes = merged.notes;
+    }
 
-  Object.assign(existing, data);
-  await existing.save();
-  return existing;
+    await assertSlotAvailable(data.startsAt, data.endsAt, id);
+
+    Object.assign(existing, data);
+    await existing.save();
+    return existing;
+  });
 }
 
 export async function deleteAppointment(id) {
@@ -172,8 +187,15 @@ function buildAppointmentData(payload, source) {
 function validateCustomerName(rawName) {
   const name = String(rawName || "").trim().replace(/\s+/g, " ");
   const normalized = name.toLowerCase();
+  const words = normalized.split(" ").filter(Boolean);
 
-  if (name.length < 2 || INVALID_NAMES.has(normalized)) {
+  if (
+    name.length < 2 ||
+    name.length > 80 ||
+    words.length > 6 ||
+    INVALID_NAMES.has(normalized) ||
+    /\b(?:quiero|querria|necesito|reservar|cita|servicio|corte|tinte|peinado|telefono)\b/.test(normalized)
+  ) {
     throw new AppError("Necesito un nombre real para registrar la cita.", 400, "INVALID_CUSTOMER_NAME");
   }
 
@@ -254,4 +276,10 @@ function assertObjectId(id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new AppError("Identificador no valido", 400, "INVALID_ID");
   }
+}
+
+function withAppointmentWriteLock(operation) {
+  const result = appointmentWriteQueue.then(operation, operation);
+  appointmentWriteQueue = result.catch(() => {});
+  return result;
 }

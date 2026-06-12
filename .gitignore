@@ -25,5 +25,11 @@ scripts/
 
 # Material de apoyo y ejemplos que no forman parte del proyecto entregable.
 repos/
+_apa_work/
 Ejemplo Capítulo 2 - Pablo Cantero.pdf
 Ejemplo Capítulo 3 - Pablo Cantero.pdf
+
+# Copias finales personales. Los capítulos académicos versionados se conservan.
+entregas/TFG_AdriánGarcíaArranz.docx
+entregas/TFG_AdriánGarcíaArranz.pdf
+entregas/TFG_AdriánGarcíaArranz_before_chat_hardening.docx

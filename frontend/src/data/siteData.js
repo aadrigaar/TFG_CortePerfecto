@@ -12,6 +12,7 @@ import {
 
 export const services = [
   {
+    key: "corte",
     name: "Corte",
     title: "Corte",
     description: "Corte clasico o moderno adaptado a tu estilo. Incluye lavado y acabado final con productos profesionales.",
@@ -21,6 +22,7 @@ export const services = [
     popular: false
   },
   {
+    key: "tinte",
     name: "Tinte",
     title: "Tinte",
     description: "Coloracion profesional con las mejores marcas del mercado. Resultados naturales y duraderos.",
@@ -30,6 +32,7 @@ export const services = [
     popular: true
   },
   {
+    key: "peinado",
     name: "Peinado",
     title: "Peinado",
     description: "Peinado para cualquier ocasion, desde el dia a dia hasta eventos especiales. Tu decides el look.",
@@ -42,6 +45,7 @@ export const services = [
 
 export const combos = [
   {
+    key: "corte-peinado",
     name: "Corte y Peinado",
     services: "Corte + Peinado",
     price: 35,
@@ -49,6 +53,7 @@ export const combos = [
     Icon: Sparkles
   },
   {
+    key: "tinte-peinado",
     name: "Tinte y Peinado",
     services: "Tinte + Peinado",
     price: 55,
@@ -56,6 +61,7 @@ export const combos = [
     Icon: BadgeCheck
   },
   {
+    key: "corte-tinte",
     name: "Corte y Tinte",
     services: "Corte + Tinte",
     price: 60,
@@ -64,6 +70,7 @@ export const combos = [
     Icon: Star
   },
   {
+    key: "corte-tinte-peinado",
     name: "Corte + Tinte + Peinado",
     services: "Corte + Tinte + Peinado",
     price: 75,
@@ -71,6 +78,35 @@ export const combos = [
     Icon: Crown
   }
 ];
+
+export function mergeServiceCatalog(catalog = []) {
+  const catalogByKey = new Map(catalog.map((service) => [service.key, service]));
+
+  return {
+    services: services.map((service) => {
+      const catalogService = catalogByKey.get(service.key);
+      return catalogService
+        ? {
+            ...service,
+            name: catalogService.label,
+            title: catalogService.label,
+            price: catalogService.price,
+            duration: catalogService.duration
+          }
+        : service;
+    }),
+    combos: combos.map((combo) => {
+      const catalogService = catalogByKey.get(combo.key);
+      return catalogService
+        ? {
+            ...combo,
+            name: catalogService.label,
+            price: catalogService.price
+          }
+        : combo;
+    })
+  };
+}
 
 export const features = [
   {
@@ -125,4 +161,3 @@ export const contact = {
   location: "Santander, Cantabria",
   Icon: MapPin
 };
-

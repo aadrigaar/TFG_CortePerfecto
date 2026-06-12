@@ -1,16 +1,48 @@
 import { CalendarCheck, ChevronRight, MapPin, Phone, Scissors, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatWidget from "../components/ChatWidget.jsx";
 import ComboCard from "../components/ComboCard.jsx";
 import SectionBadge from "../components/SectionBadge.jsx";
 import ServiceCard from "../components/ServiceCard.jsx";
 import SiteHeader from "../components/SiteHeader.jsx";
 import Brand from "../components/Brand.jsx";
-import { combos, contact, features, services, testimonials } from "../data/siteData.js";
+import {
+  combos as fallbackCombos,
+  contact,
+  features,
+  mergeServiceCatalog,
+  services as fallbackServices,
+  testimonials
+} from "../data/siteData.js";
+import { serviceApi } from "../services/api.js";
 import { formatCurrency } from "../utils/format.js";
 
 export default function HomePage() {
   const [chatOpen, setChatOpen] = useState(false);
+  const [catalog, setCatalog] = useState({
+    services: fallbackServices,
+    combos: fallbackCombos
+  });
+  const { services, combos } = catalog;
+
+  useEffect(() => {
+    let mounted = true;
+
+    serviceApi
+      .list()
+      .then((response) => {
+        if (mounted) {
+          setCatalog(mergeServiceCatalog(response.data.services));
+        }
+      })
+      .catch(() => {
+        // The static presentation data keeps the public page usable if the API is unavailable.
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <div className="public-shell">
@@ -211,4 +243,3 @@ export default function HomePage() {
     </div>
   );
 }
-

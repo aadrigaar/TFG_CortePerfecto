@@ -15,12 +15,17 @@ function extractCustomerReply(content) {
   const markerIndex = content.lastIndexOf(marker);
   const selected = markerIndex >= 0 ? content.slice(markerIndex + marker.length) : content;
 
-  return selected
+  const reply = selected
     .replace(/```json[\s\S]*?```/gi, "")
     .replace(/```[\s\S]*?```/gi, "")
     .replace(/\{[\s\S]*"nombre"[\s\S]*\}/gi, "")
     .replace(/### RESPUESTA:/gi, "")
+    .replace(/<\|(?:system|assistant|user)\|>/gi, "")
+    .replace(/\u0000/g, "")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
+
+  return reply.slice(0, 1800).trim();
 }
 
 function extractAppointmentJson(content) {
@@ -54,4 +59,3 @@ function extractAppointmentJson(content) {
 
   return null;
 }
-

@@ -3,19 +3,16 @@ import { askLmStudio } from "../services/lmStudioService.js";
 import { parseAssistantResponse } from "../services/responseParserService.js";
 import { createAppointment, updateAppointment } from "../services/appointmentService.js";
 import { handleBookingFlow } from "../services/bookingFlowService.js";
-import { enrichNumericServiceSelection, getPreflightChatReply } from "../services/chatRuleService.js";
+import {
+  buildSafeFallbackReply,
+  enrichNumericServiceSelection,
+  getPreflightChatReply
+} from "../services/chatRuleService.js";
+import { normalizeChatRequest } from "../services/chatRequestService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { AppError } from "../utils/AppError.js";
 
 export const chat = asyncHandler(async (req, res) => {
-  const userMessage = String(req.body.message || "").trim();
-  const history = Array.isArray(req.body.history) ? req.body.history : [];
-  const conversationId = String(req.body.conversationId || "");
-  const activeAppointmentId = req.body.activeAppointmentId || null;
-
-  if (!userMessage) {
-    throw new AppError("El mensaje no puede estar vacio", 400, "EMPTY_MESSAGE");
-  }
+  const { userMessage, history, conversationId, activeAppointmentId } = normalizeChatRequest(req.body);
 
   const bookingFlow = await handleBookingFlow({ userMessage, history, conversationId, activeAppointmentId });
   if (bookingFlow?.handled) {
@@ -43,12 +40,28 @@ export const chat = asyncHandler(async (req, res) => {
 
   const enrichedUserMessage = enrichNumericServiceSelection(userMessage, history);
   const messages = buildChatMessages({ history, userMessage: enrichedUserMessage });
-  const rawAssistantResponse = await askLmStudio(messages);
+  let rawAssistantResponse;
+
+  try {
+    rawAssistantResponse = await askLmStudio(messages);
+  } catch (error) {
+    res.json({
+      success: true,
+      reply: buildSafeFallbackReply({ userMessage }),
+      saved: false,
+      appointment: null,
+      resetActiveAppointment: false,
+      degraded: true,
+      reason: error.code || "LMSTUDIO_UNAVAILABLE"
+    });
+    return;
+  }
+
   const parsed = parseAssistantResponse(rawAssistantResponse);
 
   let appointment = null;
   let saved = false;
-  let reply = parsed.reply || "Perdona, no te he entendido bien. ¿Me lo repites?";
+  let reply = parsed.reply || buildSafeFallbackReply({ userMessage });
 
   if (parsed.appointmentCandidate && !conversationHasExplicitTime([...history, { role: "user", content: userMessage }])) {
     reply = "Perfecto, ya tengo casi todo. ¿A que hora te viene bien? Abrimos de lunes a viernes de 10:00 a 20:00.";
@@ -60,7 +73,11 @@ export const chat = asyncHandler(async (req, res) => {
       };
 
       appointment = activeAppointmentId
-        ? await updateAppointment(activeAppointmentId, { ...payload, source: "chat" })
+        ? await updateAppointment(
+            activeAppointmentId,
+            { ...payload, source: "chat" },
+            { expectedConversationId: conversationId }
+          )
         : await createAppointment(payload, "chat");
 
       saved = true;
@@ -92,14 +109,14 @@ function buildBusinessValidationReply(error) {
   }
 
   if (error.code === "OUTSIDE_BUSINESS_HOURS") {
-    return "Ese horario queda fuera de nuestra jornada. Abrimos de lunes a viernes de 10:00 a 20:00.";
+    return "Ese horario no permite terminar el servicio antes del cierre. Abrimos de lunes a viernes de 10:00 a 20:00.";
   }
 
   if (error.code === "PAST_DATETIME") {
     return error.message;
   }
 
-  return "Casi lo tengo, pero necesito que me confirmes nombre, servicio, dia y hora para dejar la cita bien registrada.";
+  return "Tengo los datos, pero ahora mismo no he podido guardar la cita. No la doy por confirmada; inténtalo de nuevo en unos instantes.";
 }
 
 function conversationHasExplicitTime(history) {
