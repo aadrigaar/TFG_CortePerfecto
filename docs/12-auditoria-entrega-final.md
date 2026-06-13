@@ -110,11 +110,13 @@ Se conservan:
 - Artefactos RUP.
 - Documentación y material de defensa.
 
-Se retiran de la versión pública:
+Se retiran del árbol actual de `main`:
 
 - D0 y D1, porque son propuestas administrativas históricas, duplican información ya consolidada y contienen datos personales innecesarios para la defensa.
 - Copias personales del DOCX final y respaldos, que permanecen ignorados localmente.
 - Entornos, dependencias, secretos, temporales y material externo de ejemplo.
+
+Como ocurre en cualquier repositorio Git sin reescritura de historial, versiones anteriores pueden seguir consultándose desde commits históricos. La defensa debe realizarse desde el estado actual de `main`.
 
 ## 9. Resultado de la revisión
 
