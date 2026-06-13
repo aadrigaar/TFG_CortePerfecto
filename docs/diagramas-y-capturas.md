@@ -39,7 +39,7 @@ Todos los diagramas técnicos conservan su fuente PlantUML en `diagramas/`. Las 
 | Artefacto | Imagen | Fuente |
 | --- | --- | --- |
 | Contexto de navegación por casos de uso | [Abrir](../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png) | [PlantUML](../diagramas/capitulo4/02_contexto_navegacion_casos_uso.puml) |
-| Mapa de navegación | [Abrir](../diagramas/capitulo4/imagenes/figura_4_1_mapa_navegacion.png) | [PlantUML](../diagramas/capitulo4/01_diagrama_contexto_navegacion.puml) |
+| Mapa visual de la solución | [Abrir](../diagramas/capitulo4/imagenes/figura_4_1_mapa_navegacion.png) | Imagen de apoyo |
 | Flujo de reserva | [Abrir](../diagramas/capitulo4/imagenes/figura_4_9_flujo_reserva.png) | Imagen de implementación |
 
 ## Capturas del producto

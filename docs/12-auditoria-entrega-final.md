@@ -113,6 +113,7 @@ Se conservan:
 Se retiran del árbol actual de `main`:
 
 - D0 y D1, porque son propuestas administrativas históricas, duplican información ya consolidada y contienen datos personales innecesarios para la defensa.
+- Variantes antiguas y no enlazadas del diagrama de navegación; se conserva la versión bidireccional trazada con UC-01 a UC-17 y su fuente PlantUML.
 - Copias personales del DOCX final y respaldos, que permanecen ignorados localmente.
 - Entornos, dependencias, secretos, temporales y material externo de ejemplo.
 

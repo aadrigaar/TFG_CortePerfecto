@@ -2,26 +2,29 @@
 
 Este índice permite recorrer Corte Perfecto con tres niveles de profundidad: visión para el tribunal, explicación técnica y evidencia verificable.
 
-## Ruta recomendada
+## Ruta de exposición por capítulos
 
-| Orden | Documento | Qué aporta |
-| --- | --- | --- |
-| 1 | [Defensa paso a paso](00-defensa-paso-a-paso.md) | Recorrido exacto de 20 minutos, pantallas, frases y contingencias. |
-| 2 | [PDF final entregado](../entregas/TFG_AdriánGarcíaArranz.pdf) | Fuente académica oficial de 100 páginas. |
-| 3 | [Memoria completa por capítulos](capitulos/README.md) | Versión de apoyo navegable de los cinco capítulos y referencias. |
-| 4 | [Proyecto y objetivos](01-proyecto-y-objetivos.md) | Problema, propuesta, actores, alcance y metodología. |
-| 5 | [Arquitectura y decisiones](02-arquitectura-y-decisiones.md) | Capas, módulos, flujos y justificación del stack. |
-| 6 | [Instalación y ejecución](03-instalacion-y-ejecucion.md) | Preparación reproducible del entorno. |
-| 7 | [API y datos](04-api-y-datos.md) | Endpoints, modelos, estados y ejemplos. |
-| 8 | [Chatbot y reglas](05-chatbot-y-reglas.md) | Diseño híbrido, procesamiento y contingencias. |
-| 9 | [Calidad, seguridad y pruebas](06-calidad-seguridad-y-pruebas.md) | Controles técnicos y evidencias automatizadas. |
-| 10 | [Memoria y trazabilidad](07-memoria-y-trazabilidad.md) | Correspondencia de los cinco capítulos con el repositorio. |
-| 11 | [Demostración](08-demo-defensa.md) | Recorrido controlado del producto. |
-| 12 | [Guion oral](09-guion-defensa-20-min.md) | Texto ensayable de cada bloque. |
-| 13 | [Preguntas del tribunal](10-preguntas-del-tribunal.md) | Respuestas concisas y técnicamente defendibles. |
-| 14 | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) | Evaluación crítica y evolución razonable. |
-| 15 | [Auditoría final](12-auditoria-entrega-final.md) | Qué coincide, qué es posterior y qué debe afirmarse. |
-| 16 | [Diagramas y capturas](diagramas-y-capturas.md) | Galería visual enlazada a sus fuentes PlantUML. |
+| Orden | Bloque | Documento principal | Evidencia |
+| ---: | --- | --- | --- |
+| 0 | Preparación | [Defensa paso a paso](00-defensa-paso-a-paso.md) | [Demo](08-demo-defensa.md) y [preguntas](10-preguntas-del-tribunal.md) |
+| 1 | Introducción y objetivos | [Capítulo 1](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) | [Resumen ejecutivo](01-proyecto-y-objetivos.md) |
+| 2 | Requisitos y dominio | [Capítulo 2](capitulos/02-requisitos-modelo-dominio.md) | [Casos UC-01 a UC-17](../RUP/02-requisitos/especificacion-casos-uso.md) |
+| 3 | Análisis y diseño | [Capítulo 3](capitulos/03-analisis-diseno.md) | [Arquitectura](02-arquitectura-y-decisiones.md) y [auditoría](../RUP/99-seguimiento/auditoria-diseno-implementacion.md) |
+| 4 | Implementación | [Capítulo 4](capitulos/04-implementacion-mapa-solucion.md) | [API](04-api-y-datos.md), [chatbot](05-chatbot-y-reglas.md) y [demo](08-demo-defensa.md) |
+| 5 | Evaluación y conclusiones | [Capítulo 5](capitulos/05-conclusiones-lineas-futuras.md) | [Calidad](06-calidad-seguridad-y-pruebas.md) y [limitaciones](11-limitaciones-y-lineas-futuras.md) |
+| 6 | Referencias | [Bibliografía](capitulos/06-referencias.md) | [PDF oficial](../entregas/TFG_AdriánGarcíaArranz.pdf) |
+
+## Referencia técnica
+
+| Necesidad | Documento |
+| --- | --- |
+| Instalar y ejecutar | [Instalación reproducible](03-instalacion-y-ejecucion.md) |
+| Consultar endpoints y modelos | [API y datos](04-api-y-datos.md) |
+| Comprender el pipeline conversacional | [Chatbot y reglas](05-chatbot-y-reglas.md) |
+| Revisar pruebas y seguridad | [Calidad](06-calidad-seguridad-y-pruebas.md) |
+| Demostrar correspondencia | [Memoria y trazabilidad](07-memoria-y-trazabilidad.md) |
+| Consultar diagramas y capturas | [Galería técnica](diagramas-y-capturas.md) |
+| Comprobar el estado entregado | [Auditoría final](12-auditoria-entrega-final.md) |
 
 ## Evidencias del repositorio
 

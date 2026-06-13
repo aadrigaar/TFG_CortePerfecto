@@ -8,21 +8,22 @@ Esta es la ruta principal para exponer Corte Perfecto directamente desde GitHub 
 
 Toda la exposición debe reforzar esa idea.
 
-## 2. Qué debes tener abierto
+## 2. Ruta exacta de navegación
 
-Prepara estas pestañas, en este orden:
+La exposición se realiza desde el README y solo abre evidencias concretas. No recorras los capítulos completos durante los 20 minutos: déjalos como respaldo si el tribunal pide detalle.
 
-1. [README principal](../README.md).
-2. [Capítulo 1 navegable](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md).
-3. [Capítulo 2 navegable](capitulos/02-requisitos-modelo-dominio.md).
-4. [Arquitectura](02-arquitectura-y-decisiones.md).
-5. [Trazabilidad UC-código-prueba](../RUP/99-seguimiento/trazabilidad-casos-uso.md).
-6. Aplicación pública en `http://localhost:5173`.
-7. Panel en `http://localhost:5173/admin/login`.
-8. [Calidad y pruebas](06-calidad-seguridad-y-pruebas.md).
-9. [Limitaciones](11-limitaciones-y-lineas-futuras.md).
+| Pestaña | Contenido | Cuándo usarla |
+| ---: | --- | --- |
+| 1 | [README principal](../README.md) | Portada, Capítulos 1 a 5 y cierre |
+| 2 | [Contexto del sistema](../diagramas/capitulo2/imagenes/04_diagrama_contexto.png) | Capítulo 2 |
+| 3 | [Arquitectura técnica](../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png) | Capítulo 3 |
+| 4 | [Trazabilidad UC-código-prueba](../RUP/99-seguimiento/trazabilidad-casos-uso.md) | Cierre del Capítulo 3 |
+| 5 | [Navegación UC-01 a UC-17](../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png) | Inicio del Capítulo 4 |
+| 6 | Aplicación en `http://localhost:5173` | Capítulo 4 y demo |
+| 7 | Panel en `http://localhost:5173/admin/login` | Final de la demo |
+| 8 | [Calidad y pruebas](06-calidad-seguridad-y-pruebas.md) | Capítulo 5 |
 
-Ten también preparadas las [capturas de respaldo](diagramas-y-capturas.md). No muestres el archivo `.env`, credenciales, correos personales ni datos internos del equipo.
+Deja como reserva las [capturas](diagramas-y-capturas.md), las [preguntas](10-preguntas-del-tribunal.md) y la [memoria completa](capitulos/README.md). No muestres el archivo `.env`, credenciales, correos personales ni datos internos del equipo.
 
 ## 3. Comprobación antes de entrar
 
@@ -56,14 +57,11 @@ Verifica además:
 | Tiempo | Pantalla | Objetivo |
 | ---: | --- | --- |
 | 0:00-1:00 | README | Presentar problema, producto y aportación |
-| 1:00-3:15 | Capítulo 1 | Justificar necesidad, estado del arte y alcance |
-| 3:15-5:30 | Capítulo 2 | Explicar actores, dominio y casos de uso |
-| 5:30-8:30 | Arquitectura | Defender diseño, tecnologías y decisiones |
-| 8:30-10:00 | Trazabilidad/código | Demostrar correspondencia entre memoria y código |
-| 10:00-14:00 | Aplicación | Ejecutar la historia cliente-administrador |
-| 14:00-16:15 | Chatbot | Explicar pipeline híbrido y contingencias |
-| 16:15-18:00 | Pruebas y seguridad | Presentar evidencia verificable |
-| 18:00-19:15 | Resultados y límites | Evaluar el trabajo con criterio |
+| 1:00-3:15 | README, Capítulo 1 | Justificar necesidad, estado del arte y alcance |
+| 3:15-5:30 | Diagrama, Capítulo 2 | Explicar actores, dominio y casos de uso |
+| 5:30-10:00 | Arquitectura y trazabilidad, Capítulo 3 | Defender diseño y correspondencia con el código |
+| 10:00-16:15 | Aplicación, Capítulo 4 | Demostrar producto y explicar el chatbot |
+| 16:15-19:15 | Pruebas y límites, Capítulo 5 | Presentar resultados y evaluación crítica |
 | 19:15-20:00 | README | Cerrar con aportación y evolución |
 
 ## 5. Exposición exacta
@@ -84,7 +82,7 @@ Verifica además:
 
 ### 1:00-3:15. Capítulo 1: problema, estado del arte y objetivos
 
-**Abre:** [Capítulo 1](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md).
+**En el README:** baja hasta “Capítulo 1. Problema y propuesta”. El [capítulo completo](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) queda como respaldo.
 
 **Di:**
 
@@ -107,7 +105,7 @@ Resume los objetivos:
 
 ### 3:15-5:30. Capítulo 2: requisitos y dominio
 
-**Abre:** [Capítulo 2](capitulos/02-requisitos-modelo-dominio.md).
+**En el README:** muestra “Capítulo 2. Requisitos y casos de uso” y abre el [diagrama de contexto](../diagramas/capitulo2/imagenes/04_diagrama_contexto.png).
 
 **Muestra:** el diagrama de contexto, los actores y el modelo de estados.
 
@@ -132,7 +130,7 @@ completed / cancelled -> no bloquean agenda
 
 ### 5:30-8:30. Capítulo 3: análisis, diseño y arquitectura
 
-**Abre:** [Arquitectura y decisiones](02-arquitectura-y-decisiones.md).
+**En el README:** muestra “Capítulo 3. Arquitectura y diseño” y abre la [arquitectura técnica](../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png).
 
 **Señala el diagrama por capas y di:**
 
@@ -163,7 +161,7 @@ Defiende cuatro decisiones:
 - [`appointmentService.js`](../backend/src/services/appointmentService.js).
 - [`serviceCatalog.js`](../backend/src/config/serviceCatalog.js).
 
-### 8:30-10:00. Correspondencia entre memoria y código
+### 8:30-10:00. Capítulo 3: correspondencia entre memoria y código
 
 **Abre:** [Matriz de trazabilidad](../RUP/99-seguimiento/trazabilidad-casos-uso.md).
 
@@ -191,9 +189,13 @@ Después muestra:
 
 No recorras todos los archivos. El objetivo es demostrar la cadena completa, no hacer una lectura de código.
 
-### 10:00-14:00. Demostración funcional
+### 10:00-14:00. Capítulo 4: demostración funcional
 
-**Abre:** `http://localhost:5173`.
+**Abre primero:** el [diagrama bidireccional de navegación](../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png).
+
+> “Este diagrama conecta los 17 casos de uso con la navegación real. Las flechas de vuelta representan cerrar el chat, regresar a la web, cancelar formularios y volver al panel.”
+
+Después abre `http://localhost:5173`.
 
 #### Paso A. Web pública, 30 segundos
 
@@ -245,7 +247,7 @@ Abre `http://localhost:5173/admin/login`, inicia sesión y busca la cita.
 
 No hagas varias operaciones. Basta con localizar la misma cita y, si hay tiempo, marcarla como completada.
 
-### 14:00-16:15. Diseño del chatbot
+### 14:00-16:15. Capítulo 4: diseño del chatbot
 
 **Abre:** [Chatbot y reglas](05-chatbot-y-reglas.md).
 
@@ -274,7 +276,7 @@ Entrada y límites
 - [`lmStudioService.js`](../backend/src/services/lmStudioService.js): llamada local.
 - [`responseParserService.js`](../backend/src/services/responseParserService.js): filtrado.
 
-### 16:15-18:00. Calidad, pruebas y seguridad
+### 16:15-18:00. Capítulo 5: calidad, pruebas y seguridad
 
 **Abre:** [Calidad y pruebas](06-calidad-seguridad-y-pruebas.md).
 
@@ -303,7 +305,7 @@ Aclara:
 
 > “Es una base adecuada al alcance académico y local. Un despliegue público exigiría HTTPS, secretos gestionados, auditoría, copias y medidas organizativas de RGPD.”
 
-### 18:00-19:15. Resultados, limitaciones y futuro
+### 18:00-19:15. Capítulo 5: resultados, limitaciones y futuro
 
 **Abre:** [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md).
 

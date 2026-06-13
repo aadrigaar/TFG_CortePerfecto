@@ -2,16 +2,16 @@
 
 # Corte Perfecto
 
-### Sistema web de gestión de citas con chatbot conversacional e IA local
+### Plataforma web de gestión de citas con chatbot e inteligencia artificial local
 
 Trabajo Fin de Grado en Ingeniería Informática<br>
 **Autor:** Adrián García Arranz
 
-[![Documentación](https://img.shields.io/badge/DOCUMENTACIÓN-Índice_razonado-146B8C?style=for-the-badge)](docs/README.md)
 [![Defensa](https://img.shields.io/badge/DEFENSA-Empezar_aquí-8B1E3F?style=for-the-badge)](docs/00-defensa-paso-a-paso.md)
-[![Demo](https://img.shields.io/badge/DEMOSTRACIÓN-Paso_a_paso-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
-[![Pruebas](https://img.shields.io/badge/PRUEBAS-44_superadas-5A4A78?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
 [![Memoria](https://img.shields.io/badge/MEMORIA-PDF_entregado-444444?style=for-the-badge)](entregas/TFG_AdriánGarcíaArranz.pdf)
+[![Demo](https://img.shields.io/badge/DEMO-Recorrido_preparado-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
+[![Pruebas](https://img.shields.io/badge/PRUEBAS-44_superadas-5A4A78?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
+[![Documentación](https://img.shields.io/badge/DOCUMENTACIÓN-Índice_completo-146B8C?style=for-the-badge)](docs/README.md)
 
 [![Capítulo 1](https://img.shields.io/badge/1-Introducción-146B8C?style=flat-square)](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md)
 [![Capítulo 2](https://img.shields.io/badge/2-Requisitos-287A4D?style=flat-square)](docs/capitulos/02-requisitos-modelo-dominio.md)
@@ -23,48 +23,85 @@ Trabajo Fin de Grado en Ingeniería Informática<br>
 
 ---
 
-## Qué es Corte Perfecto
+## Empieza aquí
 
-Corte Perfecto es una aplicación web full-stack para una peluquería local. Integra un escaparate público, un chatbot capaz de informar y gestionar reservas, y un panel privado desde el que el administrador controla la agenda. La conversación generativa se ejecuta en local mediante LM Studio, mientras que las reglas críticas de negocio permanecen en servicios deterministas del backend.
+| Orden | Durante la defensa | Acceso |
+| ---: | --- | --- |
+| 1 | Sigue el recorrido, tiempos, clics y frases | [Defensa paso a paso](docs/00-defensa-paso-a-paso.md) |
+| 2 | Presenta el proyecto desde esta portada | [README principal](README.md) |
+| 3 | Ejecuta la historia cliente-administrador | [Demostración preparada](docs/08-demo-defensa.md) |
+| 4 | Responde al tribunal con precisión | [Preguntas previsibles](docs/10-preguntas-del-tribunal.md) |
+| 5 | Consulta la referencia académica oficial | [PDF final entregado](entregas/TFG_AdriánGarcíaArranz.pdf) |
 
-El proyecto resuelve cuatro necesidades:
+> **Idea central:** la IA conversa, pero no decide la integridad de la agenda. El backend valida servicio, fecha, horario, duración, solapes y persistencia antes de confirmar una cita.
 
-1. Ofrecer información clara sobre servicios, precios y horarios.
-2. Reservar, modificar y cancelar citas mediante lenguaje natural.
-3. Evitar citas inválidas, pasadas, fuera de horario o solapadas.
-4. Centralizar la agenda en un panel autenticado para el profesional.
+## Resumen del proyecto
 
-> La IA conversa, pero no decide la integridad de la agenda. Fechas, horarios, servicios, solapes y persistencia se validan siempre en el backend.
+Corte Perfecto digitaliza la atención y la gestión de citas de una peluquería local. La solución integra:
 
-## Accesos directos
+- Una web pública con catálogo, precios, horario y acceso al chat.
+- Un chatbot que informa y permite reservar, modificar o cancelar.
+- Una API Node.js/Express con reglas de negocio deterministas.
+- Persistencia local en MongoDB mediante Mongoose.
+- Un panel privado para consultar y gestionar la agenda.
+- Inferencia conversacional local mediante LM Studio.
 
-| Quiero consultar | Acceso |
-| --- | --- |
-| El recorrido exacto de la exposición | [Empezar la defensa paso a paso](docs/00-defensa-paso-a-paso.md) |
-| La memoria oficial entregada | [Abrir PDF final](entregas/TFG_AdriánGarcíaArranz.pdf) |
-| Los cinco capítulos completos | [Abrir memoria navegable](docs/capitulos/README.md) |
-| Visión general, objetivos y alcance | [Abrir visión del proyecto](docs/01-proyecto-y-objetivos.md) |
-| Arquitectura y decisiones técnicas | [Abrir arquitectura](docs/02-arquitectura-y-decisiones.md) |
-| Instalación completa | [Abrir puesta en marcha](docs/03-instalacion-y-ejecucion.md) |
-| API REST y modelo de datos | [Abrir referencia técnica](docs/04-api-y-datos.md) |
-| Funcionamiento interno del chatbot | [Abrir diseño conversacional](docs/05-chatbot-y-reglas.md) |
-| Seguridad, calidad y 44 pruebas | [Abrir evidencias](docs/06-calidad-seguridad-y-pruebas.md) |
-| Relación entre memoria y código | [Abrir trazabilidad](docs/07-memoria-y-trazabilidad.md) |
-| Demostración para el tribunal | [Abrir recorrido de demo](docs/08-demo-defensa.md) |
-| Guion oral de 20 minutos | [Abrir guion](docs/09-guion-defensa-20-min.md) |
-| Preguntas previsibles del tribunal | [Abrir preparación de preguntas](docs/10-preguntas-del-tribunal.md) |
-| Limitaciones y evolución | [Abrir análisis crítico](docs/11-limitaciones-y-lineas-futuras.md) |
-| Auditoría final memoria-código | [Abrir resultado de la revisión](docs/12-auditoria-entrega-final.md) |
-| Diagramas y capturas | [Abrir galería técnica](docs/diagramas-y-capturas.md) |
-| Casos de uso UC-01 a UC-17 | [Abrir especificación](RUP/02-requisitos/especificacion-casos-uso.md) |
+El recorrido principal es:
 
-## Vista del producto
+```text
+Cliente consulta
+-> conversa y aporta los datos
+-> backend valida la cita
+-> MongoDB persiste
+-> administrador ve y gestiona la misma reserva
+```
 
-| Web pública | Chatbot | Panel de administración |
+## Recorrido por capítulos
+
+El repositorio conserva una estructura técnica profesional, pero toda la documentación se puede recorrer en el mismo orden que la memoria.
+
+| Capítulo | Pregunta que responde | Contenido y evidencia | Tiempo en defensa |
+| --- | --- | --- | ---: |
+| **1. Introducción y objetivos** | ¿Qué problema se resuelve y por qué? | [Capítulo completo](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) · [Resumen del proyecto](docs/01-proyecto-y-objetivos.md) | 3 min |
+| **2. Requisitos y dominio** | ¿Qué debe hacer el sistema? | [Capítulo completo](docs/capitulos/02-requisitos-modelo-dominio.md) · [UC-01 a UC-17](RUP/02-requisitos/especificacion-casos-uso.md) · [Diagramas](docs/diagramas-y-capturas.md#capítulo-2-dominio-y-requisitos) | 2 min |
+| **3. Análisis y diseño** | ¿Cómo se organiza técnicamente? | [Capítulo completo](docs/capitulos/03-analisis-diseno.md) · [Arquitectura](docs/02-arquitectura-y-decisiones.md) · [Auditoría diseño-código](RUP/99-seguimiento/auditoria-diseno-implementacion.md) | 4 min |
+| **4. Implementación** | ¿Qué se ha construido y cómo funciona? | [Capítulo completo](docs/capitulos/04-implementacion-mapa-solucion.md) · [Demo](docs/08-demo-defensa.md) · [API y datos](docs/04-api-y-datos.md) · [Chatbot](docs/05-chatbot-y-reglas.md) | 7 min |
+| **5. Evaluación y conclusiones** | ¿Qué resultados, límites y evolución tiene? | [Capítulo completo](docs/capitulos/05-conclusiones-lineas-futuras.md) · [44 pruebas y seguridad](docs/06-calidad-seguridad-y-pruebas.md) · [Limitaciones](docs/11-limitaciones-y-lineas-futuras.md) | 3 min |
+
+[Abrir índice de la memoria navegable](docs/capitulos/README.md) · [Abrir correspondencia memoria-código](docs/07-memoria-y-trazabilidad.md) · [Abrir auditoría final](docs/12-auditoria-entrega-final.md)
+
+## Capítulo 1. Problema y propuesta
+
+La gestión manual mediante llamadas, mensajes y papel interrumpe el trabajo del profesional, exige transcribir solicitudes y facilita errores. La propuesta combina atención conversacional con una agenda centralizada.
+
+Objetivos defendibles:
+
+1. Informar al cliente mediante una web pública.
+2. Gestionar reservas mediante lenguaje natural.
+3. Proporcionar un panel autenticado al profesional.
+4. Mantener reglas críticas verificables y probadas.
+
+Alcance cerrado: no se simulan pagos, notificaciones, varias sedes ni agenda multiempleado.
+
+## Capítulo 2. Requisitos y casos de uso
+
+El sistema tiene dos actores:
+
+- **Cliente:** consulta información y gestiona una reserva mediante el chatbot.
+- **Administrador/peluquero:** inicia sesión y opera la agenda.
+
+Se han definido y trazado **17 casos de uso**. Los más representativos para la defensa son:
+
+| Caso | Función | Evidencia |
 | --- | --- | --- |
-| [![Web pública](diagramas/capitulo4/capturas/01_home.png)](diagramas/capitulo4/capturas/01_home.png) | [![Chatbot](diagramas/capitulo4/capturas/03_chat_abierto.png)](diagramas/capitulo4/capturas/03_chat_abierto.png) | [![Panel](diagramas/capitulo4/capturas/05_admin_dashboard.png)](diagramas/capitulo4/capturas/05_admin_dashboard.png) |
+| UC-05 | Reservar por chatbot | `bookingFlowService.js` + `appointmentService.js` |
+| UC-09 | Modificar reserva activa | `conversationId` + actualización validada |
+| UC-10 | Iniciar sesión | JWT + bcrypt + rutas privadas |
+| UC-12 a UC-16 | Gestionar citas | Listado, creación, edición, completado y eliminación |
 
-## Arquitectura
+[Abrir diagrama de contexto](diagramas/capitulo2/imagenes/04_diagrama_contexto.png) · [Abrir casos de uso del cliente](diagramas/capitulo2/imagenes/05a_diagrama_casos_uso_cliente.png) · [Abrir casos de uso del administrador](diagramas/capitulo2/imagenes/05b_diagrama_casos_uso_administrador.png) · [Abrir matriz UC-código-prueba](RUP/99-seguimiento/trazabilidad-casos-uso.md)
+
+## Capítulo 3. Arquitectura y diseño
 
 ```mermaid
 flowchart LR
@@ -79,50 +116,122 @@ flowchart LR
     R --> M
 ```
 
-- **Frontend:** React 19, Vite, React Router, Axios y Lucide.
-- **Backend:** Node.js, Express 5 y arquitectura modular MVC.
-- **Persistencia:** MongoDB mediante Mongoose.
-- **Seguridad:** JWT, bcrypt, Helmet, CORS y limitación de peticiones.
-- **IA local:** LM Studio con API compatible con OpenAI.
-- **Calidad:** `node:test`, validación sintáctica y build de producción.
+| Capa | Tecnología | Responsabilidad |
+| --- | --- | --- |
+| Presentación | React 19, Vite, React Router | Web pública, chat y panel |
+| API | Node.js, Express 5 | Rutas, controladores y seguridad HTTP |
+| Dominio | Servicios JavaScript | Calendario, reservas, solapes y conversación |
+| Datos | MongoDB, Mongoose | Citas, administradores y catálogo |
+| IA local | LM Studio | Respuestas abiertas dentro del dominio |
 
-[Ver arquitectura completa](docs/02-arquitectura-y-decisiones.md) · [Ver diagramas fuente](diagramas/) · [Ver auditoría diseño-código](RUP/99-seguimiento/auditoria-diseno-implementacion.md)
+Decisiones principales:
 
-## Funcionalidades implementadas
+- **Monolito modular:** menor complejidad operativa y responsabilidades separadas.
+- **MongoDB:** documentos autocontenidos e índices temporales mediante Mongoose.
+- **IA local:** mayor control de privacidad y ausencia de coste por petición.
+- **Backend determinista:** el LLM no decide disponibilidad ni escribe directamente.
+- **Catálogo centralizado:** precio y duración se recalculan en servidor.
+
+[Abrir arquitectura completa](docs/02-arquitectura-y-decisiones.md) · [Abrir integración con LM Studio](diagramas/capitulo3/imagenes/13_integracion_chat_lmstudio.png)
+
+## Capítulo 4. Producto implementado
+
+[Abrir diagrama bidireccional de navegación UC-01 a UC-17](diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
+
+| Web pública | Chatbot | Panel de administración |
+| --- | --- | --- |
+| [![Web pública](diagramas/capitulo4/capturas/01_home.png)](diagramas/capitulo4/capturas/01_home.png) | [![Chatbot](diagramas/capitulo4/capturas/03_chat_abierto.png)](diagramas/capitulo4/capturas/03_chat_abierto.png) | [![Panel](diagramas/capitulo4/capturas/05_admin_dashboard.png)](diagramas/capitulo4/capturas/05_admin_dashboard.png) |
 
 ### Cliente
 
-- Consulta de información, catálogo, precios, duración y horario.
-- Reserva conversacional por nombre o número de servicio.
-- Comprensión de fechas numéricas y expresiones horarias en español.
-- Modificación y cancelación de la reserva activa.
-- Confirmación visual con resumen de la cita.
+- Consulta de catálogo, precios, duración y horario.
+- Reserva por nombre o número de servicio.
+- Comprensión de fechas y expresiones horarias en español.
+- Modificación y cancelación de la cita activa.
+- Confirmación únicamente después de persistir.
 - Respuesta controlada aunque LM Studio no esté disponible.
 
 ### Administrador
 
 - Inicio de sesión protegido mediante JWT.
-- Dashboard con citas, estados e ingresos estimados.
-- Listado, filtrado y ordenación de citas.
-- Creación, edición, finalización y eliminación.
-- Sincronización de servicios con el catálogo oficial.
+- Dashboard con estados e ingresos estimados.
+- Listado, filtrado y ordenación.
+- Creación, edición, completado y eliminación.
+- Catálogo compartido con la web y el chatbot.
 
-### Reglas de negocio
+### Pipeline del chatbot
 
-- Apertura de lunes a viernes, de 10:00 a 20:00.
-- Rechazo de fechas pasadas y fines de semana.
-- El servicio debe finalizar antes del cierre.
-- Imposibilidad de solapar citas activas.
-- Precio y duración calculados en el servidor.
-- Modificaciones del chat vinculadas a su conversación.
+```text
+Saneamiento y límites
+-> flujo determinista de reserva
+-> respuestas conocidas
+-> LM Studio para preguntas abiertas
+-> filtrado
+-> validación de negocio
+-> MongoDB
+```
 
-## Puesta en marcha rápida
+[Abrir diseño del chatbot](docs/05-chatbot-y-reglas.md) · [Abrir API REST](docs/04-api-y-datos.md) · [Abrir galería completa](docs/diagramas-y-capturas.md)
+
+## Capítulo 5. Evaluación y conclusiones
+
+La implementación cubre el recorrido completo cliente-administrador y mantiene una única agenda. La calidad se comprueba con:
+
+```bash
+npm run verify
+```
+
+El comando ejecuta:
+
+1. Comprobación sintáctica del backend.
+2. **44 pruebas automatizadas**.
+3. Build de producción del frontend.
+
+Las pruebas cubren calendario, horas naturales, servicios, nombres, solapes, concurrencia local, propiedad de conversación, entradas adversas, contingencia de IA y filtrado de respuestas.
+
+Limitaciones reconocidas:
+
+- Ejecución local.
+- Una agenda y un único recurso.
+- Sin pagos ni recordatorios.
+- Cola de concurrencia válida para una instancia.
+- Seguridad adecuada al alcance académico, no certificación de producción.
+
+Evolución priorizada:
+
+1. Recordatorios y confirmaciones.
+2. Agenda multiempleado.
+3. Despliegue con concurrencia distribuida, observabilidad y copias.
+
+[Abrir calidad y pruebas](docs/06-calidad-seguridad-y-pruebas.md) · [Abrir limitaciones y futuro](docs/11-limitaciones-y-lineas-futuras.md)
+
+## Demostración en cuatro minutos
+
+1. Abre la web y muestra el catálogo.
+2. Pregunta: `¿Qué servicios tenéis y cuánto cuestan?`
+3. Reserva una fecha laborable futura:
+
+   ```text
+   Quiero reservar la opción 4.
+   Me llamo Adrián Demo.
+   El próximo martes a las cinco de la tarde.
+   ```
+
+4. Inicia sesión en administración y localiza la misma cita.
+
+La historia que debes verbalizar es:
+
+> “El cliente conversa, el backend normaliza y valida, MongoDB persiste y el profesional recibe la misma reserva sin transcribirla.”
+
+[Abrir demo exacta y contingencias](docs/08-demo-defensa.md)
+
+## Puesta en marcha
 
 ### Requisitos
 
 - Node.js 20 o superior.
 - MongoDB accesible en local.
-- LM Studio para las respuestas generativas.
+- LM Studio para respuestas generativas.
 
 ### Instalación
 
@@ -133,7 +242,7 @@ npm install
 npm run install:all
 ```
 
-Copia `backend/.env.example` a `backend/.env` y `frontend/.env.example` a `frontend/.env`. Después:
+Copia `backend/.env.example` a `backend/.env` y `frontend/.env.example` a `frontend/.env`.
 
 ```bash
 npm run dev
@@ -141,66 +250,61 @@ npm run dev
 
 | Servicio | URL |
 | --- | --- |
-| Aplicación web | `http://localhost:5173` |
+| Aplicación | `http://localhost:5173` |
 | API | `http://localhost:5000/api` |
-| Salud de la API | `http://localhost:5000/api/health` |
-| Panel administrador | `http://localhost:5173/admin/login` |
-| LM Studio esperado | `http://127.0.0.1:1234` |
+| Salud | `http://localhost:5000/api/health` |
+| Panel | `http://localhost:5173/admin/login` |
+| LM Studio | `http://127.0.0.1:1234` |
 
-La instalación detallada, solución de problemas y configuración segura están en [docs/03-instalacion-y-ejecucion.md](docs/03-instalacion-y-ejecucion.md).
+[Abrir instalación detallada](docs/03-instalacion-y-ejecucion.md)
 
-## Verificación
+## Memoria y entregables
 
-```bash
-npm run verify
-```
+La referencia académica oficial es el [PDF final entregado](entregas/TFG_AdriánGarcíaArranz.pdf), de **100 páginas**.
 
-El comando ejecuta:
+| Documento | Función |
+| --- | --- |
+| [PDF final](entregas/TFG_AdriánGarcíaArranz.pdf) | Memoria oficial entregada |
+| [Capítulo 1 DOCX](entregas/Capitulo1.docx) | Entrega intermedia |
+| [Capítulo 2 DOCX](entregas/Capitulo2.docx) | Entrega intermedia |
+| [Capítulo 3 DOCX](entregas/Capitulo3.docx) | Entrega intermedia |
+| [Capítulos 4 y 5 DOCX](entregas/Capitulos4y5.docx) | Entrega intermedia |
 
-1. Comprobación sintáctica del backend.
-2. Las **44 pruebas automatizadas** del dominio y del chatbot.
-3. El build de producción del frontend.
+Los DOCX conservan etapas del proceso, pero no son copias literales del PDF definitivo.
 
-Las pruebas cubren calendario, nombres, servicios, interpretación temporal, solapes, concurrencia, aislamiento por conversación, entradas adversas, contingencia de IA y saneamiento de respuestas.
-
-## Memoria académica completa
-
-La referencia académica oficial es el [PDF final entregado](entregas/TFG_AdriánGarcíaArranz.pdf), de **100 páginas**. Los DOCX por capítulos son entregas intermedias conservadas como material de trabajo; la memoria final los integra, revisa y amplía, por lo que no deben presentarse como copias literales de la versión definitiva.
-
-| Capítulo | Contenido | Leer en GitHub | Documento original |
-| --- | --- | --- | --- |
-| 1 | Introducción, estado del arte, objetivos y metodología | [Leer Capítulo 1](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) | [Abrir DOCX](entregas/Capitulo1.docx) |
-| 2 | Requisitos, dominio, actores y casos de uso | [Leer Capítulo 2](docs/capitulos/02-requisitos-modelo-dominio.md) | [Abrir DOCX](entregas/Capitulo2.docx) |
-| 3 | Análisis, diseño, arquitectura y pruebas | [Leer Capítulo 3](docs/capitulos/03-analisis-diseno.md) | [Abrir DOCX](entregas/Capitulo3.docx) |
-| 4 | Implementación y mapa de la solución | [Leer Capítulo 4](docs/capitulos/04-implementacion-mapa-solucion.md) | [Abrir DOCX conjunto](entregas/Capitulos4y5.docx) |
-| 5 | Resultados, conclusiones y líneas futuras | [Leer Capítulo 5](docs/capitulos/05-conclusiones-lineas-futuras.md) | [Abrir DOCX conjunto](entregas/Capitulos4y5.docx) |
-| Referencias | Bibliografía de la memoria final | [Consultar referencias](docs/capitulos/06-referencias.md) | Incluidas en la memoria final |
-
-[Abrir PDF oficial](entregas/TFG_AdriánGarcíaArranz.pdf) · [Abrir índice visual de capítulos](docs/capitulos/README.md) · [Ver correspondencia memoria-código](docs/07-memoria-y-trazabilidad.md) · [Consultar auditoría final](docs/12-auditoria-entrega-final.md)
-
-## Estructura del repositorio
+## Estructura
 
 ```text
 TFG_CortePerfecto/
 ├── backend/       API, dominio, persistencia, seguridad y pruebas
-├── frontend/      Web pública, chatbot y panel de administración
-├── diagramas/     PlantUML, imágenes renderizadas y capturas
-├── docs/          Documentación navegable y preparación de la defensa
-│   └── capitulos/ Memoria completa dividida en cinco capítulos
-├── entregas/      PDF final oficial y capítulos académicos intermedios
+├── frontend/      Web pública, chatbot y administración
+├── diagramas/     Fuentes PlantUML, diagramas y capturas
+├── docs/          Memoria navegable, referencia y defensa
+├── entregas/      PDF oficial y capítulos intermedios
 ├── RUP/           Casos de uso, trazabilidad y auditoría
-└── README.md      Entrada principal del proyecto
+└── README.md      Entrada principal ordenada por capítulos
 ```
 
-## Estado
+## Documentación completa
 
-El alcance definido para el TFG está implementado y verificado. El sistema está diseñado para ejecución local, demostración académica y evolución posterior; las limitaciones reales se documentan de forma explícita en [docs/11-limitaciones-y-lineas-futuras.md](docs/11-limitaciones-y-lineas-futuras.md).
+| Necesidad | Documento |
+| --- | --- |
+| Exponer en 20 minutos | [Defensa paso a paso](docs/00-defensa-paso-a-paso.md) |
+| Consultar los capítulos | [Memoria navegable](docs/capitulos/README.md) |
+| Instalar y ejecutar | [Guía de instalación](docs/03-instalacion-y-ejecucion.md) |
+| Revisar API y datos | [Referencia técnica](docs/04-api-y-datos.md) |
+| Entender el chatbot | [Diseño conversacional](docs/05-chatbot-y-reglas.md) |
+| Revisar calidad | [Pruebas y seguridad](docs/06-calidad-seguridad-y-pruebas.md) |
+| Demostrar coherencia | [Memoria y trazabilidad](docs/07-memoria-y-trazabilidad.md) |
+| Preparar preguntas | [Preguntas del tribunal](docs/10-preguntas-del-tribunal.md) |
+| Comprobar la entrega | [Auditoría final](docs/12-auditoria-entrega-final.md) |
 
 ---
 
 <div align="center">
 
-[![Preparar defensa](https://img.shields.io/badge/EMPEZAR-Defensa_paso_a_paso-8B1E3F?style=for-the-badge)](docs/00-defensa-paso-a-paso.md)
-[![Ejecutar demo](https://img.shields.io/badge/SEGUIR-Ejecutar_la_demo-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
+[![Empezar](https://img.shields.io/badge/1-EMPEZAR_DEFENSA-8B1E3F?style=for-the-badge)](docs/00-defensa-paso-a-paso.md)
+[![Demostrar](https://img.shields.io/badge/2-EJECUTAR_DEMO-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
+[![Responder](https://img.shields.io/badge/3-PREGUNTAS_TRIBUNAL-146B8C?style=for-the-badge)](docs/10-preguntas-del-tribunal.md)
 
 </div>
