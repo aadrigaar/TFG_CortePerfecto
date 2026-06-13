@@ -4,6 +4,8 @@
 
 La memoria explica el proceso académico; el repositorio demuestra el resultado ejecutable. Esta guía relaciona los cinco capítulos con artefactos concretos para que cualquier afirmación importante pueda seguirse hasta código, diagrama o prueba.
 
+[Abrir los cinco capítulos completos en GitHub](capitulos/README.md)
+
 ## 2. Capítulo 1: introducción, estado del arte, objetivos y metodología
 
 ### Contenido
@@ -25,7 +27,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | Privacidad | [Calidad y seguridad](06-calidad-seguridad-y-pruebas.md) |
 | Alcance crítico | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) |
 
-[Documento académico del Capítulo 1](../entregas/Capitulo1.docx)
+[Leer Capítulo 1 completo](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) · [Documento académico](../entregas/Capitulo1.docx)
 
 ## 3. Capítulo 2: disciplina de requisitos
 
@@ -52,7 +54,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | Fichas UC-01 a UC-17 | [Especificación completa](../RUP/02-requisitos/especificacion-casos-uso.md) |
 | Trazabilidad | [Matriz UC -> código -> prueba](../RUP/99-seguimiento/trazabilidad-casos-uso.md) |
 
-[Documento académico del Capítulo 2](../entregas/Capitulo2.docx)
+[Leer Capítulo 2 completo](capitulos/02-requisitos-modelo-dominio.md) · [Documento académico](../entregas/Capitulo2.docx)
 
 ## 4. Capítulo 3: análisis y diseño
 
@@ -82,7 +84,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | Diseño explicado | [Arquitectura](02-arquitectura-y-decisiones.md) |
 | Diseño contrastado | [Auditoría diseño-implementación](../RUP/99-seguimiento/auditoria-diseno-implementacion.md) |
 
-[Documento académico del Capítulo 3](../entregas/Capitulo3.docx)
+[Leer Capítulo 3 completo](capitulos/03-analisis-diseno.md) · [Documento académico](../entregas/Capitulo3.docx)
 
 ## 5. Capítulo 4: implementación y mapa de la solución
 
@@ -111,6 +113,8 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | API detallada | [Referencia API](04-api-y-datos.md) |
 | Pruebas | [Calidad y seguridad](06-calidad-seguridad-y-pruebas.md) |
 
+[Leer Capítulo 4 completo](capitulos/04-implementacion-mapa-solucion.md)
+
 ## 6. Capítulo 5: conclusiones y líneas futuras
 
 ### Contenido
@@ -133,7 +137,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | Límites reales | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) |
 | Demostración reproducible | [Demo de defensa](08-demo-defensa.md) |
 
-[Documento académico de los Capítulos 4 y 5](../entregas/Capitulos4y5.docx)
+[Leer Capítulo 5 completo](capitulos/05-conclusiones-lineas-futuras.md) · [Documento académico de los Capítulos 4 y 5](../entregas/Capitulos4y5.docx)
 
 ## 7. Matriz resumida objetivo -> caso de uso -> código -> prueba
 

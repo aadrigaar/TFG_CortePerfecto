@@ -12,6 +12,12 @@ Trabajo Fin de Grado en Ingeniería Informática<br>
 [![Demo](https://img.shields.io/badge/DEMOSTRACIÓN-Paso_a_paso-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
 [![Pruebas](https://img.shields.io/badge/PRUEBAS-44_superadas-5A4A78?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
 
+[![Capítulo 1](https://img.shields.io/badge/1-Introducción-146B8C?style=flat-square)](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md)
+[![Capítulo 2](https://img.shields.io/badge/2-Requisitos-287A4D?style=flat-square)](docs/capitulos/02-requisitos-modelo-dominio.md)
+[![Capítulo 3](https://img.shields.io/badge/3-Análisis_y_diseño-5A4A78?style=flat-square)](docs/capitulos/03-analisis-diseno.md)
+[![Capítulo 4](https://img.shields.io/badge/4-Implementación-8B1E3F?style=flat-square)](docs/capitulos/04-implementacion-mapa-solucion.md)
+[![Capítulo 5](https://img.shields.io/badge/5-Conclusiones-9A5A22?style=flat-square)](docs/capitulos/05-conclusiones-lineas-futuras.md)
+
 </div>
 
 ---
@@ -33,6 +39,7 @@ El proyecto resuelve cuatro necesidades:
 
 | Quiero consultar | Acceso |
 | --- | --- |
+| Los cinco capítulos completos | [Abrir memoria navegable](docs/capitulos/README.md) |
 | Visión general, objetivos y alcance | [Abrir visión del proyecto](docs/01-proyecto-y-objetivos.md) |
 | Arquitectura y decisiones técnicas | [Abrir arquitectura](docs/02-arquitectura-y-decisiones.md) |
 | Instalación completa | [Abrir puesta en marcha](docs/03-instalacion-y-ejecucion.md) |
@@ -152,16 +159,18 @@ El comando ejecuta:
 
 Las pruebas cubren calendario, nombres, servicios, interpretación temporal, solapes, concurrencia, aislamiento por conversación, entradas adversas, contingencia de IA y saneamiento de respuestas.
 
-## Memoria académica
+## Memoria académica completa
 
-| Capítulo | Contenido | Documento |
-| --- | --- | --- |
-| 1 | Introducción, estado del arte, objetivos y metodología | [Abrir Capítulo 1](entregas/Capitulo1.docx) |
-| 2 | Requisitos, dominio, actores y casos de uso | [Abrir Capítulo 2](entregas/Capitulo2.docx) |
-| 3 | Análisis, diseño, arquitectura y pruebas | [Abrir Capítulo 3](entregas/Capitulo3.docx) |
-| 4 y 5 | Implementación, resultados, conclusiones y futuro | [Abrir Capítulos 4 y 5](entregas/Capitulos4y5.docx) |
+| Capítulo | Contenido | Leer en GitHub | Documento original |
+| --- | --- | --- | --- |
+| 1 | Introducción, estado del arte, objetivos y metodología | [Leer Capítulo 1](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) | [Abrir DOCX](entregas/Capitulo1.docx) |
+| 2 | Requisitos, dominio, actores y casos de uso | [Leer Capítulo 2](docs/capitulos/02-requisitos-modelo-dominio.md) | [Abrir DOCX](entregas/Capitulo2.docx) |
+| 3 | Análisis, diseño, arquitectura y pruebas | [Leer Capítulo 3](docs/capitulos/03-analisis-diseno.md) | [Abrir DOCX](entregas/Capitulo3.docx) |
+| 4 | Implementación y mapa de la solución | [Leer Capítulo 4](docs/capitulos/04-implementacion-mapa-solucion.md) | [Abrir DOCX conjunto](entregas/Capitulos4y5.docx) |
+| 5 | Resultados, conclusiones y líneas futuras | [Leer Capítulo 5](docs/capitulos/05-conclusiones-lineas-futuras.md) | [Abrir DOCX conjunto](entregas/Capitulos4y5.docx) |
+| Referencias | Bibliografía de la memoria final | [Consultar referencias](docs/capitulos/06-referencias.md) | Incluidas en la memoria final |
 
-La versión navegable para GitHub se encuentra en [docs/07-memoria-y-trazabilidad.md](docs/07-memoria-y-trazabilidad.md). La especificación completa de UC-01 a UC-17 y la relación con el código se mantienen como artefactos vivos en [RUP/](RUP/README.md).
+[Abrir índice visual de capítulos](docs/capitulos/README.md) · [Ver correspondencia memoria-código](docs/07-memoria-y-trazabilidad.md) · [Consultar artefactos RUP](RUP/README.md)
 
 ## Estructura del repositorio
 
@@ -171,6 +180,7 @@ TFG_CortePerfecto/
 ├── frontend/      Web pública, chatbot y panel de administración
 ├── diagramas/     PlantUML, imágenes renderizadas y capturas
 ├── docs/          Documentación navegable y preparación de la defensa
+│   └── capitulos/ Memoria completa dividida en cinco capítulos
 ├── entregas/      Capítulos académicos versionados
 ├── RUP/           Casos de uso, trazabilidad y auditoría
 └── README.md      Entrada principal del proyecto
