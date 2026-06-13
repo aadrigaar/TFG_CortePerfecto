@@ -1,4 +1,4 @@
-[Capítulo 1](../Capitulo_1/README.md) · [Inicio](../README.md) · [Capítulo 3](../Capitulo_3/README.md)
+[Capítulo 1](../Capitulo_1/README.md) · [Inicio](../../../README.md) · [Capítulo 3](../Capitulo_3/README.md)
 
 # Capítulo 2. Requisitos y modelo del dominio
 
@@ -11,11 +11,11 @@ El sistema tiene dos actores humanos:
 | Cliente | Consultar información y gestionar una reserva mediante conversación |
 | Administrador o peluquero | Supervisar y operar la agenda desde un entorno privado |
 
-![Diagrama de contexto](../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
+![Diagrama de contexto](../../../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
 
 ## Modelo del dominio
 
-![Diagrama de clases del dominio](../diagramas/capitulo2/imagenes/01_diagrama_clases_dominio.png)
+![Diagrama de clases del dominio](../../../diagramas/capitulo2/imagenes/01_diagrama_clases_dominio.png)
 
 Los conceptos principales son:
 
@@ -32,7 +32,7 @@ La cita es la entidad central. Además de los valores visibles `date` y `time`, 
 
 ## Estados de una cita
 
-![Estados de la cita](../diagramas/capitulo2/imagenes/03_diagrama_estados_cita.png)
+![Estados de la cita](../../../diagramas/capitulo2/imagenes/03_diagrama_estados_cita.png)
 
 ```text
 pending / confirmed -> bloquean horario
@@ -57,7 +57,7 @@ Se han definido 17 casos de uso.
 | UC-08 | Recibir confirmación y tarjeta |
 | UC-09 | Modificar reserva activa por chat |
 
-![Casos de uso del cliente](../diagramas/capitulo2/imagenes/05a_diagrama_casos_uso_cliente.png)
+![Casos de uso del cliente](../../../diagramas/capitulo2/imagenes/05a_diagrama_casos_uso_cliente.png)
 
 ### Administrador
 
@@ -72,7 +72,7 @@ Se han definido 17 casos de uso.
 | UC-16 | Eliminar una cita |
 | UC-17 | Cerrar sesión |
 
-![Casos de uso del administrador](../diagramas/capitulo2/imagenes/05b_diagrama_casos_uso_administrador.png)
+![Casos de uso del administrador](../../../diagramas/capitulo2/imagenes/05b_diagrama_casos_uso_administrador.png)
 
 ## Reglas suplementarias
 
@@ -108,9 +108,9 @@ El problema del Capítulo 1 queda convertido en un contrato verificable: dos act
 
 **Documentación relacionada**
 
-- [Capítulo 2 completo](../docs/capitulos/02-requisitos-modelo-dominio.md)
-- [Especificación de UC-01 a UC-17](../RUP/02-requisitos/especificacion-casos-uso.md)
-- [Matriz UC-código-prueba](../RUP/99-seguimiento/trazabilidad-casos-uso.md)
-- [Galería de diagramas](../docs/diagramas-y-capturas.md)
+- [Capítulo 2 completo](../../capitulos/02-requisitos-modelo-dominio.md)
+- [Especificación de UC-01 a UC-17](../../../RUP/02-requisitos/especificacion-casos-uso.md)
+- [Matriz UC-código-prueba](../../../RUP/99-seguimiento/trazabilidad-casos-uso.md)
+- [Galería de diagramas](../../diagramas-y-capturas.md)
 
-[Capítulo 1](../Capitulo_1/README.md) · [Inicio](../README.md) · [Capítulo 3](../Capitulo_3/README.md)
+[Capítulo 1](../Capitulo_1/README.md) · [Inicio](../../../README.md) · [Capítulo 3](../Capitulo_3/README.md)

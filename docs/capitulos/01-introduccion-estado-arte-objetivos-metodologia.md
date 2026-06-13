@@ -1,4 +1,4 @@
-[Índice de capítulos](README.md) · [Siguiente: Capítulo 2](02-requisitos-modelo-dominio.md) · [Presentación del proyecto](../../PRESENTACION.md)
+[Índice de capítulos](README.md) · [Siguiente: Capítulo 2](02-requisitos-modelo-dominio.md) · [Presentación del proyecto](../presentacion/README.md)
 
 ---
 

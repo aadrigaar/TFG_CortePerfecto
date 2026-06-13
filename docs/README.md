@@ -2,6 +2,8 @@
 
 Esta sección complementa la [presentación por capítulos](../README.md) con explicaciones técnicas, la memoria navegable y las evidencias verificables del proyecto.
 
+[Abrir presentación oral](presentacion/README.md) · [Abrir resúmenes por capítulos](presentacion/Capitulo_1/README.md)
+
 ## Contenido académico
 
 | Capítulo | Versión navegable | Síntesis |

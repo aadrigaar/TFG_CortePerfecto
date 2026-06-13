@@ -42,7 +42,7 @@ Los estados pendientes y confirmados bloquean horario. Los estados completado y 
 
 Las reglas principales son: trabajar de lunes a viernes, abrir de diez a veinte horas, terminar el servicio antes del cierre, utilizar el catálogo oficial y evitar solapes.
 
-![Diagrama de contexto](diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
+![Diagrama de contexto](../../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
 
 El modelo también distingue entre la fecha y hora que se muestran al usuario y el intervalo real utilizado para calcular disponibilidad. La aplicación conserva `date` y `time` para la interfaz, pero genera `startsAt` y `endsAt` a partir de la duración oficial del servicio. Así, un servicio de sesenta minutos no se trata como si ocupara lo mismo que uno de treinta.
 
@@ -64,7 +64,7 @@ La decisión más importante es mantener las reglas críticas en el backend. El 
 
 El catálogo también está centralizado. El servidor recalcula precio y duración y no confía en valores enviados por el cliente.
 
-![Arquitectura técnica](diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
+![Arquitectura técnica](../../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
 
 Dentro del backend, las rutas definen el contrato HTTP, los controladores coordinan cada petición y los servicios contienen las reglas del dominio. `calendarService` interpreta fechas y horarios; `appointmentService` valida y persiste citas; `bookingFlowService` mantiene el proceso conversacional; y `lmStudioService` encapsula la comunicación con el modelo.
 
@@ -90,11 +90,11 @@ El panel administrativo utiliza la misma base de datos. El profesional puede con
 
 El recorrido completo es: el cliente conversa, el backend valida, MongoDB persiste y el administrador recibe la misma reserva sin tener que transcribirla.
 
-![Navegación por casos de uso](diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
+![Navegación por casos de uso](../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
 
 | Web pública | Chatbot | Administración |
 | --- | --- | --- |
-| ![Inicio](diagramas/capitulo4/capturas/01_home.png) | ![Chat](diagramas/capitulo4/capturas/03_chat_abierto.png) | ![Panel](diagramas/capitulo4/capturas/05_admin_dashboard.png) |
+| ![Inicio](../../diagramas/capitulo4/capturas/01_home.png) | ![Chat](../../diagramas/capitulo4/capturas/03_chat_abierto.png) | ![Panel](../../diagramas/capitulo4/capturas/05_admin_dashboard.png) |
 
 En una reserva, el sistema identifica el servicio, solicita únicamente los datos que faltan y normaliza expresiones como “el próximo martes” o “a las cinco y media”. Antes de guardar, obtiene del catálogo el precio y la duración, calcula el intervalo completo y comprueba calendario laboral, horario de apertura y citas activas.
 
@@ -132,7 +132,7 @@ Las pruebas cubren fechas pasadas, fines de semana, horas naturales, servicios, 
 
 La seguridad utiliza bcrypt para las contraseñas, JWT para las rutas privadas, Helmet, CORS, rate limiting y validación de entrada. Los secretos quedan fuera del repositorio.
 
-![Estado de los casos de uso](RUP/99-seguimiento/estado-casos-uso.png)
+![Estado de los casos de uso](../../RUP/99-seguimiento/estado-casos-uso.png)
 
 La prevención de solapes incluye una serialización local de las operaciones críticas. Si dos solicitudes intentan reservar simultáneamente el mismo intervalo en una instancia del backend, el servicio las procesa de manera ordenada y la segunda vuelve a comprobar la disponibilidad.
 
@@ -164,4 +164,4 @@ Muchas gracias.
 
 ---
 
-[Capítulo 1](Capitulo_1/README.md) · [Capítulo 2](Capitulo_2/README.md) · [Capítulo 3](Capitulo_3/README.md) · [Capítulo 4](Capitulo_4/README.md) · [Capítulo 5](Capitulo_5/README.md) · [Memoria oficial](entregas/TFG_AdriánGarcíaArranz.pdf)
+[Capítulo 1](Capitulo_1/README.md) · [Capítulo 2](Capitulo_2/README.md) · [Capítulo 3](Capitulo_3/README.md) · [Capítulo 4](Capitulo_4/README.md) · [Capítulo 5](Capitulo_5/README.md) · [Memoria oficial](../../entregas/TFG_AdriánGarcíaArranz.pdf)

@@ -1,4 +1,4 @@
-[Inicio](../README.md) · [Presentación completa](../PRESENTACION.md) · [Capítulo 2](../Capitulo_2/README.md)
+[Inicio](../../../README.md) · [Presentación completa](../README.md) · [Capítulo 2](../Capitulo_2/README.md)
 
 # Capítulo 1. Introducción, estado del arte y objetivos
 
@@ -89,8 +89,8 @@ El problema queda delimitado, la propuesta se diferencia de las alternativas exi
 
 **Documentación relacionada**
 
-- [Capítulo 1 completo](../docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md)
-- [Resumen del proyecto y objetivos](../docs/01-proyecto-y-objetivos.md)
-- [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
+- [Capítulo 1 completo](../../capitulos/01-introduccion-estado-arte-objetivos-metodologia.md)
+- [Resumen del proyecto y objetivos](../../01-proyecto-y-objetivos.md)
+- [Memoria oficial](../../../entregas/TFG_AdriánGarcíaArranz.pdf)
 
-[Inicio](../README.md) · [Capítulo 2](../Capitulo_2/README.md)
+[Inicio](../../../README.md) · [Capítulo 2](../Capitulo_2/README.md)

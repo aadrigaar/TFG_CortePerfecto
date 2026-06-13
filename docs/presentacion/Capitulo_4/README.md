@@ -1,4 +1,4 @@
-[Capítulo 3](../Capitulo_3/README.md) · [Inicio](../README.md) · [Capítulo 5](../Capitulo_5/README.md)
+[Capítulo 3](../Capitulo_3/README.md) · [Inicio](../../../README.md) · [Capítulo 5](../Capitulo_5/README.md)
 
 # Capítulo 4. Implementación y solución
 
@@ -6,7 +6,7 @@
 
 La aplicación materializa los requisitos en dos recorridos conectados por una única API y una única base de datos.
 
-![Navegación por casos de uso](../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
+![Navegación por casos de uso](../../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
 
 Las flechas bidireccionales representan el retorno a la web pública, el cierre del chat, la cancelación de formularios, la vuelta al panel y el cierre de sesión.
 
@@ -14,7 +14,7 @@ Las flechas bidireccionales representan el retorno a la web pública, el cierre 
 
 | Web pública | Chatbot | Administración |
 | --- | --- | --- |
-| [![Web pública](../diagramas/capitulo4/capturas/01_home.png)](../diagramas/capitulo4/capturas/01_home.png) | [![Chatbot](../diagramas/capitulo4/capturas/03_chat_abierto.png)](../diagramas/capitulo4/capturas/03_chat_abierto.png) | [![Panel](../diagramas/capitulo4/capturas/05_admin_dashboard.png)](../diagramas/capitulo4/capturas/05_admin_dashboard.png) |
+| [![Web pública](../../../diagramas/capitulo4/capturas/01_home.png)](../../../diagramas/capitulo4/capturas/01_home.png) | [![Chatbot](../../../diagramas/capitulo4/capturas/03_chat_abierto.png)](../../../diagramas/capitulo4/capturas/03_chat_abierto.png) | [![Panel](../../../diagramas/capitulo4/capturas/05_admin_dashboard.png)](../../../diagramas/capitulo4/capturas/05_admin_dashboard.png) |
 
 ## Funcionalidad del cliente
 
@@ -99,13 +99,13 @@ Si LM Studio falla, las funciones deterministas continúan disponibles. La API d
 
 | Función | Implementación |
 | --- | --- |
-| Web pública | [`HomePage.jsx`](../frontend/src/pages/HomePage.jsx) |
-| Chat | [`ChatWidget.jsx`](../frontend/src/components/ChatWidget.jsx) |
-| Orquestación | [`chatController.js`](../backend/src/controllers/chatController.js) |
-| Flujo de reserva | [`bookingFlowService.js`](../backend/src/services/bookingFlowService.js) |
-| Integridad | [`appointmentService.js`](../backend/src/services/appointmentService.js) |
-| Modelo de cita | [`Appointment.js`](../backend/src/models/Appointment.js) |
-| Agenda | [`AdminAppointments.jsx`](../frontend/src/pages/admin/AdminAppointments.jsx) |
+| Web pública | [`HomePage.jsx`](../../../frontend/src/pages/HomePage.jsx) |
+| Chat | [`ChatWidget.jsx`](../../../frontend/src/components/ChatWidget.jsx) |
+| Orquestación | [`chatController.js`](../../../backend/src/controllers/chatController.js) |
+| Flujo de reserva | [`bookingFlowService.js`](../../../backend/src/services/bookingFlowService.js) |
+| Integridad | [`appointmentService.js`](../../../backend/src/services/appointmentService.js) |
+| Modelo de cita | [`Appointment.js`](../../../backend/src/models/Appointment.js) |
+| Agenda | [`AdminAppointments.jsx`](../../../frontend/src/pages/admin/AdminAppointments.jsx) |
 
 ## Resultado del capítulo
 
@@ -113,9 +113,9 @@ La implementación cubre la historia completa cliente-administrador. La conversa
 
 **Documentación relacionada**
 
-- [Capítulo 4 completo](../docs/capitulos/04-implementacion-mapa-solucion.md)
-- [API y datos](../docs/04-api-y-datos.md)
-- [Chatbot y reglas](../docs/05-chatbot-y-reglas.md)
-- [Capturas y diagramas](../docs/diagramas-y-capturas.md)
+- [Capítulo 4 completo](../../capitulos/04-implementacion-mapa-solucion.md)
+- [API y datos](../../04-api-y-datos.md)
+- [Chatbot y reglas](../../05-chatbot-y-reglas.md)
+- [Capturas y diagramas](../../diagramas-y-capturas.md)
 
-[Capítulo 3](../Capitulo_3/README.md) · [Inicio](../README.md) · [Capítulo 5](../Capitulo_5/README.md)
+[Capítulo 3](../Capitulo_3/README.md) · [Inicio](../../../README.md) · [Capítulo 5](../Capitulo_5/README.md)

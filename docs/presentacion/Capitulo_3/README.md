@@ -1,10 +1,10 @@
-[Capítulo 2](../Capitulo_2/README.md) · [Inicio](../README.md) · [Capítulo 4](../Capitulo_4/README.md)
+[Capítulo 2](../Capitulo_2/README.md) · [Inicio](../../../README.md) · [Capítulo 4](../Capitulo_4/README.md)
 
 # Capítulo 3. Análisis y diseño
 
 ## Arquitectura general
 
-![Arquitectura técnica](../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
+![Arquitectura técnica](../../../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
 
 La solución sigue una arquitectura cliente-servidor con API REST:
 
@@ -19,7 +19,7 @@ La solución sigue una arquitectura cliente-servidor con API REST:
 
 ## Organización MVC modular
 
-![Clases de análisis MVC](../diagramas/capitulo3/imagenes/07_clases_analisis_mvc.png)
+![Clases de análisis MVC](../../../diagramas/capitulo3/imagenes/07_clases_analisis_mvc.png)
 
 ```text
 Ruta
@@ -44,7 +44,7 @@ Los servicios evitan que los controladores acumulen reglas de negocio:
 
 ## Modelo de datos
 
-![Modelo de datos MongoDB](../diagramas/capitulo3/imagenes/11_modelo_datos_mongodb.png)
+![Modelo de datos MongoDB](../../../diagramas/capitulo3/imagenes/11_modelo_datos_mongodb.png)
 
 ### Appointment
 
@@ -70,7 +70,7 @@ Los servicios evitan que los controladores acumulen reglas de negocio:
 
 ## Diseño del chatbot
 
-![Integración con LM Studio](../diagramas/capitulo3/imagenes/13_integracion_chat_lmstudio.png)
+![Integración con LM Studio](../../../diagramas/capitulo3/imagenes/13_integracion_chat_lmstudio.png)
 
 ```text
 Entrada controlada
@@ -121,10 +121,10 @@ Los requisitos quedan traducidos a una arquitectura implementable. La separació
 
 **Código y documentación**
 
-- [Capítulo 3 completo](../docs/capitulos/03-analisis-diseno.md)
-- [Arquitectura y decisiones](../docs/02-arquitectura-y-decisiones.md)
-- [Backend](../backend/src/)
-- [Frontend](../frontend/src/)
-- [Auditoría diseño-implementación](../RUP/99-seguimiento/auditoria-diseno-implementacion.md)
+- [Capítulo 3 completo](../../capitulos/03-analisis-diseno.md)
+- [Arquitectura y decisiones](../../02-arquitectura-y-decisiones.md)
+- [Backend](../../../backend/src/)
+- [Frontend](../../../frontend/src/)
+- [Auditoría diseño-implementación](../../../RUP/99-seguimiento/auditoria-diseno-implementacion.md)
 
-[Capítulo 2](../Capitulo_2/README.md) · [Inicio](../README.md) · [Capítulo 4](../Capitulo_4/README.md)
+[Capítulo 2](../Capitulo_2/README.md) · [Inicio](../../../README.md) · [Capítulo 4](../Capitulo_4/README.md)

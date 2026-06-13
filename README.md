@@ -8,7 +8,7 @@ Trabajo Fin de Grado en Ingeniería Informática<br>
 **Adrián García Arranz · Santander · 2026**
 
 [![Memoria](https://img.shields.io/badge/Memoria-PDF_final-333333?style=for-the-badge)](entregas/TFG_AdriánGarcíaArranz.pdf)
-[![Presentación](https://img.shields.io/badge/Presentación-20_minutos-146B8C?style=for-the-badge)](PRESENTACION.md)
+[![Presentación](https://img.shields.io/badge/Presentación-20_minutos-146B8C?style=for-the-badge)](docs/presentacion/README.md)
 [![Calidad](https://img.shields.io/badge/Calidad-44_pruebas-287A4D?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
 [![Trazabilidad](https://img.shields.io/badge/Trazabilidad-17_casos_de_uso-8B1E3F?style=for-the-badge)](RUP/99-seguimiento/trazabilidad-casos-uso.md)
 
@@ -32,66 +32,66 @@ Cliente
 
 ## Índice general
 
-### [Capítulo 1. Introducción, estado del arte y objetivos](Capitulo_1/README.md)
+### [Capítulo 1. Introducción, estado del arte y objetivos](docs/presentacion/Capitulo_1/README.md)
 
-- [Contexto](Capitulo_1/README.md#contexto)
-- [Problema identificado](Capitulo_1/README.md#problema-identificado)
-- [Estado del arte](Capitulo_1/README.md#estado-del-arte)
-- [Solución propuesta](Capitulo_1/README.md#solución-propuesta)
-- [Objetivos](Capitulo_1/README.md#objetivo-general)
-- [Alcance e hipótesis](Capitulo_1/README.md#alcance)
+- [Contexto](docs/presentacion/Capitulo_1/README.md#contexto)
+- [Problema identificado](docs/presentacion/Capitulo_1/README.md#problema-identificado)
+- [Estado del arte](docs/presentacion/Capitulo_1/README.md#estado-del-arte)
+- [Solución propuesta](docs/presentacion/Capitulo_1/README.md#solución-propuesta)
+- [Objetivos](docs/presentacion/Capitulo_1/README.md#objetivo-general)
+- [Alcance e hipótesis](docs/presentacion/Capitulo_1/README.md#alcance)
 
-### [Capítulo 2. Requisitos y modelo del dominio](Capitulo_2/README.md)
+### [Capítulo 2. Requisitos y modelo del dominio](docs/presentacion/Capitulo_2/README.md)
 
-- [Actores](Capitulo_2/README.md#actores)
-- [Modelo del dominio](Capitulo_2/README.md#modelo-del-dominio)
-- [Estados de una cita](Capitulo_2/README.md#estados-de-una-cita)
-- [Casos de uso](Capitulo_2/README.md#casos-de-uso)
-- [Reglas suplementarias](Capitulo_2/README.md#reglas-suplementarias)
-- [Trazabilidad](Capitulo_2/README.md#trazabilidad)
+- [Actores](docs/presentacion/Capitulo_2/README.md#actores)
+- [Modelo del dominio](docs/presentacion/Capitulo_2/README.md#modelo-del-dominio)
+- [Estados de una cita](docs/presentacion/Capitulo_2/README.md#estados-de-una-cita)
+- [Casos de uso](docs/presentacion/Capitulo_2/README.md#casos-de-uso)
+- [Reglas suplementarias](docs/presentacion/Capitulo_2/README.md#reglas-suplementarias)
+- [Trazabilidad](docs/presentacion/Capitulo_2/README.md#trazabilidad)
 
-### [Capítulo 3. Análisis y diseño](Capitulo_3/README.md)
+### [Capítulo 3. Análisis y diseño](docs/presentacion/Capitulo_3/README.md)
 
-- [Arquitectura general](Capitulo_3/README.md#arquitectura-general)
-- [Organización MVC](Capitulo_3/README.md#organización-mvc-modular)
-- [Modelo de datos](Capitulo_3/README.md#modelo-de-datos)
-- [Diseño del chatbot](Capitulo_3/README.md#diseño-del-chatbot)
-- [Decisiones técnicas](Capitulo_3/README.md#decisiones-de-diseño)
-- [Seguridad](Capitulo_3/README.md#seguridad-diseñada)
+- [Arquitectura general](docs/presentacion/Capitulo_3/README.md#arquitectura-general)
+- [Organización MVC](docs/presentacion/Capitulo_3/README.md#organización-mvc-modular)
+- [Modelo de datos](docs/presentacion/Capitulo_3/README.md#modelo-de-datos)
+- [Diseño del chatbot](docs/presentacion/Capitulo_3/README.md#diseño-del-chatbot)
+- [Decisiones técnicas](docs/presentacion/Capitulo_3/README.md#decisiones-de-diseño)
+- [Seguridad](docs/presentacion/Capitulo_3/README.md#seguridad-diseñada)
 
-### [Capítulo 4. Implementación y solución](Capitulo_4/README.md)
+### [Capítulo 4. Implementación y solución](docs/presentacion/Capitulo_4/README.md)
 
-- [Solución implementada](Capitulo_4/README.md#solución-implementada)
-- [Vista del producto](Capitulo_4/README.md#vista-del-producto)
-- [Funcionalidad del cliente](Capitulo_4/README.md#funcionalidad-del-cliente)
-- [Funcionalidad administrativa](Capitulo_4/README.md#funcionalidad-administrativa)
-- [Recorrido de una reserva](Capitulo_4/README.md#recorrido-completo-de-una-reserva)
-- [API y código](Capitulo_4/README.md#api-principal)
+- [Solución implementada](docs/presentacion/Capitulo_4/README.md#solución-implementada)
+- [Vista del producto](docs/presentacion/Capitulo_4/README.md#vista-del-producto)
+- [Funcionalidad del cliente](docs/presentacion/Capitulo_4/README.md#funcionalidad-del-cliente)
+- [Funcionalidad administrativa](docs/presentacion/Capitulo_4/README.md#funcionalidad-administrativa)
+- [Recorrido de una reserva](docs/presentacion/Capitulo_4/README.md#recorrido-completo-de-una-reserva)
+- [API y código](docs/presentacion/Capitulo_4/README.md#api-principal)
 
-### [Capítulo 5. Evaluación y conclusiones](Capitulo_5/README.md)
+### [Capítulo 5. Evaluación y conclusiones](docs/presentacion/Capitulo_5/README.md)
 
-- [Cumplimiento de objetivos](Capitulo_5/README.md#cumplimiento-de-objetivos)
-- [Verificación](Capitulo_5/README.md#verificación)
-- [Resultados](Capitulo_5/README.md#resultados)
-- [Seguridad y privacidad](Capitulo_5/README.md#seguridad-y-privacidad)
-- [Limitaciones](Capitulo_5/README.md#limitaciones)
-- [Líneas futuras y conclusión](Capitulo_5/README.md#líneas-futuras)
+- [Cumplimiento de objetivos](docs/presentacion/Capitulo_5/README.md#cumplimiento-de-objetivos)
+- [Verificación](docs/presentacion/Capitulo_5/README.md#verificación)
+- [Resultados](docs/presentacion/Capitulo_5/README.md#resultados)
+- [Seguridad y privacidad](docs/presentacion/Capitulo_5/README.md#seguridad-y-privacidad)
+- [Limitaciones](docs/presentacion/Capitulo_5/README.md#limitaciones)
+- [Líneas futuras y conclusión](docs/presentacion/Capitulo_5/README.md#líneas-futuras)
 
 ## Elementos principales
 
 | Elemento | Evidencia |
 | --- | --- |
-| Problema, propuesta y alcance | [Capítulo 1](Capitulo_1/README.md) |
+| Problema, propuesta y alcance | [Capítulo 1](docs/presentacion/Capitulo_1/README.md) |
 | Modelo del dominio | [Diagrama de clases](diagramas/capitulo2/imagenes/01_diagrama_clases_dominio.png) |
 | Actores y contexto | [Diagrama de contexto](diagramas/capitulo2/imagenes/04_diagrama_contexto.png) |
 | Casos de uso | [Cliente](diagramas/capitulo2/imagenes/05a_diagrama_casos_uso_cliente.png) · [Administrador](diagramas/capitulo2/imagenes/05b_diagrama_casos_uso_administrador.png) |
 | Arquitectura | [Diagrama técnico](diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png) |
 | Integración de IA | [Chat, backend, LM Studio y MongoDB](diagramas/capitulo3/imagenes/13_integracion_chat_lmstudio.png) |
 | Navegación | [Mapa bidireccional UC-01 a UC-17](diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png) |
-| Implementación | [Capítulo 4](Capitulo_4/README.md) |
+| Implementación | [Capítulo 4](docs/presentacion/Capitulo_4/README.md) |
 | Trazabilidad | [UC -> código -> prueba](RUP/99-seguimiento/trazabilidad-casos-uso.md) |
 | Calidad | [44 pruebas, seguridad e integridad](docs/06-calidad-seguridad-y-pruebas.md) |
-| Presentación oral | [Contenido completo](PRESENTACION.md) |
+| Presentación oral | [Contenido completo](docs/presentacion/README.md) |
 
 ## Solución
 
@@ -165,18 +165,14 @@ La configuración completa está documentada en [instalación y ejecución](docs
 
 ```text
 TFG_CortePerfecto/
-├── Capitulo_1/    Introducción, estado del arte y objetivos
-├── Capitulo_2/    Requisitos y modelo del dominio
-├── Capitulo_3/    Análisis y diseño
-├── Capitulo_4/    Implementación y solución
-├── Capitulo_5/    Evaluación y conclusiones
 ├── backend/       API, servicios, modelos, seguridad y pruebas
 ├── frontend/      Web pública, chatbot y administración
 ├── diagramas/     PlantUML, diagramas renderizados y capturas
-├── docs/          Documentación técnica y memoria navegable
+├── docs/
+│   ├── presentacion/  Exposición y resúmenes de los capítulos 1 a 5
+│   └── capitulos/     Memoria académica navegable
 ├── entregas/      Memoria oficial entregada
 ├── RUP/           Casos de uso, trazabilidad y auditoría
-├── PRESENTACION.md
 └── README.md
 ```
 
@@ -190,6 +186,6 @@ La [memoria navegable](docs/capitulos/README.md) conserva los cinco capítulos y
 
 <div align="center">
 
-[Capítulo 1](Capitulo_1/README.md) · [Capítulo 2](Capitulo_2/README.md) · [Capítulo 3](Capitulo_3/README.md) · [Capítulo 4](Capitulo_4/README.md) · [Capítulo 5](Capitulo_5/README.md) · [Presentación](PRESENTACION.md)
+[Capítulo 1](docs/presentacion/Capitulo_1/README.md) · [Capítulo 2](docs/presentacion/Capitulo_2/README.md) · [Capítulo 3](docs/presentacion/Capitulo_3/README.md) · [Capítulo 4](docs/presentacion/Capitulo_4/README.md) · [Capítulo 5](docs/presentacion/Capitulo_5/README.md) · [Presentación](docs/presentacion/README.md)
 
 </div>

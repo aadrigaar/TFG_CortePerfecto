@@ -1,4 +1,4 @@
-[Capítulo 4](../Capitulo_4/README.md) · [Inicio](../README.md) · [Presentación completa](../PRESENTACION.md)
+[Capítulo 4](../Capitulo_4/README.md) · [Inicio](../../../README.md) · [Presentación completa](../README.md)
 
 # Capítulo 5. Evaluación, conclusiones y líneas futuras
 
@@ -102,9 +102,9 @@ El alcance académico está implementado, trazado y verificado. El proyecto cons
 
 **Documentación relacionada**
 
-- [Capítulo 5 completo](../docs/capitulos/05-conclusiones-lineas-futuras.md)
-- [Calidad, seguridad y pruebas](../docs/06-calidad-seguridad-y-pruebas.md)
-- [Limitaciones y evolución](../docs/11-limitaciones-y-lineas-futuras.md)
-- [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
+- [Capítulo 5 completo](../../capitulos/05-conclusiones-lineas-futuras.md)
+- [Calidad, seguridad y pruebas](../../06-calidad-seguridad-y-pruebas.md)
+- [Limitaciones y evolución](../../11-limitaciones-y-lineas-futuras.md)
+- [Memoria oficial](../../../entregas/TFG_AdriánGarcíaArranz.pdf)
 
-[Capítulo 4](../Capitulo_4/README.md) · [Inicio](../README.md) · [Presentación completa](../PRESENTACION.md)
+[Capítulo 4](../Capitulo_4/README.md) · [Inicio](../../../README.md) · [Presentación completa](../README.md)
