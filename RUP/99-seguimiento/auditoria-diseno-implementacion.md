@@ -12,6 +12,7 @@ Este documento aplica una práctica tomada de `pySigHor`: contrastar explícitam
 | MVC backend | Rutas, controladores, servicios, modelos | `routes/`, `controllers/`, `services/`, `models/` | Correcto |
 | Persistencia documental | MongoDB + Mongoose | `Appointment.js`, `Admin.js`, `Service.js` | Correcto |
 | Chatbot local | LM Studio OpenAI-compatible | `promptService.js`, `lmStudioService.js`, `responseParserService.js` | Correcto |
+| Entrada conversacional | Mensaje e historial controlados antes de orquestar | `chatRequestService.js`, `chatController.js` | Reforzado |
 | Reglas deterministas | Fecha, hora, servicio, nombre, solapes | `chatRuleService.js`, `bookingFlowService.js`, `appointmentService.js`, `calendarService.js`, `serviceCatalog.js` | Correcto |
 | Panel administrador | Login, dashboard, CRUD de citas | `AdminLogin.jsx`, `AdminDashboard.jsx`, `AdminAppointments.jsx` | Correcto |
 | Seguridad básica | JWT + rutas privadas | `authMiddleware.js`, `authRoutes.js`, `appointmentRoutes.js` | Correcto |
@@ -30,6 +31,7 @@ Este documento aplica una práctica tomada de `pySigHor`: contrastar explícitam
 | A06 | El flujo conversacional aceptaba algunas negaciones, fechas numéricas y respuestas compuestas de forma ambigua. | Se reforzaron extracción de nombre, preferencia de servicio, fechas, horas, cancelación y validación del turno actual en `bookingFlowService.js`. |
 | A07 | Las preguntas básicas dependían de LM Studio y podían fallar si el servidor local no estaba disponible. | `chatRuleService.js` responde de forma determinista a información del negocio y `chatController.js` ofrece una contingencia segura sin exponer errores técnicos. |
 | A08 | Un identificador de cita activa no estaba ligado explícitamente a su conversación. | Las modificaciones y cancelaciones del chat validan `conversationId`; las escrituras se serializan para evitar solapes simultáneos. |
+| A09 | El saneamiento del mensaje y del historial estaba repartido en la orquestación. | `chatRequestService.js` centraliza longitud, roles admitidos e identificadores sin cambiar el flujo funcional descrito. |
 
 ## Decisiones conservadas
 

@@ -4,7 +4,9 @@
 
 La memoria explica el proceso académico; el repositorio demuestra el resultado ejecutable. Esta guía relaciona los cinco capítulos con artefactos concretos para que cualquier afirmación importante pueda seguirse hasta código, diagrama o prueba.
 
-[Abrir los cinco capítulos completos en GitHub](capitulos/README.md)
+[Abrir PDF final oficial](../entregas/TFG_AdriánGarcíaArranz.pdf) · [Abrir los cinco capítulos en GitHub](capitulos/README.md)
+
+El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítulos web son materiales intermedios o navegables; mantienen el contenido conceptual, pero no deben entenderse como transcripciones literales de la versión entregada.
 
 ## 2. Capítulo 1: introducción, estado del arte, objetivos y metodología
 
@@ -112,6 +114,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 | Capturas | [Galería](diagramas-y-capturas.md) |
 | API detallada | [Referencia API](04-api-y-datos.md) |
 | Pruebas | [Calidad y seguridad](06-calidad-seguridad-y-pruebas.md) |
+| Revisión final | [Auditoría memoria-código](12-auditoria-entrega-final.md) |
 
 [Leer Capítulo 4 completo](capitulos/04-implementacion-mapa-solucion.md)
 
@@ -174,4 +177,4 @@ Evitar solapes
 
 Eso demuestra que la memoria no es una descripción aislada, sino una representación del sistema construido.
 
-[Siguiente: demostración](08-demo-defensa.md) · [Volver al índice](README.md)
+[Siguiente: demostración](08-demo-defensa.md) · [Auditoría final](12-auditoria-entrega-final.md) · [Volver al índice](README.md)

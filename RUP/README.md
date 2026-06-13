@@ -15,7 +15,8 @@ El objetivo no es duplicar los capítulos entregables, sino dejar evidencia traz
 
 ## Criterio de uso
 
-- Los capítulos (`entregas/Capitulo1.docx`, `Capitulo2.docx`, `Capitulo3.docx`) son la memoria formal.
+- El PDF `entregas/TFG_AdriánGarcíaArranz.pdf` es la memoria formal entregada.
+- Los DOCX por capítulos son entregas intermedias conservadas como evidencia del proceso.
 - `diagramas/` conserva los diagramas fuente versionables y sus imágenes generadas.
 - `RUP/` deja la trazabilidad operativa del proyecto, igual que `pySigHor` separa artefactos vivos de entregables.
 - `docs/` proporciona la explicación navegable del proyecto y el material preparado para la defensa.

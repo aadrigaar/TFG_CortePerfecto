@@ -1,5 +1,7 @@
 # Guion de defensa de 20 minutos
 
+Este documento contiene el texto oral resumido. Para preparar pestañas, clics, demo, contingencias y respuestas, empieza por la [defensa completa paso a paso](00-defensa-paso-a-paso.md).
+
 ## Distribución
 
 | Tiempo | Bloque | Resultado |
@@ -202,4 +204,4 @@ Límite -> local, un recurso, sin pagos
 Aportación -> flexibilidad con integridad
 ```
 
-[Siguiente: preguntas del tribunal](10-preguntas-del-tribunal.md) · [Volver al índice](README.md)
+[Defensa completa paso a paso](00-defensa-paso-a-paso.md) · [Siguiente: preguntas del tribunal](10-preguntas-del-tribunal.md) · [Volver al índice](README.md)

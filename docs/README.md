@@ -6,19 +6,22 @@ Este índice permite recorrer Corte Perfecto con tres niveles de profundidad: vi
 
 | Orden | Documento | Qué aporta |
 | --- | --- | --- |
-| 1 | [Memoria completa por capítulos](capitulos/README.md) | Texto íntegro navegable de los cinco capítulos y referencias. |
-| 2 | [Proyecto y objetivos](01-proyecto-y-objetivos.md) | Problema, propuesta, actores, alcance y metodología. |
-| 3 | [Arquitectura y decisiones](02-arquitectura-y-decisiones.md) | Capas, módulos, flujos y justificación del stack. |
-| 4 | [Instalación y ejecución](03-instalacion-y-ejecucion.md) | Preparación reproducible del entorno. |
-| 5 | [API y datos](04-api-y-datos.md) | Endpoints, modelos, estados y ejemplos. |
-| 6 | [Chatbot y reglas](05-chatbot-y-reglas.md) | Diseño híbrido, procesamiento y contingencias. |
-| 7 | [Calidad, seguridad y pruebas](06-calidad-seguridad-y-pruebas.md) | Controles técnicos y evidencias automatizadas. |
-| 8 | [Memoria y trazabilidad](07-memoria-y-trazabilidad.md) | Correspondencia de los cinco capítulos con el repositorio. |
-| 9 | [Demostración](08-demo-defensa.md) | Recorrido controlado del producto. |
-| 10 | [Guion de 20 minutos](09-guion-defensa-20-min.md) | Qué decir, en qué orden y cuánto tiempo dedicar. |
-| 11 | [Preguntas del tribunal](10-preguntas-del-tribunal.md) | Respuestas concisas y técnicamente defendibles. |
-| 12 | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) | Evaluación crítica y evolución razonable. |
-| 13 | [Diagramas y capturas](diagramas-y-capturas.md) | Galería visual enlazada a sus fuentes PlantUML. |
+| 1 | [Defensa paso a paso](00-defensa-paso-a-paso.md) | Recorrido exacto de 20 minutos, pantallas, frases y contingencias. |
+| 2 | [PDF final entregado](../entregas/TFG_AdriánGarcíaArranz.pdf) | Fuente académica oficial de 100 páginas. |
+| 3 | [Memoria completa por capítulos](capitulos/README.md) | Versión de apoyo navegable de los cinco capítulos y referencias. |
+| 4 | [Proyecto y objetivos](01-proyecto-y-objetivos.md) | Problema, propuesta, actores, alcance y metodología. |
+| 5 | [Arquitectura y decisiones](02-arquitectura-y-decisiones.md) | Capas, módulos, flujos y justificación del stack. |
+| 6 | [Instalación y ejecución](03-instalacion-y-ejecucion.md) | Preparación reproducible del entorno. |
+| 7 | [API y datos](04-api-y-datos.md) | Endpoints, modelos, estados y ejemplos. |
+| 8 | [Chatbot y reglas](05-chatbot-y-reglas.md) | Diseño híbrido, procesamiento y contingencias. |
+| 9 | [Calidad, seguridad y pruebas](06-calidad-seguridad-y-pruebas.md) | Controles técnicos y evidencias automatizadas. |
+| 10 | [Memoria y trazabilidad](07-memoria-y-trazabilidad.md) | Correspondencia de los cinco capítulos con el repositorio. |
+| 11 | [Demostración](08-demo-defensa.md) | Recorrido controlado del producto. |
+| 12 | [Guion oral](09-guion-defensa-20-min.md) | Texto ensayable de cada bloque. |
+| 13 | [Preguntas del tribunal](10-preguntas-del-tribunal.md) | Respuestas concisas y técnicamente defendibles. |
+| 14 | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) | Evaluación crítica y evolución razonable. |
+| 15 | [Auditoría final](12-auditoria-entrega-final.md) | Qué coincide, qué es posterior y qué debe afirmarse. |
+| 16 | [Diagramas y capturas](diagramas-y-capturas.md) | Galería visual enlazada a sus fuentes PlantUML. |
 
 ## Evidencias del repositorio
 
@@ -35,11 +38,12 @@ Este índice permite recorrer Corte Perfecto con tres niveles de profundidad: vi
 ### Tribunal
 
 1. [README principal](../README.md)
-2. [Memoria completa](capitulos/README.md)
-3. [Proyecto y objetivos](01-proyecto-y-objetivos.md)
-4. [Arquitectura](02-arquitectura-y-decisiones.md)
-5. [Calidad y pruebas](06-calidad-seguridad-y-pruebas.md)
-6. [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md)
+2. [PDF final entregado](../entregas/TFG_AdriánGarcíaArranz.pdf)
+3. [Memoria completa navegable](capitulos/README.md)
+4. [Proyecto y objetivos](01-proyecto-y-objetivos.md)
+5. [Arquitectura](02-arquitectura-y-decisiones.md)
+6. [Calidad y pruebas](06-calidad-seguridad-y-pruebas.md)
+7. [Auditoría final](12-auditoria-entrega-final.md)
 
 ### Evaluación técnica
 
@@ -51,9 +55,10 @@ Este índice permite recorrer Corte Perfecto con tres niveles de profundidad: vi
 
 ### Preparación de la defensa
 
-1. [Guion oral](09-guion-defensa-20-min.md)
-2. [Demostración](08-demo-defensa.md)
-3. [Preguntas del tribunal](10-preguntas-del-tribunal.md)
-4. [Galería visual](diagramas-y-capturas.md)
+1. [Defensa paso a paso](00-defensa-paso-a-paso.md)
+2. [Guion oral](09-guion-defensa-20-min.md)
+3. [Demostración](08-demo-defensa.md)
+4. [Preguntas del tribunal](10-preguntas-del-tribunal.md)
+5. [Galería visual](diagramas-y-capturas.md)
 
 [Volver al README principal](../README.md)

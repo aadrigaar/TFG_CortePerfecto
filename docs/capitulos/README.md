@@ -4,6 +4,7 @@
 
 Versión navegable para consultar y exponer directamente desde GitHub.
 
+[![PDF final](https://img.shields.io/badge/MEMORIA_OFICIAL-Abrir_PDF-444444?style=for-the-badge)](../../entregas/TFG_AdriánGarcíaArranz.pdf)
 [![Capítulo 1](https://img.shields.io/badge/CAPÍTULO_1-Introducción_y_objetivos-146B8C?style=for-the-badge)](01-introduccion-estado-arte-objetivos-metodologia.md)
 [![Capítulo 2](https://img.shields.io/badge/CAPÍTULO_2-Requisitos_y_dominio-287A4D?style=for-the-badge)](02-requisitos-modelo-dominio.md)
 [![Capítulo 3](https://img.shields.io/badge/CAPÍTULO_3-Análisis_y_diseño-5A4A78?style=for-the-badge)](03-analisis-diseno.md)
@@ -16,6 +17,8 @@ Versión navegable para consultar y exponer directamente desde GitHub.
 </div>
 
 ## Contenido
+
+> **Fuente oficial:** el documento presentado y entregado es [TFG_AdriánGarcíaArranz.pdf](../../entregas/TFG_AdriánGarcíaArranz.pdf), con 100 páginas. Esta sección web es material navegable de apoyo. Los DOCX enlazados son entregas intermedias y no una reproducción literal del PDF final.
 
 | Capítulo | Contenido completo | Documento original |
 | --- | --- | --- |
@@ -34,6 +37,6 @@ Versión navegable para consultar y exponer directamente desde GitHub.
 4. Abre el [guion de 20 minutos](../09-guion-defensa-20-min.md) para ensayar.
 5. Sigue la [demostración preparada](../08-demo-defensa.md) durante la exposición.
 
-> Los textos proceden de los capítulos académicos originales. La presentación web adapta únicamente navegación, jerarquía y recursos gráficos; las cifras técnicas de verificación se sincronizan con el estado actual del repositorio.
+> Los textos proceden de los capítulos académicos de trabajo. La versión final revisó, condensó y amplió parte del contenido; ante cualquier diferencia de redacción prevalece siempre el PDF oficial. Las cifras técnicas de verificación se sincronizan con el estado actual del repositorio.
 
 [Volver al README principal](../../README.md)

@@ -8,9 +8,10 @@ Trabajo Fin de Grado en Ingeniería Informática<br>
 **Autor:** Adrián García Arranz
 
 [![Documentación](https://img.shields.io/badge/DOCUMENTACIÓN-Índice_razonado-146B8C?style=for-the-badge)](docs/README.md)
-[![Defensa](https://img.shields.io/badge/DEFENSA-Guion_de_20_minutos-8B1E3F?style=for-the-badge)](docs/09-guion-defensa-20-min.md)
+[![Defensa](https://img.shields.io/badge/DEFENSA-Empezar_aquí-8B1E3F?style=for-the-badge)](docs/00-defensa-paso-a-paso.md)
 [![Demo](https://img.shields.io/badge/DEMOSTRACIÓN-Paso_a_paso-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
 [![Pruebas](https://img.shields.io/badge/PRUEBAS-44_superadas-5A4A78?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
+[![Memoria](https://img.shields.io/badge/MEMORIA-PDF_entregado-444444?style=for-the-badge)](entregas/TFG_AdriánGarcíaArranz.pdf)
 
 [![Capítulo 1](https://img.shields.io/badge/1-Introducción-146B8C?style=flat-square)](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md)
 [![Capítulo 2](https://img.shields.io/badge/2-Requisitos-287A4D?style=flat-square)](docs/capitulos/02-requisitos-modelo-dominio.md)
@@ -39,6 +40,8 @@ El proyecto resuelve cuatro necesidades:
 
 | Quiero consultar | Acceso |
 | --- | --- |
+| El recorrido exacto de la exposición | [Empezar la defensa paso a paso](docs/00-defensa-paso-a-paso.md) |
+| La memoria oficial entregada | [Abrir PDF final](entregas/TFG_AdriánGarcíaArranz.pdf) |
 | Los cinco capítulos completos | [Abrir memoria navegable](docs/capitulos/README.md) |
 | Visión general, objetivos y alcance | [Abrir visión del proyecto](docs/01-proyecto-y-objetivos.md) |
 | Arquitectura y decisiones técnicas | [Abrir arquitectura](docs/02-arquitectura-y-decisiones.md) |
@@ -51,6 +54,7 @@ El proyecto resuelve cuatro necesidades:
 | Guion oral de 20 minutos | [Abrir guion](docs/09-guion-defensa-20-min.md) |
 | Preguntas previsibles del tribunal | [Abrir preparación de preguntas](docs/10-preguntas-del-tribunal.md) |
 | Limitaciones y evolución | [Abrir análisis crítico](docs/11-limitaciones-y-lineas-futuras.md) |
+| Auditoría final memoria-código | [Abrir resultado de la revisión](docs/12-auditoria-entrega-final.md) |
 | Diagramas y capturas | [Abrir galería técnica](docs/diagramas-y-capturas.md) |
 | Casos de uso UC-01 a UC-17 | [Abrir especificación](RUP/02-requisitos/especificacion-casos-uso.md) |
 
@@ -161,6 +165,8 @@ Las pruebas cubren calendario, nombres, servicios, interpretación temporal, sol
 
 ## Memoria académica completa
 
+La referencia académica oficial es el [PDF final entregado](entregas/TFG_AdriánGarcíaArranz.pdf), de **100 páginas**. Los DOCX por capítulos son entregas intermedias conservadas como material de trabajo; la memoria final los integra, revisa y amplía, por lo que no deben presentarse como copias literales de la versión definitiva.
+
 | Capítulo | Contenido | Leer en GitHub | Documento original |
 | --- | --- | --- | --- |
 | 1 | Introducción, estado del arte, objetivos y metodología | [Leer Capítulo 1](docs/capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) | [Abrir DOCX](entregas/Capitulo1.docx) |
@@ -170,7 +176,7 @@ Las pruebas cubren calendario, nombres, servicios, interpretación temporal, sol
 | 5 | Resultados, conclusiones y líneas futuras | [Leer Capítulo 5](docs/capitulos/05-conclusiones-lineas-futuras.md) | [Abrir DOCX conjunto](entregas/Capitulos4y5.docx) |
 | Referencias | Bibliografía de la memoria final | [Consultar referencias](docs/capitulos/06-referencias.md) | Incluidas en la memoria final |
 
-[Abrir índice visual de capítulos](docs/capitulos/README.md) · [Ver correspondencia memoria-código](docs/07-memoria-y-trazabilidad.md) · [Consultar artefactos RUP](RUP/README.md)
+[Abrir PDF oficial](entregas/TFG_AdriánGarcíaArranz.pdf) · [Abrir índice visual de capítulos](docs/capitulos/README.md) · [Ver correspondencia memoria-código](docs/07-memoria-y-trazabilidad.md) · [Consultar auditoría final](docs/12-auditoria-entrega-final.md)
 
 ## Estructura del repositorio
 
@@ -181,7 +187,7 @@ TFG_CortePerfecto/
 ├── diagramas/     PlantUML, imágenes renderizadas y capturas
 ├── docs/          Documentación navegable y preparación de la defensa
 │   └── capitulos/ Memoria completa dividida en cinco capítulos
-├── entregas/      Capítulos académicos versionados
+├── entregas/      PDF final oficial y capítulos académicos intermedios
 ├── RUP/           Casos de uso, trazabilidad y auditoría
 └── README.md      Entrada principal del proyecto
 ```
@@ -194,7 +200,7 @@ El alcance definido para el TFG está implementado y verificado. El sistema est�
 
 <div align="center">
 
-[![Preparar defensa](https://img.shields.io/badge/EMPEZAR-Preparar_la_defensa-8B1E3F?style=for-the-badge)](docs/09-guion-defensa-20-min.md)
+[![Preparar defensa](https://img.shields.io/badge/EMPEZAR-Defensa_paso_a_paso-8B1E3F?style=for-the-badge)](docs/00-defensa-paso-a-paso.md)
 [![Ejecutar demo](https://img.shields.io/badge/SEGUIR-Ejecutar_la_demo-287A4D?style=for-the-badge)](docs/08-demo-defensa.md)
 
 </div>
