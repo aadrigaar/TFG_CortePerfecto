@@ -8,7 +8,7 @@ Trabajo Fin de Grado en Ingeniería Informática<br>
 **Adrián García Arranz · Santander · 2026**
 
 [![Memoria](https://img.shields.io/badge/Memoria-PDF_final-333333?style=for-the-badge)](entregas/TFG_AdriánGarcíaArranz.pdf)
-[![Presentación](https://img.shields.io/badge/Presentación-20_minutos-146B8C?style=for-the-badge)](docs/presentacion/README.md)
+[![Presentación](https://img.shields.io/badge/Presentación-15_minutos-146B8C?style=for-the-badge)](docs/presentacion/README.md)
 [![Calidad](https://img.shields.io/badge/Calidad-44_pruebas-287A4D?style=for-the-badge)](docs/06-calidad-seguridad-y-pruebas.md)
 [![Trazabilidad](https://img.shields.io/badge/Trazabilidad-17_casos_de_uso-8B1E3F?style=for-the-badge)](RUP/99-seguimiento/trazabilidad-casos-uso.md)
 
