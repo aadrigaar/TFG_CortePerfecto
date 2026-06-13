@@ -30,7 +30,7 @@ Esta separación evita que una respuesta lingüísticamente convincente se convi
 | `chatRequestService.js` | Saneamiento, límites e identificadores |
 | `chatController.js` | Orquestación del pipeline |
 | `bookingFlowService.js` | Reserva, modificación y cancelación |
-| `chatRuleService.js` | Preguntas frecuentes y defensa ante instrucciones ajenas |
+| `chatRuleService.js` | Preguntas frecuentes y protección ante instrucciones ajenas |
 | `calendarService.js` | Fechas, días laborables y horas en español |
 | `serviceCatalog.js` | Servicios, sinónimos, precio y duración |
 | `promptService.js` | Prompt de dominio e historial acotado |
@@ -169,12 +169,12 @@ Esta degradación es preferible a convertir la indisponibilidad de IA en una ca�
 - Modificación desde otra conversación.
 - Respuesta de LM Studio vacía o no disponible.
 
-## 9. Qué afirmar en la defensa
+## 9. Garantía técnica y límite del modelo
 
-Una formulación precisa es:
+La garantía central del diseño puede resumirse así:
 
 > “He utilizado un modelo local para la flexibilidad conversacional, pero he mantenido las reglas críticas en servicios deterministas. Por eso el modelo puede ayudar a entender al usuario, pero no puede saltarse el horario, crear solapes ni confirmar una cita no guardada.”
 
-No conviene afirmar que un chatbot “nunca falla”. La defensa técnica correcta es que los fallos previsibles están acotados, probados y tienen una respuesta controlada.
+Un chatbot generativo no puede garantizar que toda respuesta libre sea perfecta. La garantía verificable es que los fallos previsibles están acotados, probados y tienen una respuesta controlada, mientras que las operaciones críticas no dependen del modelo.
 
 [Siguiente: calidad y seguridad](06-calidad-seguridad-y-pruebas.md) · [Volver al índice](README.md)

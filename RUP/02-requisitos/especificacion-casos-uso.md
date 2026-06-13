@@ -160,5 +160,5 @@ Este artefacto contiene la especificación funcional completa de los casos de us
 ## Relación con la memoria y la exposición
 
 - La memoria resume los casos críticos y aporta diagramas, trazabilidad y criterios de aceptación.
-- Este archivo permite consultar las 17 fichas completas desde el repositorio durante la preparación de la defensa.
+- Este archivo permite consultar las 17 fichas completas y relacionarlas con la implementación.
 - La matriz de `RUP/99-seguimiento/trazabilidad-casos-uso.md` enlaza cada ficha con endpoints, vistas, servicios, datos y pruebas reales.

@@ -1,4 +1,4 @@
-[Índice de capítulos](README.md) · [Siguiente: Capítulo 2](02-requisitos-modelo-dominio.md) · [Guion de defensa](../09-guion-defensa-20-min.md)
+[Índice de capítulos](README.md) · [Siguiente: Capítulo 2](02-requisitos-modelo-dominio.md) · [Presentación del proyecto](../../PRESENTACION.md)
 
 ---
 

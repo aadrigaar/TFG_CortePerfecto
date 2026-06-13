@@ -119,4 +119,4 @@ No todas las funciones merecen convertirse en microservicios ni usar IA. La evol
 
 La versión actual cumple el objetivo académico y funcional definido. No pretende ser una plataforma SaaS terminada, sino un producto completo dentro de un alcance concreto y una base técnica razonable para continuar.
 
-[Volver al índice](README.md) · [Preparar la defensa](09-guion-defensa-20-min.md)
+[Volver al índice](README.md) · [Presentación del proyecto](../PRESENTACION.md)

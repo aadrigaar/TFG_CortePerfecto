@@ -165,7 +165,7 @@ Además de las pruebas:
 
 ## 10. Criterio de aceptación
 
-Una versión está lista para demostrar cuando:
+Una versión cumple el criterio de aceptación cuando:
 
 1. `npm run verify` termina con éxito.
 2. MongoDB figura como conectado.

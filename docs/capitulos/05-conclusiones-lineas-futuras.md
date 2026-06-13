@@ -61,7 +61,7 @@ La decisión más relevante del proyecto ha sido separar conversación y decisi�
 
 Otra decisión importante ha sido utilizar MongoDB. En una agenda de citas, cada reserva se consulta como unidad documental completa y no requiere un modelo relacional complejo. El esquema usado conserva los datos necesarios para el panel, las estadísticas y la detección de solapes. Además, Mongoose aporta validación de esquema, índices y una capa de acceso coherente con Node.js.
 
-Desde el punto de vista metodológico, la inspiración en pySigHor ha sido especialmente útil para no dejar el TFG como una simple implementación. La carpeta RUP actúa como memoria viva del proyecto: casos de uso, código, pruebas y auditoría pueden recorrerse juntos. Esta trazabilidad facilita justificar decisiones ante el tutor y ante un tribunal, porque cada pantalla se conecta con un caso de uso y cada regla crítica con una prueba.
+Desde el punto de vista metodológico, la inspiración en pySigHor ha sido especialmente útil para no dejar el TFG como una simple implementación. La carpeta RUP actúa como memoria viva del proyecto: casos de uso, código, pruebas y auditoría pueden recorrerse juntos. Esta trazabilidad permite verificar las decisiones porque cada pantalla se conecta con un caso de uso y cada regla crítica con una prueba.
 
 | **Decisión** | **Ventaja** | **Compromiso asumido** |
 |----|----|----|

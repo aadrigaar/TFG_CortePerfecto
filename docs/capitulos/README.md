@@ -1,8 +1,8 @@
 <div align="center">
 
-# Memoria completa del TFG
+# Memoria navegable
 
-Versión navegable para consultar y exponer directamente desde GitHub.
+Versión web de los capítulos académicos de Corte Perfecto.
 
 [![PDF final](https://img.shields.io/badge/MEMORIA_OFICIAL-Abrir_PDF-444444?style=for-the-badge)](../../entregas/TFG_AdriánGarcíaArranz.pdf)
 [![Capítulo 1](https://img.shields.io/badge/CAPÍTULO_1-Introducción_y_objetivos-146B8C?style=for-the-badge)](01-introduccion-estado-arte-objetivos-metodologia.md)
@@ -11,32 +11,21 @@ Versión navegable para consultar y exponer directamente desde GitHub.
 [![Capítulo 4](https://img.shields.io/badge/CAPÍTULO_4-Implementación-8B1E3F?style=for-the-badge)](04-implementacion-mapa-solucion.md)
 [![Capítulo 5](https://img.shields.io/badge/CAPÍTULO_5-Conclusiones-9A5A22?style=for-the-badge)](05-conclusiones-lineas-futuras.md)
 
-[![Referencias](https://img.shields.io/badge/REFERENCIAS-Bibliografía-444444?style=for-the-badge)](06-referencias.md)
-[![Defensa](https://img.shields.io/badge/DEFENSA-Guion_de_20_minutos-8B1E3F?style=for-the-badge)](../09-guion-defensa-20-min.md)
-
 </div>
 
 ## Contenido
 
-> **Fuente oficial:** el documento presentado y entregado es [TFG_AdriánGarcíaArranz.pdf](../../entregas/TFG_AdriánGarcíaArranz.pdf), con 100 páginas. Esta sección web es material navegable de apoyo. Los DOCX enlazados son entregas intermedias y no una reproducción literal del PDF final.
+> La referencia oficial entregada es [TFG_AdriánGarcíaArranz.pdf](../../entregas/TFG_AdriánGarcíaArranz.pdf), con 100 páginas. Esta versión facilita la navegación y enlaza el contenido académico con el código.
 
-| Capítulo | Contenido completo | Documento original |
-| --- | --- | --- |
-| 1 | Introducción, estado del arte, objetivos, metodología, alcance y referencias iniciales | [Leer en GitHub](01-introduccion-estado-arte-objetivos-metodologia.md) · [Abrir DOCX](../../entregas/Capitulo1.docx) |
-| 2 | Modelo del dominio, requisitos, actores, casos de uso, trazabilidad y criterios de aceptación | [Leer en GitHub](02-requisitos-modelo-dominio.md) · [Abrir DOCX](../../entregas/Capitulo2.docx) |
-| 3 | Análisis, arquitectura, diseño, datos, interfaces, integración y plan de pruebas | [Leer en GitHub](03-analisis-diseno.md) · [Abrir DOCX](../../entregas/Capitulo3.docx) |
-| 4 | Implementación, navegación, chatbot, panel, persistencia y verificación | [Leer en GitHub](04-implementacion-mapa-solucion.md) · [Abrir DOCX conjunto](../../entregas/Capitulos4y5.docx) |
-| 5 | Cumplimiento de objetivos, discusión, limitaciones, futuro y conclusión | [Leer en GitHub](05-conclusiones-lineas-futuras.md) · [Abrir DOCX conjunto](../../entregas/Capitulos4y5.docx) |
-| Referencias | Bibliografía incluida en la memoria final | [Consultar referencias](06-referencias.md) |
+| Capítulo | Contenido |
+| ---: | --- |
+| [1](01-introduccion-estado-arte-objetivos-metodologia.md) | Introducción, estado del arte, objetivos, metodología y alcance |
+| [2](02-requisitos-modelo-dominio.md) | Modelo del dominio, actores, requisitos y casos de uso |
+| [3](03-analisis-diseno.md) | Arquitectura, análisis, datos, interfaces e integración |
+| [4](04-implementacion-mapa-solucion.md) | Aplicación, navegación, chatbot, panel y persistencia |
+| [5](05-conclusiones-lineas-futuras.md) | Resultados, objetivos, limitaciones y evolución |
+| [Referencias](06-referencias.md) | Bibliografía de la memoria |
 
-## Cómo utilizarlo en la defensa
+Los [resúmenes de presentación](../../README.md#índice-general) condensan los elementos principales, mientras que estos documentos conservan el desarrollo académico.
 
-1. Abre el [README principal](../../README.md) para presentar el producto.
-2. Entra en el capítulo correspondiente cuando necesites justificar una decisión.
-3. Usa los enlaces de cada capítulo para avanzar y retroceder sin volver al listado.
-4. Abre el [guion de 20 minutos](../09-guion-defensa-20-min.md) para ensayar.
-5. Sigue la [demostración preparada](../08-demo-defensa.md) durante la exposición.
-
-> Los textos proceden de los capítulos académicos de trabajo. La versión final revisó, condensó y amplió parte del contenido; ante cualquier diferencia de redacción prevalece siempre el PDF oficial. Las cifras técnicas de verificación se sincronizan con el estado actual del repositorio.
-
-[Volver al README principal](../../README.md)
+[Volver al proyecto](../../README.md) · [Documentación técnica](../README.md)

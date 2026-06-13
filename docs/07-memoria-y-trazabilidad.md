@@ -6,7 +6,7 @@ La memoria explica el proceso académico; el repositorio demuestra el resultado 
 
 [Abrir PDF final oficial](../entregas/TFG_AdriánGarcíaArranz.pdf) · [Abrir los cinco capítulos en GitHub](capitulos/README.md)
 
-El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítulos web son materiales intermedios o navegables; mantienen el contenido conceptual, pero no deben entenderse como transcripciones literales de la versión entregada.
+El PDF final de 100 páginas es la fuente académica oficial. Los capítulos web proporcionan una versión navegable y conectada con las evidencias del repositorio.
 
 ## 2. Capítulo 1: introducción, estado del arte, objetivos y metodología
 
@@ -29,7 +29,7 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 | Privacidad | [Calidad y seguridad](06-calidad-seguridad-y-pruebas.md) |
 | Alcance crítico | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) |
 
-[Leer Capítulo 1 completo](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) · [Documento académico](../entregas/Capitulo1.docx)
+[Leer Capítulo 1 completo](capitulos/01-introduccion-estado-arte-objetivos-metodologia.md) · [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
 
 ## 3. Capítulo 2: disciplina de requisitos
 
@@ -56,7 +56,7 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 | Fichas UC-01 a UC-17 | [Especificación completa](../RUP/02-requisitos/especificacion-casos-uso.md) |
 | Trazabilidad | [Matriz UC -> código -> prueba](../RUP/99-seguimiento/trazabilidad-casos-uso.md) |
 
-[Leer Capítulo 2 completo](capitulos/02-requisitos-modelo-dominio.md) · [Documento académico](../entregas/Capitulo2.docx)
+[Leer Capítulo 2 completo](capitulos/02-requisitos-modelo-dominio.md) · [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
 
 ## 4. Capítulo 3: análisis y diseño
 
@@ -86,7 +86,7 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 | Diseño explicado | [Arquitectura](02-arquitectura-y-decisiones.md) |
 | Diseño contrastado | [Auditoría diseño-implementación](../RUP/99-seguimiento/auditoria-diseno-implementacion.md) |
 
-[Leer Capítulo 3 completo](capitulos/03-analisis-diseno.md) · [Documento académico](../entregas/Capitulo3.docx)
+[Leer Capítulo 3 completo](capitulos/03-analisis-diseno.md) · [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
 
 ## 5. Capítulo 4: implementación y mapa de la solución
 
@@ -110,11 +110,11 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 | Administración | `frontend/src/pages/admin/` |
 | API | `backend/src/routes/`, `controllers/`, `services/` |
 | Persistencia | `backend/src/models/` |
-| Navegación | [Diagrama](../diagramas/capitulo4/imagenes/figura_4_1_mapa_navegacion.png) |
+| Navegación | [Diagrama](../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png) |
 | Capturas | [Galería](diagramas-y-capturas.md) |
 | API detallada | [Referencia API](04-api-y-datos.md) |
 | Pruebas | [Calidad y seguridad](06-calidad-seguridad-y-pruebas.md) |
-| Revisión final | [Auditoría memoria-código](12-auditoria-entrega-final.md) |
+| Revisión final | [Auditoría diseño-implementación](../RUP/99-seguimiento/auditoria-diseno-implementacion.md) |
 
 [Leer Capítulo 4 completo](capitulos/04-implementacion-mapa-solucion.md)
 
@@ -138,9 +138,9 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 | Integridad | [Pruebas y reglas](06-calidad-seguridad-y-pruebas.md) |
 | Resultados de implementación | [README](../README.md) |
 | Límites reales | [Limitaciones y futuro](11-limitaciones-y-lineas-futuras.md) |
-| Demostración reproducible | [Demo de defensa](08-demo-defensa.md) |
+| Verificación reproducible | [`npm run verify`](06-calidad-seguridad-y-pruebas.md) |
 
-[Leer Capítulo 5 completo](capitulos/05-conclusiones-lineas-futuras.md) · [Documento académico de los Capítulos 4 y 5](../entregas/Capitulos4y5.docx)
+[Leer Capítulo 5 completo](capitulos/05-conclusiones-lineas-futuras.md) · [Memoria oficial](../entregas/TFG_AdriánGarcíaArranz.pdf)
 
 ## 7. Matriz resumida objetivo -> caso de uso -> código -> prueba
 
@@ -155,9 +155,9 @@ El PDF final de 100 páginas es la fuente académica oficial. Los DOCX y capítu
 
 La [matriz completa](../RUP/99-seguimiento/trazabilidad-casos-uso.md) enlaza individualmente los 17 casos.
 
-## 8. Cómo usar esta trazabilidad en la defensa
+## 8. Cadena de trazabilidad
 
-Cuando el tribunal pregunte “¿dónde está implementado?”, responde con la cadena:
+La correspondencia completa sigue esta cadena:
 
 ```text
 Necesidad -> caso de uso -> interfaz/endpoint -> servicio -> modelo -> prueba
@@ -175,6 +175,6 @@ Evitar solapes
 -> appointmentService.test.js
 ```
 
-Eso demuestra que la memoria no es una descripción aislada, sino una representación del sistema construido.
+Esta relación demuestra que la memoria no es una descripción aislada, sino una representación del sistema construido.
 
-[Siguiente: demostración](08-demo-defensa.md) · [Auditoría final](12-auditoria-entrega-final.md) · [Volver al índice](README.md)
+[Matriz completa](../RUP/99-seguimiento/trazabilidad-casos-uso.md) · [Auditoría diseño-implementación](../RUP/99-seguimiento/auditoria-diseno-implementacion.md) · [Volver al índice](README.md)
