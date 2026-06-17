@@ -277,10 +277,6 @@ El proyecto cumple los objetivos planteados al inicio. Se ha analizado un proble
 
 ### Resultados del chatbot y tiempo de respuesta
 
-Además de cumplir los objetivos funcionales, también se ha revisado cómo se comporta la parte de inteligencia artificial. La conclusión principal es que el asistente responde dentro del tema de la peluquería y no tiene autoridad para inventar reservas.
-
-El resultado se puede explicar así:
-
 | Aspecto | Resultado |
 | --- | --- |
 | Qué debe responder | Servicios, precios, horario, dudas de la peluquería y ayuda para reservar. |
