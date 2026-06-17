@@ -13,7 +13,7 @@
 | --- | ---: | --- | --- |
 | Puesta en contexto | 3 minutos | Se establece el marco de trabajo: problema, negocio, entidades principales y relación entre ellas. | Modelo del dominio |
 | Exposición de requisitos | 2 minutos | Se presentan los actores, los casos de uso principales y los límites del sistema. | Actores, casos de uso y contexto |
-| Casos de uso representativos | 3 minutos | Se explican dos recorridos importantes de forma sencilla: reservar por chat y consultar la agenda. | Reserva y gestión de citas |
+| Casos de uso representativos | 3 minutos | Se explican dos recorridos importantes de forma sencilla: reservar por chat y gestionar la agenda. | Reserva y gestión de citas |
 | Demostración de la solución | 5 minutos | Se muestra el sistema funcionando desde la web pública y desde el panel privado. | Solución funcionando |
 | Conclusiones | 2 minutos | Se conectan los objetivos iniciales con el resultado obtenido y con posibles mejoras futuras. | Cierre del proyecto |
 
@@ -87,6 +87,15 @@ Los casos de uso más importantes para explicar el valor del sistema son:
 - Iniciar sesión como administrador.
 - Consultar y gestionar las citas desde el panel privado.
 
+Para que la explicación sea clara, los casos de uso se pueden agrupar en dos bloques. El primer bloque corresponde al cliente y cubre la parte pública del sistema. El segundo bloque corresponde al administrador y cubre el trabajo interno de la peluquería.
+
+| Bloque | Qué incluye | Por qué es importante |
+| --- | --- | --- |
+| Cliente | Consultar la web, ver servicios, abrir el chat, reservar, modificar o cancelar una cita. | Reduce llamadas y permite que el cliente pueda resolver una reserva sin depender de una conversación manual. |
+| Administrador | Iniciar sesión, ver la agenda, crear citas, editar citas, completar citas y eliminarlas. | Mantiene el control final de la peluquería y permite revisar todo lo que ocurre en la agenda. |
+
+Esta separación ayuda a entender el alcance. El cliente tiene una experiencia sencilla y guiada. El administrador tiene una herramienta de gestión. Las dos partes están conectadas por la misma agenda.
+
 ### Diagrama de contexto
 
 ![Diagrama de contexto](../../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
@@ -125,7 +134,17 @@ Para explicar el proyecto he elegido dos recorridos. El primero es la reserva po
 
 En este caso el cliente no rellena un formulario largo. Habla con el asistente y va aportando la información necesaria poco a poco.
 
-El recorrido es el siguiente:
+La ficha sencilla del caso es esta:
+
+| Elemento | Explicación |
+| --- | --- |
+| Actor principal | Cliente |
+| Objetivo | Conseguir una cita sin llamar por teléfono ni rellenar un formulario largo. |
+| Datos necesarios | Servicio, nombre, fecha y hora. |
+| Resultado correcto | La cita queda guardada y el cliente recibe confirmación. |
+| Casos que se rechazan | Fecha no válida, horario fuera de apertura, servicio inexistente o hueco ocupado. |
+
+El recorrido principal es el siguiente:
 
 1. El cliente pregunta por los servicios.
 2. El sistema responde con las opciones disponibles.
@@ -135,11 +154,21 @@ El recorrido es el siguiente:
 6. La aplicación comprueba si la reserva se puede crear.
 7. Si todo es correcto, la cita queda guardada.
 
+![Actividad de reserva por chatbot](../../diagramas/capitulo2/imagenes/06_actividad_reserva_chatbot.png)
+
+Este diagrama de actividad muestra el flujo desde el punto de vista del proceso. No importa si el cliente escribe todo en un mensaje o lo va diciendo poco a poco. La aplicación va reuniendo la información necesaria y, cuando la tiene completa, comprueba si la reserva es posible.
+
+![Secuencia de reserva por chatbot](../../diagramas/capitulo2/imagenes/07_secuencia_reserva_chatbot.png)
+
+El diagrama de secuencia muestra el orden de la conversación. Primero habla el cliente, después responde el asistente, luego se piden los datos que faltan y finalmente se confirma la reserva si todo está bien.
+
 Lo más importante es que el chatbot no confirma una cita solo por haber entendido al cliente. Antes de confirmar, la aplicación revisa el catálogo, el horario y la disponibilidad.
 
 Por ejemplo, si el cliente pide una cita fuera del horario, en fin de semana o en un hueco ya ocupado, el sistema no la guarda. En ese caso responde indicando que hay que escoger otra fecha u otra hora.
 
 Este caso demuestra la idea principal del TFG: usar inteligencia artificial para que la conversación sea más cómoda, pero mantener el control de la agenda dentro de la aplicación.
+
+También es un caso representativo porque mezcla varias partes del proyecto en una sola acción. Hay interfaz de usuario, conversación, reglas de negocio y almacenamiento de la cita. Por eso es un buen ejemplo para enseñar que el sistema no es solo un chatbot, sino una aplicación completa de gestión.
 
 ### Caso 2: consultar y gestionar citas
 
@@ -148,6 +177,16 @@ Este caso demuestra la idea principal del TFG: usar inteligencia artificial para
 El segundo caso representa el trabajo del administrador. Después de iniciar sesión, el administrador puede ver las citas registradas, filtrarlas, ordenarlas y gestionarlas.
 
 Este punto es importante porque conecta la parte pública con la parte privada. La cita que el cliente crea desde el chat aparece después en la agenda de administración.
+
+La ficha sencilla del caso es esta:
+
+| Elemento | Explicación |
+| --- | --- |
+| Actor principal | Administrador |
+| Objetivo | Consultar y mantener la agenda actualizada. |
+| Entrada | Inicio de sesión y datos de la agenda. |
+| Resultado correcto | El administrador ve las citas y puede actuar sobre ellas. |
+| Casos que se controlan | Acceso no autorizado, lista vacía, cita que ya no existe o datos incorrectos al editar. |
 
 El administrador puede:
 
@@ -158,7 +197,22 @@ El administrador puede:
 - Marcar una cita como completada.
 - Eliminar o cancelar citas cuando sea necesario.
 
+![Actividad de gestión administrativa](../../diagramas/capitulo2/imagenes/08_actividad_gestion_admin.png)
+
+Este diagrama de actividad resume el trabajo del administrador. Primero entra al panel privado, después revisa la agenda y finalmente realiza la acción necesaria: crear, editar, completar o eliminar una cita.
+
+La secuencia de este caso se puede explicar de forma sencilla:
+
+1. El administrador inicia sesión.
+2. La aplicación comprueba que puede entrar al panel privado.
+3. Se carga la agenda con las citas registradas.
+4. El administrador busca o filtra la información que necesita.
+5. Si hace un cambio, la aplicación comprueba que los datos sean correctos.
+6. La agenda se actualiza y queda preparada para la siguiente consulta.
+
 La ventaja es que no hay dos agendas separadas. El chatbot y el panel privado trabajan sobre la misma información. Así se evita tener que copiar datos a mano y se reduce el riesgo de errores.
+
+Este caso sirve para cerrar el recorrido anterior. Primero el cliente crea una reserva desde la web. Después el administrador comprueba esa misma reserva en su panel. Esa conexión entre cliente y administrador es una de las partes más importantes del proyecto.
 
 ---
 
