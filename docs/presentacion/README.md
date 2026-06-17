@@ -295,25 +295,19 @@ El resultado se puede explicar así:
 
 Para mí, el tiempo de respuesta se valora desde el punto de vista del usuario. Si una pregunta se puede resolver con reglas simples, como horario o servicios, la respuesta es muy rápida porque no hace falta usar el modelo. Si la pregunta necesita una respuesta más abierta, entra LM Studio y el tiempo depende del equipo y del modelo cargado.
 
-En este proyecto se ha usado Llama 3.1 8B Instruct ejecutado en local con LM Studio. Es un modelo razonable para este caso porque ofrece buen equilibrio entre calidad y rendimiento. Modelos mucho más grandes podrían responder mejor en algunas preguntas, pero también tardarían más y exigirían más memoria. Modelos demasiado pequeños serían más rápidos, pero podrían entender peor las frases del cliente.
+En este proyecto se ha usado Llama 3.1 8B Instruct ejecutado en local con LM Studio. Lo elegí porque ofrece un equilibrio razonable entre calidad y rendimiento: entiende bien instrucciones, funciona correctamente en español y puede ejecutarse en local con el equipo disponible. Frente a una alternativa más pequeña como Nemotron 3 Nano 4B, la ventaja de Nemotron sería que puede ser más ligero y rápido; sin embargo, para este TFG me interesaba más la estabilidad de las respuestas y que el asistente siguiera bien las instrucciones del dominio de la peluquería. Por eso Llama 3.1 8B encaja mejor como modelo principal.
 
 Los ajustes principales han sido:
 
 | Ajuste | Explicación sencilla |
 | --- | --- |
-| Temperatura baja | Hace que el asistente sea más estable y menos creativo. Para una peluquería interesa que responda claro, no que improvise. |
+| Temperatura baja | Uso `0.1` para que el asistente sea más estable y menos creativo. Para una peluquería interesa que responda claro, no que improvise. |
 | Límite de salida | El modelo tiene un máximo de 900 tokens de respuesta para evitar textos demasiado largos. |
 | Historial acotado | El sistema no envía toda la conversación infinita, solo la parte reciente necesaria. La entrada del chat conserva como máximo 24 elementos de historial. |
 | Mensaje limitado | El usuario no puede enviar mensajes enormes: cada mensaje se limita a 1.200 caracteres. |
 | Respuesta de seguridad | Si el modelo falla, está vacío o tarda demasiado, se devuelve un mensaje controlado. |
 
-Cuando hablo de tokens, lo explicaría de forma sencilla:
-
-- **Tokens de contexto:** son los trozos de texto que el modelo lee para entender la pregunta. Incluyen las instrucciones del asistente, el catálogo, la fecha actual y una parte reciente de la conversación. En mi caso no dejo el contexto abierto sin control: limito el historial y el tamaño de los mensajes.
-- **Tokens de salida:** son los trozos de texto que el modelo genera como respuesta. En el proyecto se fija un máximo de 900 tokens de salida. No significa que siempre use 900, sino que no puede pasarse de ese límite.
-- **Tokens por segundo:** es la velocidad a la que el modelo va generando texto. No he usado esa cifra como métrica principal porque depende mucho del equipo, del modelo y de la configuración. En la defensa es más claro hablar del tiempo total que percibe el usuario: aproximadamente entre 2 y 8 segundos en las respuestas generativas locales.
-
-Sobre hilos y agentes, lo defendería de forma simple. Este proyecto no es un sistema multiagente. No hay varios agentes tomando decisiones entre sí. Hay un asistente conversacional y una aplicación que controla las reglas. Los hilos pertenecen más a la configuración interna de ejecución del modelo en LM Studio y no cambian la lógica del sistema. Lo importante del TFG no es cuántos hilos usa el modelo, sino que el asistente sea útil, que no se salga del dominio y que la reserva solo se confirme cuando la aplicación la considera válida.
+Los tokens se pueden explicar como pequeñas partes de texto que el modelo lee o genera. En mi caso controlo dos cosas: el contexto, que es lo que el modelo recibe para entender la conversación, y la salida, que es la respuesta que genera. Para evitar respuestas demasiado largas o conversaciones que crezcan sin control, limito el historial, el tamaño de los mensajes y la salida máxima a 900 tokens. No he usado los tokens por segundo como métrica principal porque dependen mucho del equipo y del modelo cargado; para la defensa es más claro hablar del tiempo real que nota el usuario, que en las respuestas generativas locales estuvo aproximadamente entre 2 y 8 segundos.
 
 La principal aportación del TFG es integrar un asistente conversacional en un proceso donde no basta con responder al usuario. La reserva tiene que ser correcta, tener sentido para el negocio y quedar guardada para que el administrador pueda trabajar con ella.
 

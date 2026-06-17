@@ -92,7 +92,7 @@ Solo las preguntas abiertas que no han sido resueltas pasan a LM Studio. El prom
 - Prohíbe inventar disponibilidad.
 - Exige no confirmar sin datos suficientes.
 
-La temperatura baja (`0.2`) favorece respuestas estables.
+La temperatura baja (`0.1`) favorece respuestas estables.
 
 ### Paso 5. Filtrado
 

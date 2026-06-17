@@ -9,7 +9,7 @@ export async function askLmStudio(messages) {
       {
         model: env.lmStudioModel,
         messages,
-        temperature: 0.2,
+        temperature: 0.1,
         max_tokens: 900,
         stream: false
       },
@@ -39,4 +39,3 @@ export async function askLmStudio(messages) {
     );
   }
 }
-
