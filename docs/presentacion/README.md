@@ -114,7 +114,6 @@ Las reglas principales son:
 - La peluquería trabaja de lunes a viernes.
 - Las reservas deben estar dentro del horario de apertura.
 - El servicio debe existir en el catálogo.
-- El nombre del cliente debe ser válido.
 - No se pueden crear citas solapadas.
 - El panel privado requiere inicio de sesión.
 - Si el asistente no puede responder con seguridad, se muestra una respuesta controlada.
