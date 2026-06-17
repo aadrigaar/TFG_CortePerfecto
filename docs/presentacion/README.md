@@ -21,13 +21,13 @@
 
 ## 1. Puesta en contexto
 
-Buenos días. Soy Adrián García Arranz y presento Corte Perfecto, una plataforma web para gestionar las citas de una peluquería mediante una web pública, un chatbot con inteligencia artificial local y un panel privado de administración.
+El marco de trabajo es una peluquería local que necesita digitalizar la gestión de citas sin convertir el proceso en una herramienta compleja para el cliente ni para el profesional. El sistema propuesto se llama Corte Perfecto y combina tres piezas: una web pública para informar, un chatbot para atender y reservar mediante lenguaje natural, y un panel privado para que el administrador gestione la agenda.
 
 El punto de partida del proyecto es un problema habitual en negocios pequeños. Cada llamada o mensaje interrumpe el trabajo del profesional. Además, no basta con contestar: hay que interpretar qué quiere el cliente, revisar el horario, comprobar la agenda, elegir el servicio correcto y transcribir manualmente la reserva. Ese proceso consume tiempo, depende de la disponibilidad del peluquero y puede generar errores.
 
 Las alternativas existentes resuelven solo parte del problema. La agenda en papel no automatiza nada; la mensajería mantiene la gestión manual; las plataformas SaaS introducen coste y dependencia; y un chatbot puramente generativo no garantiza por sí solo reglas críticas como horario, disponibilidad o ausencia de solapes.
 
-La propuesta de Corte Perfecto combina ambos mundos. El cliente puede hablar con lenguaje natural, pero las decisiones importantes no quedan en manos del modelo. La idea central del proyecto es:
+La propuesta combina conversación y control. El cliente puede hablar con lenguaje natural, pero las decisiones importantes no quedan en manos del modelo. La idea central del proyecto es:
 
 > La inteligencia artificial conversa; el backend valida y decide.
 
@@ -35,13 +35,25 @@ La propuesta de Corte Perfecto combina ambos mundos. El cliente puede hablar con
 
 ![Modelo del dominio](../../diagramas/capitulo2/imagenes/01_diagrama_clases_dominio.png)
 
-El modelo del dominio resume el espacio de trabajo. La entidad principal es la cita, asociada a un cliente, a un servicio, a una agenda y, cuando nace desde el chatbot, a una conversación.
+El modelo del dominio resume el espacio de trabajo desde una visión estática. La entidad principal es la cita, asociada a un cliente, a un servicio, a una agenda y, cuando nace desde el chatbot, a una conversación.
 
 El servicio define nombre, precio y duración. Estos datos no se aceptan desde el cliente ni desde la respuesta de la IA: se recalculan en el backend a partir del catálogo oficial.
 
 La agenda contiene las citas activas y permite comprobar disponibilidad. Para ello, la cita no guarda únicamente la fecha y la hora visibles, sino también dos campos clave: `startsAt` y `endsAt`. Por ejemplo, si un cliente reserva Corte y Peinado a las 17:00 y ese servicio dura 50 minutos, el intervalo real ocupado es de 17:00 a 17:50.
 
 Esta representación permite detectar solapes aunque los servicios tengan duraciones diferentes. No se compara solo una hora puntual, sino un intervalo completo.
+
+### Objeto de reserva
+
+![Objeto de reserva por chat](../../diagramas/capitulo2/imagenes/02_diagrama_objetos_reserva_chat.png)
+
+El diagrama de objetos aterriza el modelo anterior en un ejemplo concreto. Representa una reserva creada desde el chat, con un cliente, un servicio seleccionado, una conversación y una cita persistida. Lo importante es que no es una idea abstracta: los objetos del dominio acaban teniendo correspondencia con documentos reales en MongoDB.
+
+### Estados de una cita
+
+![Estados de una cita](../../diagramas/capitulo2/imagenes/03_diagrama_estados_cita.png)
+
+El diagrama de estados explica el ciclo de vida de la cita. Los estados `pending` y `confirmed` representan citas activas y bloquean hueco en la agenda. Los estados `completed` y `cancelled` ya no deben bloquear horario. Esta distinción es importante porque permite liberar huecos cancelados y mantener histórico de citas completadas.
 
 El objetivo general ha sido construir una solución full-stack que permita consultar información, reservar mediante conversación y administrar una única agenda. El alcance incluye consulta de servicios, reserva, modificación, cancelación, login administrativo y gestión de citas. Quedan fuera del alcance pagos, notificaciones, varias sedes, varios empleados y alta disponibilidad en producción.
 
@@ -66,6 +78,12 @@ Los casos de uso más importantes para entender el valor del proyecto son UC-05,
 ![Diagrama de contexto](../../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
 
 El diagrama de contexto marca los límites de la solución. El cliente no interactúa directamente con MongoDB ni con LM Studio. El administrador tampoco accede directamente a la base de datos. Todas las operaciones pasan por la aplicación y por la API.
+
+### Navegación por casos de uso
+
+![Navegación por casos de uso](../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
+
+El diagrama de navegación conecta los casos de uso con las pantallas principales. Desde la web pública se puede llegar al chatbot y completar el recorrido de reserva. Desde el login se accede al panel administrativo, donde se listan, crean, editan, completan o eliminan citas. Las flechas de retorno representan que el usuario puede volver al menú principal, cerrar sesión o cancelar una operación sin romper el flujo.
 
 Las reglas principales del sistema son las siguientes:
 
@@ -101,16 +119,28 @@ Para la defensa he seleccionado dos casos de uso representativos. El primero es 
 La cascada completa de UC-05 es:
 
 ```text
-Cliente
--> ChatWidget
--> POST /api/chat
+React/Vite
+-> Axios
+-> Express
 -> chatController
 -> bookingFlowService
 -> appointmentService
--> Appointment
+-> Mongoose
 -> MongoDB
--> confirmación en React
 ```
+
+Cada paso tiene una responsabilidad concreta:
+
+| Paso | Responsabilidad |
+| --- | --- |
+| React/Vite | Renderiza la web pública y el componente `ChatWidget`; Vite permite desarrollo rápido y build de producción. |
+| Axios | Envía el mensaje, historial e identificadores a la API en JSON, aplica timeout y recibe la respuesta. |
+| Express | Recibe la petición HTTP en `POST /api/chat` y la dirige a la ruta correspondiente. |
+| `chatController` | Orquesta el caso de uso: normaliza la entrada, decide si hay flujo determinista, consulta LM Studio si hace falta y construye la respuesta. |
+| `bookingFlowService` | Mantiene el proceso conversacional: detecta intención de reserva, servicio, nombre, fecha, hora y datos pendientes. |
+| `appointmentService` | Aplica las reglas críticas de agenda: catálogo, precio, duración, horario, fecha futura y solapes. |
+| Mongoose | Valida el esquema de cita y traduce la operación JavaScript a documentos MongoDB. |
+| MongoDB | Persiste la cita y actúa como fuente única de verdad para chatbot y administración. |
 
 #### Interfaz de usuario propuesta
 
@@ -128,13 +158,11 @@ En análisis, el caso se separa siguiendo responsabilidades MVC. La vista es el 
 
 En la implementación, esta separación se traduce en rutas, controladores, servicios y modelos. `chatController` coordina la petición, `bookingFlowService` mantiene el estado conversacional y `appointmentService` concentra la validación de negocio.
 
-![Clases de análisis MVC](../../diagramas/capitulo3/imagenes/07_clases_analisis_mvc.png)
-
 #### Diseño técnico y arquitectura
 
 ![Arquitectura técnica](../../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
 
-La arquitectura de este caso es:
+La arquitectura confirma la misma cascada en términos tecnológicos:
 
 ```text
 React/Vite
@@ -310,9 +338,20 @@ Los objetivos planteados se consideran cumplidos.
 npm run verify
 ```
 
-La verificación comprueba la sintaxis del backend, ejecuta 44 pruebas automatizadas y genera el build de producción del frontend. Las pruebas cubren fechas, horarios, servicios, nombres, solapes, concurrencia local, modificación por conversación, entradas adversas y caída de LM Studio.
+La verificación comprueba la sintaxis del backend, ejecuta 44 pruebas automatizadas y genera el build de producción del frontend. Las pruebas se han organizado por servicios para comprobar las reglas críticas sin depender de la interfaz.
+
+| Suite de pruebas | Qué comprueba |
+| --- | --- |
+| `appointmentService.test.js` | Creación de citas válidas, precio, duración, estados, fines de semana, horario, nombres inválidos, solapes, completar, eliminar, modificar por conversación y reservas simultáneas. |
+| `bookingFlowService.test.js` | Flujo conversacional: selección de servicio por número, fechas pasadas, fines de semana, correcciones, negaciones, nombres mezclados con servicio, cancelación y reutilización segura del contexto. |
+| `calendarService.test.js` | Fechas laborables, fines de semana, formato de fechas y comprensión de horas naturales en español, como “seis y media” o “diez menos cuarto”. |
+| `chatHardening.test.js` | Robustez del chat: límites de mensaje, limpieza de historial, bloqueo de instrucciones para revelar el prompt, respuestas deterministas, fallback y filtrado de ruido técnico. |
+
+Estas pruebas no intentan demostrar que un modelo generativo nunca falle. Lo que demuestran es que las reglas que no pueden fallar están en servicios verificables del backend.
 
 ![Estado de casos de uso](../../RUP/99-seguimiento/estado-casos-uso.png)
+
+Este dashboard RUP es un resumen visual del estado de los 17 casos de uso. Los casos en verde están implementados y verificados por build; los casos en azul, además de estar implementados, tienen cobertura directa mediante pruebas automatizadas. Sirve para demostrar trazabilidad: cada caso de uso definido en requisitos tiene una correspondencia con código, pantalla, endpoint o prueba.
 
 Desde el punto de vista profesional, el proyecto recorre un ciclo completo de ingeniería de software: análisis del problema, dominio, requisitos, diseño, implementación, pruebas y trazabilidad.
 
@@ -322,7 +361,14 @@ La inferencia se ejecuta localmente mediante LM Studio. En el entorno utilizado,
 
 Las principales limitaciones son la ejecución local, una única agenda, la ausencia de pagos y notificaciones, y una cola de concurrencia válida para una sola instancia del backend.
 
-Las líneas futuras más naturales son agenda multiempleado, recordatorios, despliegue con HTTPS, observabilidad, concurrencia distribuida y pruebas end-to-end.
+Las líneas futuras más naturales son:
+
+- **Agenda multiempleado:** permitir que varias personas trabajen en paralelo, cada una con su disponibilidad y servicios asignados.
+- **Recordatorios:** enviar confirmaciones o avisos por correo, SMS o WhatsApp para reducir ausencias.
+- **Despliegue con HTTPS:** pasar de ejecución local a un entorno accesible de forma segura, con dominio, certificados y variables de entorno gestionadas.
+- **Observabilidad:** registrar métricas de latencia, errores, disponibilidad de LM Studio y uso de endpoints.
+- **Concurrencia distribuida:** sustituir la cola local por mecanismos válidos para varias instancias, como transacciones o bloqueos distribuidos.
+- **Pruebas end-to-end:** automatizar recorridos completos de navegador, desde reservar en el chat hasta comprobar la cita en administración.
 
 Corte Perfecto demuestra que es posible incorporar inteligencia artificial a un proceso real sin delegarle aquello que exige exactitud.
 
