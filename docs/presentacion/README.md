@@ -122,13 +122,13 @@ Las reglas principales son:
 
 ## 3. Casos de uso representativos
 
-Para explicar el proyecto he elegido dos recorridos. El primero es la reserva por chatbot, porque es la parte más diferencial del trabajo. El segundo es la consulta de la agenda desde administración, porque demuestra que la reserva queda registrada y se puede gestionar después.
+Para explicar el proyecto he elegido dos casos de uso representativos. El primero es **UC-05: Reservar cita mediante chatbot**, porque es la parte más diferencial del trabajo. El segundo es **UC-12: Listar, filtrar y ordenar citas**, porque demuestra que la reserva queda registrada y se puede consultar después desde administración.
 
-### Caso 1: reservar cita mediante chatbot
+### Caso 1: UC-05 Reservar cita mediante chatbot
 
 ![Chatbot](../../diagramas/capitulo4/capturas/03_chat_abierto.png)
 
-En este caso el cliente no rellena un formulario largo. Habla con el asistente y va aportando la información necesaria poco a poco.
+Este caso de uso corresponde al recorrido principal del cliente cuando quiere crear una reserva desde el chat. En vez de rellenar un formulario largo, habla con el asistente y va aportando la información necesaria poco a poco.
 
 La ficha sencilla del caso es esta:
 
@@ -139,6 +139,7 @@ La ficha sencilla del caso es esta:
 | Datos necesarios | Servicio, nombre, fecha y hora. |
 | Resultado correcto | La cita queda guardada y el cliente recibe confirmación. |
 | Casos que se rechazan | Fecha no válida, horario fuera de apertura, servicio inexistente o hueco ocupado. |
+| Caso de uso relacionado | UC-09 Modificar una reserva activa por chat. |
 
 El recorrido principal es el siguiente:
 
@@ -166,11 +167,11 @@ Este caso demuestra la idea principal del TFG: usar inteligencia artificial para
 
 También es un caso representativo porque mezcla varias partes del proyecto en una sola acción. Hay interfaz de usuario, conversación, reglas de negocio y almacenamiento de la cita. Por eso es un buen ejemplo para enseñar que el sistema no es solo un chatbot, sino una aplicación completa de gestión.
 
-### Caso 2: consultar y gestionar citas
+### Caso 2: UC-12 Listar, filtrar y ordenar citas
 
 ![Gestión de citas](../../diagramas/capitulo4/capturas/06_admin_citas.png)
 
-El segundo caso representa el trabajo del administrador. Después de iniciar sesión, el administrador puede ver las citas registradas, filtrarlas, ordenarlas y gestionarlas.
+Este caso de uso representa la consulta principal de la agenda por parte del administrador. Después de iniciar sesión, el administrador puede ver las citas registradas, filtrarlas por estado o fecha y ordenarlas para localizar rápidamente la información que necesita.
 
 Este punto es importante porque conecta la parte pública con la parte privada. La cita que el cliente crea desde el chat aparece después en la agenda de administración.
 
@@ -179,12 +180,13 @@ La ficha sencilla del caso es esta:
 | Elemento | Explicación |
 | --- | --- |
 | Actor principal | Administrador |
-| Objetivo | Consultar y mantener la agenda actualizada. |
+| Objetivo | Listar, filtrar y ordenar las citas de la agenda. |
 | Entrada | Inicio de sesión y datos de la agenda. |
-| Resultado correcto | El administrador ve las citas y puede actuar sobre ellas. |
-| Casos que se controlan | Acceso no autorizado, lista vacía, cita que ya no existe o datos incorrectos al editar. |
+| Resultado correcto | El administrador ve las citas que cumplen los filtros seleccionados. |
+| Casos que se controlan | Acceso no autorizado, lista vacía o filtros sin resultados. |
+| Casos de uso relacionados | UC-13 Crear cita manual, UC-14 Editar cita, UC-15 Marcar cita completada y UC-16 Eliminar cita. |
 
-El administrador puede:
+Desde esa misma pantalla, el administrador puede pasar a otros casos de uso relacionados:
 
 - Ver las citas del día o de próximas fechas.
 - Consultar el estado de cada cita.
@@ -195,7 +197,7 @@ El administrador puede:
 
 ![Actividad de gestión administrativa](../../diagramas/capitulo2/imagenes/08_actividad_gestion_admin.png)
 
-Este diagrama de actividad resume el trabajo del administrador. Primero entra al panel privado, después revisa la agenda y finalmente realiza la acción necesaria: crear, editar, completar o eliminar una cita.
+Este diagrama de actividad resume el trabajo del administrador. Primero entra al panel privado, después revisa la agenda y, si lo necesita, realiza alguna acción relacionada como crear, editar, completar o eliminar una cita.
 
 La secuencia de este caso se puede explicar de forma sencilla:
 
@@ -208,7 +210,7 @@ La secuencia de este caso se puede explicar de forma sencilla:
 
 La ventaja es que no hay dos agendas separadas. El chatbot y el panel privado trabajan sobre la misma información. Así se evita tener que copiar datos a mano y se reduce el riesgo de errores.
 
-Este caso sirve para cerrar el recorrido anterior. Primero el cliente crea una reserva desde la web. Después el administrador comprueba esa misma reserva en su panel. Esa conexión entre cliente y administrador es una de las partes más importantes del proyecto.
+Este caso sirve para cerrar el recorrido anterior. Primero el cliente crea una reserva desde la web mediante **UC-05**. Después el administrador comprueba esa misma reserva en su panel mediante **UC-12**. Esa conexión entre cliente y administrador es una de las partes más importantes del proyecto.
 
 ---
 
