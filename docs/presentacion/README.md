@@ -108,9 +108,6 @@ Esto es importante porque centraliza las reglas. Si una cita no es válida, se r
 
 ![Navegación por casos de uso](../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
 
-Este diagrama muestra cómo se mueve el usuario dentro del sistema. Desde la web pública puede abrir el chat y completar una reserva. Desde el login se entra al panel privado, donde se consultan y gestionan las citas.
-
-Las flechas de ida y vuelta representan que el usuario puede avanzar, volver al menú principal, cancelar una operación o cerrar sesión. La navegación está pensada para que el sistema sea fácil de seguir y no obligue al usuario a entender detalles técnicos.
 
 Las reglas principales son:
 
