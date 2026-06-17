@@ -299,7 +299,6 @@ Los ajustes principales han sido:
 | Mensaje limitado | El usuario no puede enviar mensajes enormes: cada mensaje se limita a 1.200 caracteres. |
 | Respuesta de seguridad | Si el modelo falla, está vacío o tarda demasiado, se devuelve un mensaje controlado. |
 
-Los tokens se pueden explicar como pequeñas partes de texto que el modelo lee o genera. En mi caso controlo dos cosas: el contexto, que es lo que el modelo recibe para entender la conversación, y la salida, que es la respuesta que genera. Para evitar respuestas demasiado largas o conversaciones que crezcan sin control, limito el historial, el tamaño de los mensajes y la salida máxima a 900 tokens. No he usado los tokens por segundo como métrica principal porque dependen mucho del equipo y del modelo cargado; para la defensa es más claro hablar del tiempo real que nota el usuario, que en las respuestas generativas locales estuvo aproximadamente entre 2 y 8 segundos.
 
 La principal aportación del TFG es integrar un asistente conversacional en un proceso donde no basta con responder al usuario. La reserva tiene que ser correcta, tener sentido para el negocio y quedar guardada para que el administrador pueda trabajar con ella.
 
@@ -327,7 +326,6 @@ Las líneas futuras más naturales serían:
 - Publicar la aplicación en un entorno online seguro.
 - Mejorar el seguimiento de errores y tiempos de respuesta.
 - Ampliar la gestión de servicios y horarios especiales.
-- Recoger opiniones de usuarios reales para mejorar la experiencia.
 
 Como cierre, Corte Perfecto demuestra que se puede usar inteligencia artificial en un negocio real sin perder el control de las reglas importantes.
 
