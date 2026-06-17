@@ -11,59 +11,66 @@
 
 | Sección | Tiempo | Descripción | Elemento clave |
 | --- | ---: | --- | --- |
-| Puesta en contexto | 3 minutos | Se establece el marco de trabajo: escenario problemático, entidades principales y relaciones entre ellas. | Modelo del dominio |
-| Exposición de requisitos | 2 minutos | Se presentan actores, casos de uso principales y diagrama de contexto para fijar límites y alcance. | Actores, casos de uso y contexto |
-| Detalle de casos de uso representativos | 3 minutos | Se explican dos casos de uso con su cascada: detalle, interfaz, análisis MVC y diseño técnico. | UC-05 y UC-12 |
-| Demostración de la solución | 5 minutos | Se ejecuta el sistema funcionando con los casos explicados. | Reserva y panel administrativo |
-| Conclusiones | 2 minutos | Se conectan objetivos, resultados, competencias profesionales y evolución. | Conclusiones finales |
+| Puesta en contexto | 3 minutos | Se establece el marco de trabajo: problema, negocio, entidades principales y relación entre ellas. | Modelo del dominio |
+| Exposición de requisitos | 2 minutos | Se presentan los actores, los casos de uso principales y los límites del sistema. | Actores, casos de uso y contexto |
+| Casos de uso representativos | 3 minutos | Se explican dos recorridos importantes de forma sencilla: reservar por chat y consultar la agenda. | Reserva y gestión de citas |
+| Demostración de la solución | 5 minutos | Se muestra el sistema funcionando desde la web pública y desde el panel privado. | Solución funcionando |
+| Conclusiones | 2 minutos | Se conectan los objetivos iniciales con el resultado obtenido y con posibles mejoras futuras. | Cierre del proyecto |
 
 ---
 
 ## 1. Puesta en contexto
 
-El marco de trabajo es una peluquería local que necesita digitalizar la gestión de citas sin convertir el proceso en una herramienta compleja para el cliente ni para el profesional. El sistema propuesto se llama Corte Perfecto y combina tres piezas: una web pública para informar, un chatbot para atender y reservar mediante lenguaje natural, y un panel privado para que el administrador gestione la agenda.
+Corte Perfecto es una aplicación web pensada para una peluquería que quiere gestionar sus citas de una forma más ordenada, más cómoda y menos dependiente de llamadas o mensajes sueltos.
 
-El punto de partida del proyecto es un problema habitual en negocios pequeños. Cada llamada o mensaje interrumpe el trabajo del profesional. Además, no basta con contestar: hay que interpretar qué quiere el cliente, revisar el horario, comprobar la agenda, elegir el servicio correcto y transcribir manualmente la reserva. Ese proceso consume tiempo, depende de la disponibilidad del peluquero y puede generar errores.
+El problema de partida es sencillo. En una peluquería pequeña, cada reserva suele implicar varias tareas: responder al cliente, explicar los servicios, comprobar si hay hueco, apuntar la cita, evitar duplicidades y recordar después que esa cita existe. Si todo esto se hace de forma manual, se pierde tiempo y aumenta la posibilidad de cometer errores.
 
-Las alternativas existentes resuelven solo parte del problema. La agenda en papel no automatiza nada; la mensajería mantiene la gestión manual; las plataformas SaaS introducen coste y dependencia; y un chatbot puramente generativo no garantiza por sí solo reglas críticas como horario, disponibilidad o ausencia de solapes.
+La solución que planteo combina tres partes:
 
-La propuesta combina conversación y control. El cliente puede hablar con lenguaje natural, pero las decisiones importantes no quedan en manos del modelo. La idea central del proyecto es:
+- Una web pública donde el cliente puede ver información general y servicios.
+- Un chatbot que ayuda a resolver dudas y a crear reservas de forma conversacional.
+- Un panel privado donde el administrador puede consultar y gestionar la agenda.
 
-> La inteligencia artificial conversa; el backend valida y decide.
+La idea principal del proyecto es que el cliente pueda hablar de forma natural, pero que las decisiones importantes las controle siempre la aplicación. Es decir, la inteligencia artificial ayuda en la conversación, pero la agenda se valida con reglas propias del sistema.
 
 ### Modelo del dominio
 
 ![Modelo del dominio](../../diagramas/capitulo2/imagenes/01_diagrama_clases_dominio.png)
 
-El modelo del dominio resume el espacio de trabajo desde una visión estática. La entidad principal es la cita, asociada a un cliente, a un servicio, a una agenda y, cuando nace desde el chatbot, a una conversación.
+Este modelo resume las piezas principales del negocio. La cita es el centro del sistema. Cada cita está relacionada con un cliente, con un servicio y con la agenda.
 
-El servicio define nombre, precio y duración. Estos datos no se aceptan desde el cliente ni desde la respuesta de la IA: se recalculan en el backend a partir del catálogo oficial.
+El servicio guarda datos como el nombre, el precio y la duración. Esto es importante porque el sistema no deja que el cliente invente un precio o una duración: siempre se toma la información del catálogo oficial.
 
-La agenda contiene las citas activas y permite comprobar disponibilidad. Para ello, la cita no guarda únicamente la fecha y la hora visibles, sino también dos campos clave: `startsAt` y `endsAt`. Por ejemplo, si un cliente reserva Corte y Peinado a las 17:00 y ese servicio dura 50 minutos, el intervalo real ocupado es de 17:00 a 17:50.
-
-Esta representación permite detectar solapes aunque los servicios tengan duraciones diferentes. No se compara solo una hora puntual, sino un intervalo completo.
+La agenda se encarga de organizar las citas y comprobar si un hueco está disponible. Así se evita que dos clientes tengan una reserva en el mismo tramo horario.
 
 ### Objeto de reserva
 
 ![Objeto de reserva por chat](../../diagramas/capitulo2/imagenes/02_diagrama_objetos_reserva_chat.png)
 
-El diagrama de objetos aterriza el modelo anterior en un ejemplo concreto. Representa una reserva creada desde el chat, con un cliente, un servicio seleccionado, una conversación y una cita persistida. Lo importante es que no es una idea abstracta: los objetos del dominio acaban teniendo correspondencia con documentos reales en MongoDB.
+Este diagrama baja el modelo a un ejemplo concreto. Representa una reserva creada desde el chat. Aparecen el cliente, el servicio elegido, la conversación y la cita guardada.
+
+Lo importante de este punto es demostrar que la conversación no se queda solo en un mensaje. Termina creando una cita real que después se puede ver desde el panel de administración.
 
 ### Estados de una cita
 
 ![Estados de una cita](../../diagramas/capitulo2/imagenes/03_diagrama_estados_cita.png)
 
-El diagrama de estados explica el ciclo de vida de la cita. Los estados `pending` y `confirmed` representan citas activas y bloquean hueco en la agenda. Los estados `completed` y `cancelled` ya no deben bloquear horario. Esta distinción es importante porque permite liberar huecos cancelados y mantener histórico de citas completadas.
+Las citas pueden pasar por varios estados. Una cita activa ocupa hueco en la agenda. Una cita completada o cancelada ya no debe bloquear ese horario.
 
-El objetivo general ha sido construir una solución full-stack que permita consultar información, reservar mediante conversación y administrar una única agenda. El alcance incluye consulta de servicios, reserva, modificación, cancelación, login administrativo y gestión de citas. Quedan fuera del alcance pagos, notificaciones, varias sedes, varios empleados y alta disponibilidad en producción.
+Esto permite mantener un histórico de lo ocurrido sin impedir nuevas reservas cuando una cita ya ha terminado o se ha cancelado.
+
+El alcance del proyecto incluye la consulta de servicios, la reserva por chatbot, la modificación o cancelación de citas activas y la gestión desde un panel privado. Fuera del alcance quedan pagos online, recordatorios automáticos, varias sedes y varios empleados.
 
 ---
 
 ## 2. Exposición de requisitos
 
-El sistema tiene dos actores principales. El cliente utiliza la web pública y el chatbot para informarse y gestionar reservas. El administrador, que representa al peluquero, accede a un panel privado para consultar y modificar la agenda.
+El sistema tiene dos actores principales:
 
-Se han definido 17 casos de uso. Del UC-01 al UC-09 se cubre el recorrido del cliente: consultar la web, ver servicios, abrir el chat, reservar, elegir una opción, aportar datos, recibir confirmación y modificar una reserva activa. Del UC-10 al UC-17 se cubre el recorrido administrativo: iniciar sesión, ver dashboard, listar citas, crear, editar, completar, eliminar y cerrar sesión.
+- El cliente, que usa la web pública y el chatbot.
+- El administrador, que usa el panel privado para gestionar la agenda.
+
+El cliente puede consultar servicios, abrir el chat, pedir información, reservar una cita y modificar o cancelar una reserva activa. El administrador puede iniciar sesión, consultar las citas, crear nuevas reservas, editarlas, completarlas o eliminarlas.
 
 ### Actores y casos de uso
 
@@ -71,218 +78,103 @@ Se han definido 17 casos de uso. Del UC-01 al UC-09 se cubre el recorrido del cl
 | --- | --- |
 | ![Casos de uso cliente](../../diagramas/capitulo2/imagenes/05a_diagrama_casos_uso_cliente.png) | ![Casos de uso administrador](../../diagramas/capitulo2/imagenes/05b_diagrama_casos_uso_administrador.png) |
 
-Los casos de uso más importantes para entender el valor del proyecto son UC-05, reservar cita mediante chatbot; UC-09, modificar una reserva activa por chat; UC-10, iniciar sesión como administrador; y UC-12 a UC-16, que cubren la gestión de citas.
+Estos diagramas muestran que el proyecto no se limita a una pantalla aislada. Hay un recorrido completo para el cliente y otro recorrido completo para la administración.
+
+Los casos de uso más importantes para explicar el valor del sistema son:
+
+- Reservar una cita mediante chatbot.
+- Modificar una cita activa desde el chat.
+- Iniciar sesión como administrador.
+- Consultar y gestionar las citas desde el panel privado.
 
 ### Diagrama de contexto
 
 ![Diagrama de contexto](../../diagramas/capitulo2/imagenes/04_diagrama_contexto.png)
 
-El diagrama de contexto marca los límites de la solución. El cliente no interactúa directamente con MongoDB ni con LM Studio. El administrador tampoco accede directamente a la base de datos. Todas las operaciones pasan por la aplicación y por la API.
+El diagrama de contexto marca los límites del sistema. El cliente no toca directamente la base de datos. El administrador tampoco. Todo pasa por la aplicación, que es la que decide qué se puede hacer y qué no.
+
+Esto es importante porque centraliza las reglas. Si una cita no es válida, se rechaza desde la aplicación, tanto si viene del chat como si viene del panel privado.
 
 ### Navegación por casos de uso
 
 ![Navegación por casos de uso](../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
 
-El diagrama de navegación conecta los casos de uso con las pantallas principales. Desde la web pública se puede llegar al chatbot y completar el recorrido de reserva. Desde el login se accede al panel administrativo, donde se listan, crean, editan, completan o eliminan citas. Las flechas de retorno representan que el usuario puede volver al menú principal, cerrar sesión o cancelar una operación sin romper el flujo.
+Este diagrama muestra cómo se mueve el usuario dentro del sistema. Desde la web pública puede abrir el chat y completar una reserva. Desde el login se entra al panel privado, donde se consultan y gestionan las citas.
 
-Las reglas principales del sistema son las siguientes:
+Las flechas de ida y vuelta representan que el usuario puede avanzar, volver al menú principal, cancelar una operación o cerrar sesión. La navegación está pensada para que el sistema sea fácil de seguir y no obligue al usuario a entender detalles técnicos.
 
-- La peluquería abre de lunes a viernes, de 10:00 a 20:00.
-- El servicio debe terminar antes del cierre.
+Las reglas principales son:
+
+- La peluquería trabaja de lunes a viernes.
+- Las reservas deben estar dentro del horario de apertura.
+- El servicio debe existir en el catálogo.
 - El nombre del cliente debe ser válido.
-- El servicio debe existir en el catálogo oficial.
-- Precio y duración se recalculan siempre en backend.
-- Las citas activas no pueden solaparse.
-- Las rutas administrativas requieren autenticación JWT.
-- Si LM Studio falla, el sistema no debe confirmar datos falsos.
-
-Los estados de una cita también forman parte de las reglas del dominio. `pending` y `confirmed` bloquean horario porque representan citas activas. `completed` y `cancelled` no bloquean horario porque la cita ya ha terminado o ha sido anulada.
+- No se pueden crear citas solapadas.
+- El panel privado requiere inicio de sesión.
+- Si el asistente no puede responder con seguridad, se muestra una respuesta controlada.
 
 ---
 
-## 3. Detalle de casos de uso representativos
+## 3. Casos de uso representativos
 
-Para la defensa he seleccionado dos casos de uso representativos. El primero es UC-05, porque concentra el valor diferencial del chatbot y la validación de agenda. El segundo es UC-12, porque demuestra que la reserva no termina en una conversación aislada, sino en una agenda administrativa real y consultable.
+Para explicar el proyecto he elegido dos recorridos. El primero es la reserva por chatbot, porque es la parte más diferencial del trabajo. El segundo es la consulta de la agenda desde administración, porque demuestra que la reserva queda registrada y se puede gestionar después.
 
-### Caso 1: UC-05 Reservar cita mediante chatbot
-
-#### Detalle del caso de uso
-
-| Elemento | Descripción |
-| --- | --- |
-| Actor | Cliente |
-| Objetivo | Registrar una cita a partir de una conversación natural |
-| Entrada | Servicio, nombre, fecha y hora |
-| Resultado | Cita validada, persistida y confirmada |
-| Alternativas | Servicio inválido, nombre inválido, fin de semana, hora pasada, solape, fallo de LM Studio |
-
-La cascada completa de UC-05 es:
-
-```text
-React/Vite
--> Axios
--> Express
--> chatController
--> bookingFlowService
--> appointmentService
--> Mongoose
--> MongoDB
-```
-
-Cada paso tiene una responsabilidad concreta:
-
-| Paso | Responsabilidad |
-| --- | --- |
-| React/Vite | Renderiza la web pública y el componente `ChatWidget`; Vite permite desarrollo rápido y build de producción. |
-| Axios | Envía el mensaje, historial e identificadores a la API en JSON, aplica timeout y recibe la respuesta. |
-| Express | Recibe la petición HTTP en `POST /api/chat` y la dirige a la ruta correspondiente. |
-| `chatController` | Orquesta el caso de uso: normaliza la entrada, decide si hay flujo determinista, consulta LM Studio si hace falta y construye la respuesta. |
-| `bookingFlowService` | Mantiene el proceso conversacional: detecta intención de reserva, servicio, nombre, fecha, hora y datos pendientes. |
-| `appointmentService` | Aplica las reglas críticas de agenda: catálogo, precio, duración, horario, fecha futura y solapes. |
-| Mongoose | Valida el esquema de cita y traduce la operación JavaScript a documentos MongoDB. |
-| MongoDB | Persiste la cita y actúa como fuente única de verdad para chatbot y administración. |
-
-#### Interfaz de usuario propuesta
+### Caso 1: reservar cita mediante chatbot
 
 ![Chatbot](../../diagramas/capitulo4/capturas/03_chat_abierto.png)
 
-El cliente interactúa con `ChatWidget`, un componente React. Desde su punto de vista, solo conversa: pregunta por servicios, elige una opción, escribe su nombre y propone fecha y hora.
+En este caso el cliente no rellena un formulario largo. Habla con el asistente y va aportando la información necesaria poco a poco.
 
-React no decide si la cita es válida. Axios envía el mensaje, el historial reciente, el identificador de conversación y, si existe, el identificador de cita activa. La petición llega a `POST /api/chat`.
+El recorrido es el siguiente:
 
-#### Análisis MVC
+1. El cliente pregunta por los servicios.
+2. El sistema responde con las opciones disponibles.
+3. El cliente elige un servicio.
+4. El sistema pide los datos que falten.
+5. El cliente indica su nombre, fecha y hora.
+6. La aplicación comprueba si la reserva se puede crear.
+7. Si todo es correcto, la cita queda guardada.
 
-![Análisis UC-05](../../diagramas/capitulo3/imagenes/03_uc05_reserva_chatbot.png)
+Lo más importante es que el chatbot no confirma una cita solo por haber entendido al cliente. Antes de confirmar, la aplicación revisa el catálogo, el horario y la disponibilidad.
 
-En análisis, el caso se separa siguiendo responsabilidades MVC. La vista es el chat, el controlador coordina la operación y las entidades principales son conversación, catálogo, agenda y cita.
+Por ejemplo, si el cliente pide una cita fuera del horario, en fin de semana o en un hueco ya ocupado, el sistema no la guarda. En ese caso responde indicando que hay que escoger otra fecha u otra hora.
 
-En la implementación, esta separación se traduce en rutas, controladores, servicios y modelos. `chatController` coordina la petición, `bookingFlowService` mantiene el estado conversacional y `appointmentService` concentra la validación de negocio.
+Este caso demuestra la idea principal del TFG: usar inteligencia artificial para que la conversación sea más cómoda, pero mantener el control de la agenda dentro de la aplicación.
 
-#### Diseño técnico y arquitectura
-
-![Arquitectura técnica](../../diagramas/capitulo3/imagenes/09_arquitectura_tecnica.png)
-
-La arquitectura confirma la misma cascada en términos tecnológicos:
-
-```text
-React/Vite
--> Axios
--> Express
--> chatController
--> bookingFlowService
--> appointmentService
--> Mongoose
--> MongoDB
-```
-
-Cuando el sistema ya dispone de nombre, servicio, fecha y hora, `appointmentService` realiza las validaciones críticas:
-
-1. Comprueba que el nombre sea real.
-2. Resuelve el servicio contra el catálogo oficial.
-3. Recalcula precio y duración.
-4. Comprueba que el día sea laborable.
-5. Comprueba que la hora sea futura.
-6. Verifica que el servicio termine antes de las 20:00.
-7. Calcula `startsAt` y `endsAt`.
-8. Busca solapes con citas activas.
-9. Guarda la cita si todo es correcto.
-
-La detección de solape se basa en intervalos:
-
-```text
-citaExistente.startsAt < nuevaCita.endsAt
-y
-citaExistente.endsAt > nuevaCita.startsAt
-```
-
-Esto significa que dos citas se solapan si comparten cualquier parte del intervalo temporal.
-
-LM Studio queda encapsulado en `lmStudioService`. Se utiliza para consultas abiertas, pero no decide disponibilidad, precio, duración ni persistencia. Las respuestas generativas usan temperatura `0.2`, límite de `900` tokens y timeout de 60 segundos.
-
-![Integración con LM Studio](../../diagramas/capitulo3/imagenes/13_integracion_chat_lmstudio.png)
-
-La confirmación solo se devuelve después de guardar en MongoDB. Si MongoDB falla o la validación rechaza la operación, el sistema no muestra una confirmación falsa.
-
-### Caso 2: UC-12 Listar, filtrar y ordenar citas
-
-#### Detalle del caso de uso
-
-| Elemento | Descripción |
-| --- | --- |
-| Actor | Administrador |
-| Objetivo | Consultar la agenda persistida y localizar citas |
-| Entrada | Token JWT, filtros de fecha, estado y orden |
-| Resultado | Listado administrativo de citas |
-| Alternativas | Token inválido, sesión caducada, lista vacía o error de API |
-
-UC-12 representa la parte administrativa. Demuestra que las reservas creadas desde el chatbot no se quedan en una conversación, sino que llegan a una agenda operativa.
-
-La cascada completa de UC-12 es:
-
-```text
-Administrador
--> AdminAppointments
--> GET /api/appointments
--> requireAuth
--> appointmentController.index
--> appointmentService.listAppointments
--> Appointment
--> MongoDB
--> tabla de citas
-```
-
-#### Interfaz de usuario propuesta
+### Caso 2: consultar y gestionar citas
 
 ![Gestión de citas](../../diagramas/capitulo4/capturas/06_admin_citas.png)
 
-El administrador accede al panel privado, consulta la tabla de citas y puede filtrar por estado, fecha u orden. Esta vista usa la misma fuente de datos que el chatbot. No hay una agenda duplicada ni una exportación manual.
+El segundo caso representa el trabajo del administrador. Después de iniciar sesión, el administrador puede ver las citas registradas, filtrarlas, ordenarlas y gestionarlas.
 
-El login administrativo se protege mediante JWT. La contraseña se almacena como hash bcrypt con coste 12. Después de iniciar sesión, el frontend envía el token en la cabecera `Authorization: Bearer`.
+Este punto es importante porque conecta la parte pública con la parte privada. La cita que el cliente crea desde el chat aparece después en la agenda de administración.
 
-#### Análisis MVC
+El administrador puede:
 
-![Análisis UC-12 a UC-16](../../diagramas/capitulo3/imagenes/06_uc12_16_gestion_admin.png)
+- Ver las citas del día o de próximas fechas.
+- Consultar el estado de cada cita.
+- Crear una cita manualmente si el cliente llama por teléfono.
+- Editar una cita si el cliente cambia de hora.
+- Marcar una cita como completada.
+- Eliminar o cancelar citas cuando sea necesario.
 
-En análisis, la vista administrativa se comunica con un controlador de gestión de citas, que utiliza la agenda y la entidad cita. En diseño, esto se implementa con `AdminAppointments.jsx`, rutas privadas de Express, `appointmentController` y `appointmentService`.
-
-Crear o editar una cita desde administración también pasa por `appointmentService`. Así se evita que existan reglas distintas para cliente y administrador.
-
-#### Diseño técnico y arquitectura
-
-```text
-React Admin
--> Axios con JWT
--> Express
--> requireAuth
--> appointmentController
--> appointmentService
--> Appointment
--> MongoDB
-```
-
-`requireAuth` valida el token antes de permitir el acceso a `/api/appointments`. Si el token falta, es inválido o ha caducado, la API rechaza la petición. Si es correcto, `appointmentService.listAppointments()` consulta MongoDB según filtros de estado, fecha y orden.
-
-Este caso es el cierre natural de UC-05. Primero el cliente crea una cita mediante conversación; después el administrador ve esa misma cita en el panel. Eso demuestra la trazabilidad entre interfaz pública, backend, base de datos y administración.
-
-[Matriz completa de trazabilidad](../../RUP/99-seguimiento/trazabilidad-casos-uso.md)
+La ventaja es que no hay dos agendas separadas. El chatbot y el panel privado trabajan sobre la misma información. Así se evita tener que copiar datos a mano y se reduce el riesgo de errores.
 
 ---
 
 ## 4. Demostración de la solución
 
-La demostración reproduce los dos casos representativos: primero UC-05 desde la web pública y después UC-12 desde administración.
-
-![Navegación por casos de uso](../../diagramas/capitulo4/imagenes/02_contexto_navegacion_casos_uso.png)
+La demostración se puede explicar como un recorrido único: primero actúa el cliente y después actúa el administrador.
 
 ### Paso 1: web pública
 
 ![Inicio](../../diagramas/capitulo4/capturas/01_home.png)
 
-La web presenta Corte Perfecto, sus servicios y el acceso al asistente. El cliente no necesita navegar por un formulario largo: puede iniciar una conversación.
+La web pública presenta Corte Perfecto, muestra los servicios y ofrece acceso al asistente. El objetivo es que el cliente tenga una entrada clara y no necesite llamar para resolver dudas básicas.
 
-### Paso 2: consulta y reserva por chatbot
+### Paso 2: conversación con el chatbot
 
-En el chatbot, la conversación esperada es:
+En la demostración se puede usar una conversación sencilla:
 
 ```text
 ¿Qué servicios tenéis y cuánto cuestan?
@@ -291,88 +183,79 @@ Me llamo Adrián Demo.
 El próximo martes a las cinco de la tarde.
 ```
 
-La opción 4 es Corte y Peinado. El backend obtiene del catálogo oficial que cuesta 35 euros y dura 50 minutos. Después calcula el intervalo, valida horario, comprueba solapes y guarda.
+El asistente va guiando al cliente. Si falta algún dato, lo pide. Si el dato no es válido, lo corrige. Si todo está bien, crea la reserva.
 
-### Paso 3: confirmación
+### Paso 3: confirmación de la cita
 
-La tarjeta de confirmación aparece únicamente después de persistir en MongoDB. Esta decisión evita que el usuario crea que tiene una cita si la base de datos no la ha guardado.
+La confirmación aparece cuando la cita ya se ha guardado correctamente. Esto evita que el cliente crea que tiene una cita si realmente no se ha registrado.
 
-### Paso 4: panel administrativo
+En esta parte conviene destacar que el sistema no solo responde de forma natural: también comprueba reglas reales del negocio.
 
-![Dashboard administrativo](../../diagramas/capitulo4/capturas/05_admin_dashboard.png)
+### Paso 4: entrada al panel privado
 
-El administrador inicia sesión y accede al panel. La autenticación usa JWT y las rutas privadas de citas están protegidas por middleware.
+![Panel principal](../../diagramas/capitulo4/capturas/05_admin_dashboard.png)
 
-### Paso 5: misma cita en la agenda
+Después se entra como administrador. El panel resume la situación general de la agenda y permite acceder a la gestión de citas.
+
+### Paso 5: comprobación en la agenda
 
 ![Gestión de citas](../../diagramas/capitulo4/capturas/06_admin_citas.png)
 
-La cita creada desde el chatbot aparece en la tabla administrativa. Esta es la idea principal de la demostración: no hay dos sistemas, no hay dos agendas y no hay transcripción manual. Cliente y administrador comparten la misma colección de MongoDB.
+La cita creada desde el chat aparece en la tabla de administración. Este es el cierre de la demostración: el cliente reserva desde la web y el administrador ve esa misma cita en su panel.
 
-El recorrido completo que queda demostrado es:
+Con esto se ve el ciclo completo:
 
-```text
-React
--> Axios
--> Express
--> servicios de dominio
--> validación
--> MongoDB
--> panel administrativo
-```
+- El cliente consulta.
+- El cliente reserva.
+- La aplicación comprueba la información.
+- La cita se guarda.
+- El administrador la consulta y la puede gestionar.
 
 ---
 
 ## 5. Conclusiones
 
-Los objetivos planteados se consideran cumplidos.
+El proyecto cumple los objetivos planteados al inicio. Se ha analizado un problema real, se ha diseñado una solución completa y se ha desarrollado una aplicación funcional que conecta cliente, chatbot, agenda y administración.
 
 | Objetivo | Resultado obtenido |
 | --- | --- |
-| Identificar requisitos | Dominio, actores, reglas y 17 casos de uso |
-| Diseñar la solución | Arquitectura modular, MVC, servicios, MongoDB y LM Studio |
-| Implementar el producto | Web pública, chatbot, API, persistencia y panel |
-| Evaluar el resultado | Trazabilidad, build y 44 pruebas automatizadas |
+| Entender el problema | Se identificó la necesidad de ordenar reservas y reducir gestión manual. |
+| Definir requisitos | Se modelaron actores, reglas y casos de uso. |
+| Diseñar la solución | Se planteó una aplicación con web pública, asistente y panel privado. |
+| Implementar el sistema | Se desarrolló la reserva por chat, la agenda y la administración. |
+| Revisar el resultado | Se comprobaron los recorridos principales y la coherencia con los casos de uso. |
 
-```bash
-npm run verify
-```
+La principal aportación del TFG es integrar un asistente conversacional en un proceso donde no basta con responder al usuario. La reserva tiene que ser correcta, tener sentido para el negocio y quedar guardada para que el administrador pueda trabajar con ella.
 
-La verificación comprueba la sintaxis del backend, ejecuta 44 pruebas automatizadas y genera el build de producción del frontend. Las pruebas se han organizado por servicios para comprobar las reglas críticas sin depender de la interfaz.
+La decisión más importante ha sido separar dos cosas:
 
-| Suite de pruebas | Qué comprueba |
-| --- | --- |
-| `appointmentService.test.js` | Creación de citas válidas, precio, duración, estados, fines de semana, horario, nombres inválidos, solapes, completar, eliminar, modificar por conversación y reservas simultáneas. |
-| `bookingFlowService.test.js` | Flujo conversacional: selección de servicio por número, fechas pasadas, fines de semana, correcciones, negaciones, nombres mezclados con servicio, cancelación y reutilización segura del contexto. |
-| `calendarService.test.js` | Fechas laborables, fines de semana, formato de fechas y comprensión de horas naturales en español, como “seis y media” o “diez menos cuarto”. |
-| `chatHardening.test.js` | Robustez del chat: límites de mensaje, limpieza de historial, bloqueo de instrucciones para revelar el prompt, respuestas deterministas, fallback y filtrado de ruido técnico. |
+- El asistente ayuda al cliente a expresarse de forma natural.
+- La aplicación conserva el control de la agenda y de las reglas.
 
-Estas pruebas no intentan demostrar que un modelo generativo nunca falle. Lo que demuestran es que las reglas que no pueden fallar están en servicios verificables del backend.
+Esto hace que el sistema sea más fiable. Si el cliente pide algo que no se puede hacer, la aplicación no lo acepta simplemente porque el mensaje esté bien escrito. Se comprueba antes de guardar.
 
-![Estado de casos de uso](../../RUP/99-seguimiento/estado-casos-uso.png)
+También se ha mantenido una estructura ordenada para que el proyecto pueda evolucionar. No es solo una demo visual: hay una web pública, una parte privada, una base de datos y una organización clara entre lo que ve el usuario y lo que gestiona la aplicación por dentro.
 
-Este dashboard RUP es un resumen visual del estado de los 17 casos de uso. Los casos en verde están implementados y verificados por build; los casos en azul, además de estar implementados, tienen cobertura directa mediante pruebas automatizadas. Sirve para demostrar trazabilidad: cada caso de uso definido en requisitos tiene una correspondencia con código, pantalla, endpoint o prueba.
+Las limitaciones principales son:
 
-Desde el punto de vista profesional, el proyecto recorre un ciclo completo de ingeniería de software: análisis del problema, dominio, requisitos, diseño, implementación, pruebas y trazabilidad.
+- De momento trabaja con una única agenda.
+- No incluye pagos online.
+- No envía recordatorios automáticos.
+- La ejecución de la inteligencia artificial se ha planteado en local.
+- No está pensado todavía para varias sedes o varios empleados.
 
-La decisión más importante ha sido separar conversación y decisión. LM Studio aporta naturalidad y flexibilidad lingüística, pero no tiene autoridad final sobre la agenda. Aunque el modelo genere una respuesta imperfecta, la cita solo se registra si supera las reglas del backend.
+Las líneas futuras más naturales serían:
 
-La inferencia se ejecuta localmente mediante LM Studio. En el entorno utilizado, con una RTX 3060 de 6 GB, se observaron tiempos aproximados de 2 a 8 segundos por respuesta generativa. El sistema incorpora timeout configurable, endpoint de salud y respuesta de contingencia.
+- Añadir recordatorios por correo, SMS o WhatsApp.
+- Permitir varios empleados con agendas distintas.
+- Publicar la aplicación en un entorno online seguro.
+- Mejorar el seguimiento de errores y tiempos de respuesta.
+- Ampliar la gestión de servicios y horarios especiales.
+- Recoger opiniones de usuarios reales para mejorar la experiencia.
 
-Las principales limitaciones son la ejecución local, una única agenda, la ausencia de pagos y notificaciones, y una cola de concurrencia válida para una sola instancia del backend.
+Como cierre, Corte Perfecto demuestra que se puede usar inteligencia artificial en un negocio real sin perder el control de las reglas importantes.
 
-Las líneas futuras más naturales son:
-
-- **Agenda multiempleado:** permitir que varias personas trabajen en paralelo, cada una con su disponibilidad y servicios asignados.
-- **Recordatorios:** enviar confirmaciones o avisos por correo, SMS o WhatsApp para reducir ausencias.
-- **Despliegue con HTTPS:** pasar de ejecución local a un entorno accesible de forma segura, con dominio, certificados y variables de entorno gestionadas.
-- **Observabilidad:** registrar métricas de latencia, errores, disponibilidad de LM Studio y uso de endpoints.
-- **Concurrencia distribuida:** sustituir la cola local por mecanismos válidos para varias instancias, como transacciones o bloqueos distribuidos.
-- **Pruebas end-to-end:** automatizar recorridos completos de navegador, desde reservar en el chat hasta comprobar la cita en administración.
-
-Corte Perfecto demuestra que es posible incorporar inteligencia artificial a un proceso real sin delegarle aquello que exige exactitud.
-
-> El modelo ayuda a comprender al usuario; el sistema conserva la responsabilidad sobre la operación.
+> El asistente ayuda a conversar; la aplicación se encarga de que la cita sea correcta.
 
 Muchas gracias.
 
