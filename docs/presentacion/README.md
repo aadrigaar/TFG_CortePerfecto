@@ -199,17 +199,6 @@ Desde esa misma pantalla, el administrador puede pasar a otros casos de uso rela
 
 Este diagrama de actividad resume el trabajo del administrador. Primero entra al panel privado, después revisa la agenda y, si lo necesita, realiza alguna acción relacionada como crear, editar, completar o eliminar una cita.
 
-La secuencia de este caso se puede explicar de forma sencilla:
-
-1. El administrador inicia sesión.
-2. La aplicación comprueba que puede entrar al panel privado.
-3. Se carga la agenda con las citas registradas.
-4. El administrador busca o filtra la información que necesita.
-5. Si hace un cambio, la aplicación comprueba que los datos sean correctos.
-6. La agenda se actualiza y queda preparada para la siguiente consulta.
-
-La ventaja es que no hay dos agendas separadas. El chatbot y el panel privado trabajan sobre la misma información. Así se evita tener que copiar datos a mano y se reduce el riesgo de errores.
-
 Este caso sirve para cerrar el recorrido anterior. Primero el cliente crea una reserva desde la web mediante **UC-05**. Después el administrador comprueba esa misma reserva en su panel mediante **UC-12**. Esa conexión entre cliente y administrador es una de las partes más importantes del proyecto.
 
 ---
