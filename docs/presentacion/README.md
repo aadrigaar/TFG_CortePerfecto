@@ -293,13 +293,6 @@ Los ajustes principales han sido:
 
 La principal aportación del TFG es integrar un asistente conversacional en un proceso donde no basta con responder al usuario. La reserva tiene que ser correcta, tener sentido para el negocio y quedar guardada para que el administrador pueda trabajar con ella.
 
-La decisión más importante ha sido separar dos cosas:
-
-- El asistente ayuda al cliente a expresarse de forma natural.
-- La aplicación conserva el control de la agenda y de las reglas.
-
-Esto hace que el sistema sea más fiable. Si el cliente pide algo que no se puede hacer, la aplicación no lo acepta simplemente porque el mensaje esté bien escrito. Se comprueba antes de guardar.
-
 También se ha mantenido una estructura ordenada para que el proyecto pueda evolucionar. No es solo una demo visual: hay una web pública, una parte privada, una base de datos y una organización clara entre lo que ve el usuario y lo que gestiona la aplicación por dentro.
 
 Las limitaciones principales son:
